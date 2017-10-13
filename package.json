@@ -1,0 +1,22 @@
+{
+  "name": "scratchpen",
+  "version": "1.0.0",
+  "description": "This project is to create scratch block and should let children learn coding using simple scratch blocks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uiowa-cs-5800-0001-fall-2017/ScratchPen.git"
+  },
+  "author": "Kaustubh, Raghav, Sarah, Suhas, Vivek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uiowa-cs-5800-0001-fall-2017/ScratchPen/issues"
+  },
+  "homepage": "https://github.com/uiowa-cs-5800-0001-fall-2017/ScratchPen#readme",
+  "dependencies": {
+    "bower": "*"
+  }
+}
