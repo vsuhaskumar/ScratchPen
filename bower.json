@@ -1,0 +1,25 @@
+{
+  "name": "scratchpen",
+  "description": "This project is to create scratch block and should let children learn coding using simple scratch blocks",
+  "main": "index.js",
+  "authors": [
+    "Kaustubh",
+    "Raghav",
+    "Sarah",
+    "Suhas",
+    "Vivek"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/uiowa-cs-5800-0001-fall-2017/ScratchPen",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "scratch-blocks": "https://github.com/LLK/scratch-blocks.git#^0.1.0",
+    "blockly": "https://github.com/google/blockly.git"
+  }
+}

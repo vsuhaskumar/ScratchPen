@@ -1,0 +1,16 @@
+.scratchContainer {
+    float: left;
+}
+
+.scratchContainer #blocklyDiv {
+    float: left;
+    height: 480px;
+    width: 600px;
+}
+
+.scratchContainer #textGenerator {
+    float: left;
+    margin-left: 10px;
+    height: 480px;
+    width: 300px;
+}

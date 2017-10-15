@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="../bower_components/blockly/blockly_compressed.js"></script>
+<script src="../bower_components/blockly/blocks_compressed.js"></script>
+<script src="../bower_components/blockly/msg/js/en.js"></script>
+<script src="../bower_components/blockly/javascript_compressed.js"></script>
+
+<link rel="stylesheet" href="../css/index.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="scratchContainer">
+    <div id="blocklyDiv"></div>
+    <textarea id="textGenerator"></textarea>
+</div>
+
+<!--<xml id="toolbox" style="display: none">-->
+  <!--<block type="controls_if"></block>-->
+  <!--<block type="controls_repeat_ext"></block>-->
+  <!--<block type="logic_compare"></block>-->
+  <!--<block type="math_number"></block>-->
+  <!--<block type="math_arithmetic"></block>-->
+  <!--<block type="text"></block>-->
+  <!--<block type="text_print"></block>-->
+<!--</xml>-->
+<script>
+    var toolbox = '<xml>';
+  toolbox += '  <block type="controls_if"></block>';
+  toolbox += '  <block type="controls_whileUntil"></block>';
+  toolbox += '</xml>';
+  var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+  function myUpdateFunction(event) {
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      document.getElementById('textGenerator').value = code;
+      console.log(code);
+  }
+  workspace.addChangeListener(myUpdateFunction);
+
+
+</script>
+</body>
+</html>
