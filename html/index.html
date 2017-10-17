@@ -26,9 +26,30 @@
   <!--<block type="text_print"></block>-->
 <!--</xml>-->
 <script>
-    var toolbox = '<xml>';
-  toolbox += '  <block type="controls_if"></block>';
-  toolbox += '  <block type="controls_whileUntil"></block>';
+  var toolbox = '<xml>';
+  toolbox += '  <category name="Logic" colour="210">';
+  toolbox += '    <block type="controls_if"></block>';
+  toolbox += '    <block type="controls_ifelse"></block>';
+  toolbox += '    <block type="logic_compare"></block>';
+  toolbox += '    <block type="logic_operation"></block>';
+  toolbox += '    <block type="logic_negate"></block>';
+  toolbox += '    <block type="logic_null"></block>';
+  toolbox += '    <block type="logic_ternary"></block>';
+  toolbox += '    <block type="logic_boolean"></block>';
+  toolbox += '    <block type="controls_if_if"></block>';
+  toolbox += '    <block type="controls_if_elseif"></block>';
+  toolbox += '    <block type="controls_if_else"></block>';
+  toolbox += '  </category>';
+  toolbox += '  <category name="Loops" colour="120">';
+  toolbox += '    <block type="logic_compare"></block>';
+  toolbox += '    <block type="logic_operation"></block>';
+  toolbox += '    <block type="logic_boolean"></block>';
+  toolbox += '  </category>';
+  toolbox += '  <category name="Variables" colour="330" custom="VARIABLE"></category>';
+  toolbox += '  <category name="Functions" colour="290" custom="PROCEDURE"></category>';
+     
+  /*toolbox += '  <block type="controls_if"></block>';
+  toolbox += '  <block type="controls_whileUntil"></block>';*/
   toolbox += '</xml>';
   var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
   function myUpdateFunction(event) {
