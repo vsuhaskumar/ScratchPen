@@ -4,6 +4,7 @@
 <script src="../bower_components/blockly/blocks_compressed.js"></script>
 <script src="../bower_components/blockly/msg/js/en.js"></script>
 <script src="../bower_components/blockly/javascript_compressed.js"></script>
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
 <link rel="stylesheet" href="../css/index.css">
 <head>
@@ -13,7 +14,15 @@
 <body>
 <div class="scratchContainer">
     <div id="blocklyDiv"></div>
-    <textarea id="textGenerator"></textarea>
+    <div class="text-container">
+        <textarea id="textGenerator"></textarea>
+        <div class="play-code"></div>
+    </div>
+</div>
+<div class="playground-container">
+    <div class="playground">
+
+    </div>
 </div>
 
 <!--<xml id="toolbox" style="display: none">-->
@@ -26,85 +35,142 @@
   <!--<block type="text_print"></block>-->
 <!--</xml>-->
 <script>
-  var toolbox = '<xml>';
-  toolbox += '  <category name="Logic" colour="210">';
-  toolbox += '    <block type="controls_if"></block>';
-  toolbox += '    <block type="controls_ifelse"></block>';
-  toolbox += '    <block type="logic_compare"></block>';
-  toolbox += '    <block type="logic_operation"></block>';
-  toolbox += '    <block type="logic_negate"></block>';
-  toolbox += '    <block type="logic_null"></block>';
-  toolbox += '    <block type="logic_ternary"></block>';
-  toolbox += '    <block type="logic_boolean"></block>';
-  toolbox += '    <block type="controls_if_if"></block>';
-  toolbox += '    <block type="controls_if_elseif"></block>';
-  toolbox += '    <block type="controls_if_else"></block>';
-  toolbox += '  </category>';
-  toolbox += '  <category name="Loops" colour="120">';
-  toolbox += '    <block type="controls_repeat_ext"></block>';
-  toolbox += '    <block type="controls_repeat"></block>';
-  toolbox += '    <block type="controls_whileUntil"></block>';
-  toolbox += '    <block type="controls_for"></block>';
-  toolbox += '    <block type="controls_forEach"></block>';
-  toolbox += '    <block type="controls_flow_statements"></block>';
-  toolbox += '  </category>';
-    
-  toolbox += '  <category name="Math" colour="230">';
-  toolbox += '    <block type="math_number"></block>';
-  toolbox += '    <block type="math_arithmetic"></block>';
-  toolbox += '    <block type="math_single"></block>';
-  toolbox += '    <block type="math_trig"></block>';
-  toolbox += '    <block type="math_constant"></block>';
-  toolbox += '    <block type="math_number_property"></block>';
-  toolbox += '    <block type="math_change"></block>';
-  toolbox += '    <block type="math_round"></block>';
-  toolbox += '    <block type="math_on_list"></block>';
-  toolbox += '    <block type="math_modulo"></block>';
-  toolbox += '    <block type="math_constrain"></block>';
-  toolbox += '    <block type="math_random_int"></block>';
-  toolbox += '    <block type="math_random_float"></block>';
-  toolbox += '  </category>'; 
-    
-  toolbox += '  <category name="Colour" colour="20">';
-  toolbox += '    <block type="colour_picker"></block>';
-  toolbox += '    <block type="colour_random"></block>';
-  toolbox += '    <block type="colour_rgb"></block>';
-  toolbox += '    <block type="colour_blend"></block>';
-  toolbox += '  </category>'; 
-    
-  toolbox += '  <category name="Text" colour="400">';
-  toolbox += '    <block type="text"></block>';
-  toolbox += '    <block type="text_join"></block>';
-  toolbox += '    <block type="text_create_join_container"></block>';
-  toolbox += '    <block type="text_create_join_item"></block>';
-  toolbox += '    <block type="text_append"></block>';
-  toolbox += '    <block type="text_length"></block>';
-  toolbox += '    <block type="text_isEmpty"></block>';
-  toolbox += '    <block type="text_indexOf"></block>';
-  toolbox += '    <block type="text_charAt"></block>';
-  toolbox += '  </category>'; 
 
-  toolbox += '  <category name="Lists" colour="360">';
-  toolbox += '    <block type="lists_create_empty"></block>';
-  toolbox += '    <block type="lists_repeat"></block>';
-  toolbox += '    <block type="lists_reverse"></block>';
-  toolbox += '    <block type="lists_isEmpty"></block>';
-  toolbox += '    <block type="lists_length"></block>';
-  toolbox += '  </category>'; 
-    
-  toolbox += '  <category name="Variables" colour="330" custom="VARIABLE"></category>';
-  toolbox += '  <category name="Functions" colour="290" custom="PROCEDURE"></category>';
-     
-  /*toolbox += '  <block type="controls_if"></block>';
-  toolbox += '  <block type="controls_whileUntil"></block>';*/
-  toolbox += '</xml>';
-  var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
-  function myUpdateFunction(event) {
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
-      document.getElementById('textGenerator').value = code;
-      console.log(code);
-  }
-  workspace.addChangeListener(myUpdateFunction);
+    document.addEventListener('DOMContentLoaded', function(){
+        var $ = jQuery;
+
+        var toolbox = '<xml>';
+        toolbox += '  <category name="Logic" colour="210">';
+        toolbox += '    <block type="controls_if"></block>';
+        toolbox += '    <block type="controls_ifelse"></block>';
+        toolbox += '    <block type="logic_compare"></block>';
+        toolbox += '    <block type="logic_operation"></block>';
+        toolbox += '    <block type="logic_negate"></block>';
+        toolbox += '    <block type="logic_null"></block>';
+        toolbox += '    <block type="logic_ternary"></block>';
+        toolbox += '    <block type="logic_boolean"></block>';
+        toolbox += '    <block type="controls_if_if"></block>';
+        toolbox += '    <block type="controls_if_elseif"></block>';
+        toolbox += '    <block type="controls_if_else"></block>';
+        toolbox += '  </category>';
+
+        toolbox += '  <category name="Loops" colour="120">';
+        toolbox += '    <block type="controls_repeat_ext"></block>';
+        toolbox += '    <block type="controls_repeat"></block>';
+        toolbox += '    <block type="controls_whileUntil"></block>';
+        toolbox += '    <block type="controls_for"></block>';
+        toolbox += '    <block type="controls_forEach"></block>';
+        toolbox += '    <block type="controls_flow_statements"></block>';
+        toolbox += '  </category>';
+
+        toolbox += '  <category name="Math" colour="230">';
+        toolbox += '    <block type="math_number"></block>';
+        toolbox += '    <block type="math_arithmetic"></block>';
+        toolbox += '    <block type="math_single"></block>';
+        toolbox += '    <block type="math_trig"></block>';
+        toolbox += '    <block type="math_constant"></block>';
+        toolbox += '    <block type="math_number_property"></block>';
+        toolbox += '    <block type="math_change"></block>';
+        toolbox += '    <block type="math_round"></block>';
+        toolbox += '    <block type="math_on_list"></block>';
+        toolbox += '    <block type="math_modulo"></block>';
+        toolbox += '    <block type="math_constrain"></block>';
+        toolbox += '    <block type="math_random_int"></block>';
+        toolbox += '    <block type="math_random_float"></block>';
+        toolbox += '  </category>';
+
+        toolbox += '  <category name="Colour" colour="20">';
+        toolbox += '    <block type="colour_picker"></block>';
+        toolbox += '    <block type="colour_random"></block>';
+        toolbox += '    <block type="colour_rgb"></block>';
+        toolbox += '    <block type="colour_blend"></block>';
+        toolbox += '  </category>';
+
+        toolbox += '  <category name="Text" colour="400">';
+        toolbox += '    <block type="text"></block>';
+        toolbox += '    <block type="text_join"></block>';
+        toolbox += '    <block type="text_create_join_container"></block>';
+        toolbox += '    <block type="text_create_join_item"></block>';
+        toolbox += '    <block type="text_append"></block>';
+        toolbox += '    <block type="text_length"></block>';
+        toolbox += '    <block type="text_isEmpty"></block>';
+        toolbox += '    <block type="text_indexOf"></block>';
+        toolbox += '    <block type="text_charAt"></block>';
+        toolbox += '  </category>';
+
+        toolbox += '  <category name="Lists" colour="360">';
+        toolbox += '    <block type="lists_create_empty"></block>';
+        toolbox += '    <block type="lists_repeat"></block>';
+        toolbox += '    <block type="lists_reverse"></block>';
+        toolbox += '    <block type="lists_isEmpty"></block>';
+        toolbox += '    <block type="lists_length"></block>';
+        toolbox += '  </category>';
+
+        toolbox += '  <category name="Variables" colour="330" custom="VARIABLE"></category>';
+        toolbox += '  <category name="Functions" colour="290" custom="PROCEDURE"></category>';
+
+        toolbox += '  <category name="Motion" colour="360">';
+        toolbox += '    <block type="move"></block>';
+        toolbox += '    <block type="turn_clockwise"></block>';
+        toolbox += '  </category>';
+        /*toolbox += '  <block type="controls_if"></block>';
+        toolbox += '  <block type="controls_whileUntil"></block>';*/
+        toolbox += '</xml>';
+
+        var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+        function myUpdateFunction(event) {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            document.getElementById('textGenerator').value = code;
+            console.log(code);
+
+        }
+        workspace.addChangeListener(myUpdateFunction);
+
+        Blockly.Blocks['move'] = {
+            init: function() {
+                this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
+                     'FIELDNAME');
+                this.setPreviousStatement(true);
+                this.setNextStatement(true);
+                this.setColour(160);
+                this.setTooltip('Returns number of letters in the provided text.');
+                this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+            }
+        };
+
+        Blockly.Blocks['turn_clockwise'] = {
+            init: function() {
+                this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
+                this.setPreviousStatement(true);
+                this.setNextStatement(true);
+                this.setColour(160);
+                this.setTooltip('Returns number of letters in the provided text.');
+                this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+            }
+        };
+
+        $(".play-code").on('click', (function (event) {
+            var i = 1;
+            setInterval(function(){
+                i++;
+                if(i<=20){
+                    $(".playground").css({
+                    'transform': 'rotate('+ i*10 +'deg)'
+                    });
+                }
+            }, 30)
+
+        }));
+    });
+
+
+
+
+
+
+
+
+
 
 
 </script>
