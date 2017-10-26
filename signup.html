@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sample FirebaseUI App</title>
+
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css" />
+
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+<script>
+
+  // Initialize Firebase - Suhas
+  // var config = {
+  //   apiKey: "AIzaSyD8OibuAabJVoTEqKJ9o5HPeGtOG556TNk",
+  //   authDomain: "scratchpen-007.firebaseapp.com",
+  //   databaseURL: "https://scratchpen-007.firebaseio.com",
+  //   projectId: "scratchpen-007",
+  //   storageBucket: "scratchpen-007.appspot.com",
+  //   messagingSenderId: "343797610817"
+  // };
+
+  // Initialize Firebase - Raghav
+  var config = {
+    apiKey: "AIzaSyD-8lQUILli9sLB30y-cekNONwjIBzdiOg",
+    authDomain: "scratchpen-de051.firebaseapp.com",
+    databaseURL: "https://scratchpen-de051.firebaseio.com",
+    projectId: "scratchpen-de051",
+    storageBucket: "scratchpen-de051.appspot.com",
+    messagingSenderId: "355301139728"
+  };
+  firebase.initializeApp(config);
+</script>
+
+    <script type="text/javascript">
+      // FirebaseUI config.
+      var uiConfig = {
+        signInSuccessUrl: 'index.html',
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          firebase.auth.GithubAuthProvider.PROVIDER_ID,
+        ],
+        // Terms of service url.
+        tosUrl: '<your-tos-url>'
+      };
+
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      // The start method will wait until the DOM is loaded.
+      ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+  </head>
+  <body>
+    <!-- Add your customisation here -->
+    <div id="firebaseui-auth-container"></div>
+  </body>
+</html>
