@@ -5,6 +5,10 @@
 <script src="bower_components/blockly/msg/js/en.js"></script>
 <script src="bower_components/blockly/javascript_compressed.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/toolkit.js"></script>
+<script src="js/application.js"></script>
 
 <link rel="stylesheet" href="css/index.css">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
@@ -30,7 +34,6 @@
   firebase.initializeApp(config);
 </script>
 
-<body>
 
 <!--Displaying Logged in User Name -->
 <!-- <script>
@@ -126,10 +129,7 @@
 
     </div>
 </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/chart.js"></script>
-<script src="js/toolkit.js"></script>
-<script src="js/application.js"></script>
+
 <!--<xml id="toolbox" style="display: none">-->
   <!--<block type="controls_if"></block>-->
   <!--<block type="controls_repeat_ext"></block>-->
@@ -145,7 +145,7 @@
         if (window.BS&&window.BS.loader&&window.BS.loader.length) {
           while(BS.loader.length){(BS.loader.pop())()}
         }
-      })
+      });
 
     document.addEventListener('DOMContentLoaded', function(){
         var $ = jQuery;
