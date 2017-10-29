@@ -21,6 +21,9 @@
   "dependencies": {
     "scratch-blocks": "https://github.com/LLK/scratch-blocks.git#^0.1.0",
     "blockly": "https://github.com/google/blockly.git",
-    "jquery": "*"
+    "jquery": "*",
+    "application": "*",
+    "chart": "*",
+    "toolkit": "*"
   }
 }
