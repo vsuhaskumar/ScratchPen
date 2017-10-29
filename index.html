@@ -5,198 +5,57 @@
 <script src="bower_components/blockly/msg/js/en.js"></script>
 <script src="bower_components/blockly/javascript_compressed.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/firebase/firebase.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="js/customBlocks.js"></script>
+
 
 <link rel="stylesheet" href="css/index.css">
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-<link href="/css/toolkit.css" rel="stylesheet">
-<link href="/css/application.css" rel="stylesheet">
+<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
     <title>Scratch Pen</title>
 </head>
-<body class="with-top-navbar">
-    <div class="growl" id="app-growl"></div>
-
-<nav class="navbar navbar-inverse navbar-fixed-top app-navbar">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-main">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">
-        <img src="/images/brand-white.png" alt="brand">
-      </a>
-    </div>
-    <div class="navbar-collapse collapse" id="navbar-collapse-main">
-
-        <ul class="nav navbar-nav hidden-xs">
-          <li class="active">
-            <a href="index.html">Home</a>
-          </li>
-          <li>
-            <a href="#">Profile</a>
-          </li>
-          <li>
-            <a data-toggle="modal" href="#msgModal">Messages</a>
-          </li>
-          <li>
-            <a href="#">Docs</a>
-          </li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right m-r-0 hidden-xs">
-          <li >
-            <a class="app-notifications" href="#">
-              <span class="icon icon-bell"></span>
-            </a>
-          </li>
-          <li>
-            <button class="btn btn-default navbar-btn navbar-btn-avitar" data-toggle="popover">
-              <img class="img-circle" src="/images/avatar-dhg.png">
-            </button>
-          </li>
-        </ul>
-
-        <form class="navbar-form navbar-right app-search" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" data-action="grow" placeholder="Search">
-          </div>
-        </form>
-
-        <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Profile</a></li>
-          <li><a href="#">Notifications</a></li>
-          <li><a data-toggle="modal" href="#msgModal">Messages</a></li>
-          <li><a href="#">Docs</a></li>
-          <li><a href="#" data-action="growl">Growl</a></li>
-          <li><a href="#">Logout</a></li>
-        </ul>
-
-        <ul class="nav navbar-nav hidden">
-          <li><a href="#" data-action="growl">Growl</a></li>
-          <li><a href="#">Logout</a></li>
-        </ul>
-      </div>
-  </div>
-</nav>
-<div class="scratchContainer">
-    <div id="blocklyDiv"></div>
-    <div class="text-container">
-        <textarea id="textGenerator"></textarea>
-        <div class="play-code"></div>
-    </div>
-</div>
-<div class="playground-container">
-    <div class="playground">
-
-    </div>
-</div>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/chart.js"></script>
-<script src="/js/toolkit.js"></script>
-<script src="/js/application.js"></script>
-<!--<xml id="toolbox" style="display: none">-->
-  <!--<block type="controls_if"></block>-->
-  <!--<block type="controls_repeat_ext"></block>-->
-  <!--<block type="logic_compare"></block>-->
-  <!--<block type="math_number"></block>-->
-  <!--<block type="math_arithmetic"></block>-->
-  <!--<block type="text"></block>-->
-  <!--<block type="text_print"></block>-->
-<!--</xml>-->
 <script>
-          // execute/clear BS loaders for docs
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD8OibuAabJVoTEqKJ9o5HPeGtOG556TNk",
+    authDomain: "scratchpen-007.firebaseapp.com",
+    databaseURL: "https://scratchpen-007.firebaseio.com",
+    projectId: "scratchpen-007",
+    storageBucket: "scratchpen-007.appspot.com",
+    messagingSenderId: "343797610817"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<body>
+    <div class="main-container">
+        <div class="scratchContainer">
+            <div id="blocklyDiv"></div>
+            <div class="text-container">
+                <textarea id="textGenerator"></textarea>
+                <div class="play-code"></div>
+                <div class="save-code"></div>
+            </div>
+        </div>
+        <div class="playground-container">
+            <div class="playground">
+        </div>
+    </div>
+</div>
+
+<script>
+      // execute/clear BS loaders for docs
       $(function(){
         if (window.BS&&window.BS.loader&&window.BS.loader.length) {
           while(BS.loader.length){(BS.loader.pop())()}
         }
-      })
+      });
 
     document.addEventListener('DOMContentLoaded', function(){
         var $ = jQuery;
-
-        var toolbox = '<xml>';
-        toolbox += '  <category name="Logic" colour="210">';
-        toolbox += '    <block type="controls_if"></block>';
-        toolbox += '    <block type="controls_ifelse"></block>';
-        toolbox += '    <block type="logic_compare"></block>';
-        toolbox += '    <block type="logic_operation"></block>';
-        toolbox += '    <block type="logic_negate"></block>';
-        toolbox += '    <block type="logic_null"></block>';
-        toolbox += '    <block type="logic_ternary"></block>';
-        toolbox += '    <block type="logic_boolean"></block>';
-        toolbox += '    <block type="controls_if_if"></block>';
-        toolbox += '    <block type="controls_if_elseif"></block>';
-        toolbox += '    <block type="controls_if_else"></block>';
-        toolbox += '  </category>';
-
-        toolbox += '  <category name="Loops" colour="120">';
-        toolbox += '    <block type="controls_repeat_ext"></block>';
-        toolbox += '    <block type="controls_repeat"></block>';
-        toolbox += '    <block type="controls_whileUntil"></block>';
-        toolbox += '    <block type="controls_for"></block>';
-        toolbox += '    <block type="controls_forEach"></block>';
-        toolbox += '    <block type="controls_flow_statements"></block>';
-        toolbox += '  </category>';
-
-        toolbox += '  <category name="Math" colour="230">';
-        toolbox += '    <block type="math_number"></block>';
-        toolbox += '    <block type="math_arithmetic"></block>';
-        toolbox += '    <block type="math_single"></block>';
-        toolbox += '    <block type="math_trig"></block>';
-        toolbox += '    <block type="math_constant"></block>';
-        toolbox += '    <block type="math_number_property"></block>';
-        toolbox += '    <block type="math_change"></block>';
-        toolbox += '    <block type="math_round"></block>';
-        toolbox += '    <block type="math_on_list"></block>';
-        toolbox += '    <block type="math_modulo"></block>';
-        toolbox += '    <block type="math_constrain"></block>';
-        toolbox += '    <block type="math_random_int"></block>';
-        toolbox += '    <block type="math_random_float"></block>';
-        toolbox += '  </category>';
-
-        toolbox += '  <category name="Colour" colour="20">';
-        toolbox += '    <block type="colour_picker"></block>';
-        toolbox += '    <block type="colour_random"></block>';
-        toolbox += '    <block type="colour_rgb"></block>';
-        toolbox += '    <block type="colour_blend"></block>';
-        toolbox += '  </category>';
-
-        toolbox += '  <category name="Text" colour="400">';
-        toolbox += '    <block type="text"></block>';
-        toolbox += '    <block type="text_join"></block>';
-        toolbox += '    <block type="text_create_join_container"></block>';
-        toolbox += '    <block type="text_create_join_item"></block>';
-        toolbox += '    <block type="text_append"></block>';
-        toolbox += '    <block type="text_length"></block>';
-        toolbox += '    <block type="text_isEmpty"></block>';
-        toolbox += '    <block type="text_indexOf"></block>';
-        toolbox += '    <block type="text_charAt"></block>';
-        toolbox += '  </category>';
-
-        toolbox += '  <category name="Lists" colour="360">';
-        toolbox += '    <block type="lists_create_empty"></block>';
-        toolbox += '    <block type="lists_repeat"></block>';
-        toolbox += '    <block type="lists_reverse"></block>';
-        toolbox += '    <block type="lists_isEmpty"></block>';
-        toolbox += '    <block type="lists_length"></block>';
-        toolbox += '  </category>';
-
-        toolbox += '  <category name="Variables" colour="330" custom="VARIABLE"></category>';
-        toolbox += '  <category name="Functions" colour="290" custom="PROCEDURE"></category>';
-
-        toolbox += '  <category name="Motion" colour="360">';
-        toolbox += '    <block type="move"></block>';
-        toolbox += '    <block type="turn_clockwise"></block>';
-        toolbox += '  </category>';
-        /*toolbox += '  <block type="controls_if"></block>';
-        toolbox += '  <block type="controls_whileUntil"></block>';*/
-        toolbox += '</xml>';
-
         var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
         function myUpdateFunction(event) {
             var code = Blockly.JavaScript.workspaceToCode(workspace);
