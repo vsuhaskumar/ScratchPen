@@ -23,6 +23,7 @@
     "blockly": "https://github.com/google/blockly.git",
     "jquery": "*",
     "toolkit": "*",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "firebase": "4.6.0"
   }
 }
