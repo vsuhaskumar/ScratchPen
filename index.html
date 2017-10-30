@@ -89,6 +89,7 @@
       <textarea id="textGenerator"></textarea>
       <div class="play-code"></div>
       <div class="save-code"></div>
+      <div class="load-code"></div>
     </div>
   </div>
   <div class="playground-container">
@@ -201,11 +202,11 @@ document.addEventListener('DOMContentLoaded', function(){
   var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
   function myUpdateFunction(event) {
     var code = Blockly.JavaScript.workspaceToCode(workspace);
-    document.getElementById('textGenerator').value = code;
+    document.getElementById('textGenerator').value = code;  //puts block code into text editor
     console.log(code);
 
   }
-  workspace.addChangeListener(myUpdateFunction);
+  workspace.addChangeListener(myUpdateFunction)
 
   Blockly.Blocks['move'] = {
     init: function() {
@@ -244,20 +245,6 @@ document.addEventListener('DOMContentLoaded', function(){
   }));
 
 
-//Sarah - Added Save Code and Load Code
-  $(".save-code").on('click', (function (event) {
-
-      // code to save blocks
-
-
-  }));
-
-  $(".load-code").on('click', (function (event) {
-
-      // code to load blocks
-
-
-  }));
 
   //Fading both signin and create
   $("#signin").hide();
