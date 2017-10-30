@@ -2,158 +2,162 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Scratch Pen</title>
+  <meta charset="UTF-8">
+  <title>Scratch Pen</title>
 
-    <script src="bower_components/blockly/blockly_compressed.js"></script>
-    <script src="bower_components/blockly/blocks_compressed.js"></script>
-    <script src="bower_components/blockly/msg/js/en.js"></script>
-    <script src="bower_components/blockly/javascript_compressed.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/firebase/firebase.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    <script src="js/customBlocks.js"></script>
+  <script src="bower_components/blockly/blockly_compressed.js"></script>
+  <script src="bower_components/blockly/blocks_compressed.js"></script>
+  <script src="bower_components/blockly/msg/js/en.js"></script>
+  <script src="bower_components/blockly/javascript_compressed.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/firebase/firebase.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
+  <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
+  <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js"></script>
+  <script src="js/customBlocks.js"></script>
 
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/application.css">
-    <link rel="stylesheet" href="css/toolkit.css">
-    <!--<link rel="stylesheet" href="css/index.css">-->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/application.css">
+  <link rel="stylesheet" href="css/toolkit.css">
+  <!--<link rel="stylesheet" href="css/index.css">-->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
 
 
 <body>
-    <div class="main-container">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="toolbar-container">
-                <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">ScratchPen</a>
-            </div>
-                <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More Options <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
-                      </ul>
-                    </li>
 
-                </ul>
-                <!--<form class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Sign in</button>
-                </form>-->
-                    <div class="navbar-right">
-                    <button type="button" class="btn btn-link navbar-btn" id="join">Join ScratchPen</button>
-                    <button type="button" class="btn btn-primary navbar-btn" id="login">Sign In</button>
-                    </div>
-            </div>
-            </div>
-        </nav>
-        <div id="scratch">
-        <div class="scratchContainer">
-            <div id="blocklyDiv"></div>
-                <div class="text-container">
-                     <textarea id="textGenerator"></textarea>
-                    <div class="play-code"></div>
-                    <div class="save-code"></div>
-                </div>
-            </div>
-            <div class="playground-container">
-                <div class="playground">
-                </div>
-            </div>
+  <div class="main-container">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="toolbar-container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">ScratchPen</a>
         </div>
-        <div class="container-fluid container-fill-height" id="create">
-            <div class="container-content-middle">
-                <form role="form" class="m-x-auto text-center app-login-form">
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More Options <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
 
-                    <a href="../index.html" class="app-brand m-b-lg">
-                        <img src="/images/lock.svg" alt="lock">
-                    </a>
-
-                    <div class="form-group">
-                        <input class="form-control" id="email" placeholder="email">
-                    </div>
-
-
-                    <div class="form-group m-b-md">
-                    <input class="form-control" type="password" id="password" placeholder="Password">
-                    </div>
-
-                    <div class="m-b-lg">
-                        <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
-                        <button  type="button" class="btn btn-primary" id="cancel">Cancel</button>
-                    </div>
-
-                </form>
-            </div>
+          </ul>
+          <!--<form class="navbar-form navbar-right">
+          <div class="form-group">
+          <input type="text" placeholder="Email" class="form-control">
         </div>
-
-        <div class="container-fluid container-fill-height" id="signin">
-            <div class="container-content-middle">
-                <form role="form" class="m-x-auto text-center app-login-form">
-
-                    <a href="../index.html" class="app-brand m-b-lg">
-                        <img src="/images/lock.svg" alt="brand">
-                    </a>
-                    <div class="form-group">
-                        <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
-                    </div>
-                    <div class="form-group m-b-md">
-                        <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
-                    </div>
-
-                    <div class="form-group">
-                        <input class="form-control" id="email_signin" placeholder="Email">
-                    </div>
-
-                    <div class="form-group m-b-md">
-                        <input type="password" class="form-control" id="password_signin" placeholder="Password">
-                    </div>
-
-
-                    <div class="m-b-lg">
-                        <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
-                        <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
-                    </div>
-
-                    <footer class="screen-login">
-                        <a href="#" class="text-muted">Forgot password</a>
-                    </footer>
-                </form>
-            </div>
-        </div>
+        <div class="form-group">
+        <input type="password" placeholder="Password" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>-->
+    <div class="navbar-right">
+      <label id = "userLabel"> </label>
+      <button type="button" class="btn btn-link navbar-btn" id="join">Join ScratchPen</button>
+      <button type="button" class="btn btn-primary navbar-btn" id="login">Sign In</button>
+      <button type="button" class="btn btn-danger navbar-btn" id="logout">Log Out</button>
     </div>
+  </div>
+</div>
+</nav>
+<div id="scratch">
+  <div class="scratchContainer">
+    <div id="blocklyDiv"></div>
+    <div class="text-container">
+      <textarea id="textGenerator"></textarea>
+      <div class="play-code"></div>
+      <div class="save-code"></div>
+    </div>
+  </div>
+  <div class="playground-container">
+    <div class="playground">
+    </div>
+  </div>
+</div>
+<div class="container-fluid container-fill-height" id="create">
+  <div class="container-content-middle">
+    <form role="form" class="m-x-auto text-center app-login-form">
+
+      <a href="../index.html" class="app-brand m-b-lg">
+        <img src="/images/lock.svg" alt="lock">
+      </a>
+
+      <div class="form-group">
+        <input class="form-control" id="email" placeholder="email">
+      </div>
+
+
+      <div class="form-group m-b-md">
+        <input class="form-control" type="password" id="password" placeholder="Password">
+      </div>
+
+      <div class="m-b-lg">
+        <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
+        <button  type="button" class="btn btn-danger" id="cancel1">Cancel</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<div class="container-fluid container-fill-height" id="signin">
+  <div class="container-content-middle">
+    <form role="form" class="m-x-auto text-center app-login-form">
+
+      <a href="../index.html" class="app-brand m-b-lg">
+        <img src="/images/lock.svg" alt="brand">
+      </a>
+      <div class="form-group">
+        <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
+      </div>
+      <div class="form-group m-b-md">
+        <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
+      </div>
+
+      <div class="form-group">
+        <input class="form-control" id="email_signin" placeholder="Email">
+      </div>
+
+      <div class="form-group m-b-md">
+        <input type="password" class="form-control" id="password_signin" placeholder="Password">
+      </div>
+
+
+      <div class="m-b-lg">
+        <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
+        <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
+        <button  type="button" class="btn btn-danger" id="cancel2">Cancel</button>
+      </div>
+
+      <!-- <footer class="screen-login">
+      <a href="#" class="text-muted">Forgot password</a>
+    </footer> -->
+  </form>
+</div>
+</div>
+</div>
 
 
 
@@ -161,242 +165,144 @@
 
 
 <script>
-      // execute/clear BS loaders for docs
-      $(function(){
-        if (window.BS&&window.BS.loader&&window.BS.loader.length) {
-          while(BS.loader.length){(BS.loader.pop())()}
-        }
-      });
 
-    document.addEventListener('DOMContentLoaded', function(){
-        var $ = jQuery;
-        var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
-        function myUpdateFunction(event) {
-            var code = Blockly.JavaScript.workspaceToCode(workspace);
-            document.getElementById('textGenerator').value = code;
-            console.log(code);
 
-        }
-        workspace.addChangeListener(myUpdateFunction);
 
-        Blockly.Blocks['move'] = {
-            init: function() {
-                this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
-                     'FIELDNAME');
-                this.setPreviousStatement(true);
-                this.setNextStatement(true);
-                this.setColour(160);
-                this.setTooltip('Returns number of letters in the provided text.');
-                this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
-            }
-        };
+// execute/clear BS loaders for docs
+$(function(){
+  if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+    while(BS.loader.length){(BS.loader.pop())()}
+  }
+});
 
-        Blockly.Blocks['turn_clockwise'] = {
-            init: function() {
-                this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
-                this.setPreviousStatement(true);
-                this.setNextStatement(true);
-                this.setColour(160);
-                this.setTooltip('Returns number of letters in the provided text.');
-                this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
-            }
-        };
+document.addEventListener('DOMContentLoaded', function(){
+  var $ = jQuery;
+  var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+  function myUpdateFunction(event) {
+    var code = Blockly.JavaScript.workspaceToCode(workspace);
+    document.getElementById('textGenerator').value = code;
+    console.log(code);
 
-        $(".play-code").on('click', (function (event) {
-            var i = 1;
-            setInterval(function(){
-                i++;
-                if(i<=20){
-                    $(".playground").css({
-                    'transform': 'rotate('+ i*10 +'deg)'
-                    });
-                }
-            }, 30)
+  }
+  workspace.addChangeListener(myUpdateFunction);
 
-        }));
+  Blockly.Blocks['move'] = {
+    init: function() {
+      this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
+      'FIELDNAME');
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setColour(160);
+      this.setTooltip('Returns number of letters in the provided text.');
+      this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+    }
+  };
 
-        //Fading both signin and create
+  Blockly.Blocks['turn_clockwise'] = {
+    init: function() {
+      this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setColour(160);
+      this.setTooltip('Returns number of letters in the provided text.');
+      this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+    }
+  };
+
+  $(".play-code").on('click', (function (event) {
+    var i = 1;
+    setInterval(function(){
+      i++;
+      if(i<=20){
+        $(".playground").css({
+          'transform': 'rotate('+ i*10 +'deg)'
+        });
+      }
+    }, 30)
+
+  }));
+
+  //Fading both signin and create
+  $("#signin").hide();
+  $("#create").hide();
+  $('#logout').hide();
+  //#signin,#create
+  $("#join").on("click", function(){
+    $("#signin").hide();
+    $("#scratch").hide();
+    $("#create").show();
+    $('#logout').hide();
+    //$("#create").fadeToggle();
+  })
+
+  $("#login").on("click", function(){
+    $("#signin").show();
+    $("#scratch").hide();
+    $("#create").hide();
+    $('#logout').hide();
+    //$("#create").fadeToggle();
+  })
+
+
+  $("#signupButton").on("click", function(){
+    $("#signin").hide();
+    $("#create").show();
+    $('#logout').hide();
+  })
+
+  $("#cancel1").on("click", function(){
     $("#signin").hide();
     $("#create").hide();
-    //#signin,#create
-    $("#join").on("click", function(){
-        $("#signin").hide();
-        $("#scratch").hide();
-        $("#create").show();
-        //$("#create").fadeToggle();
-    })
+    $("#scratch").show();
+    $('#logout').hide();
 
-    $("#login").on("click", function(){
-        $("#signin").show();
-        $("#scratch").hide();
-        $("#create").hide();
-        //$("#create").fadeToggle();
-    })
+  })
 
+  $("#cancel2").on("click", function(){
+    $("#signin").hide();
+    $("#create").hide();
+    $("#scratch").show();
+    $('#logout').hide();
 
-    $("#signupButton").on("click", function(){
-         $("#signin").hide();
-        $("#create").show();
-    })
+  })
 
-    $("#cancel").on("click", function(){
-         $("#signin").hide();
-         $("#create").hide();
-        $("#scratch").show();
+  //To display Logout when user has signed-in
+  $("#sign-in").on("click", function(){
+    $("#login").hide();
+    $("#join").hide();
+    $("#scratch").show();
+    $('#logout').show();
+    $("#signin").hide();
+    $("#create").hide();
 
-    })
+  })
 
-    function toggleSignIn() {
-      if (firebase.auth().currentUser) {
-        // [START signout]
-        firebase.auth().signOut();
-        // [END signout]
-      } else {
-        var email = document.getElementById('email_signin').value;
-        var password = document.getElementById('password_signin').value;
-        if (email.length < 4) {
-          alert('Please enter an email address.');
-          return;
-        }
-        if (password.length < 4) {
-          alert('Please enter a password.');
-          return;
-        }
-        // Sign in with email and pass.
-        // [START authwithemail]
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // [START_EXCLUDE]
-          if (errorCode === 'auth/wrong-password') {
-            alert('Wrong password.');
-          } else {
-            alert(errorMessage);
-          }
-          console.log(error);
-          document.getElementById('sign-in').disabled = false;
-          // [END_EXCLUDE]
-        });
-        // [END authwithemail]
-      }
-      document.getElementById('sign-in').disabled = true;
-    }
+  $("#signupButton").on("click", function(){
+    $("#signin").hide();
+    $("#create").show();
+    $("#scratch").hide();
+    $('#logout').hide();
+  })
 
-
-        //Facebook Login
-
-        function facebookSignIn() {
-      if (!firebase.auth().currentUser) {
-        // [START createprovider]
-        var provider = new firebase.auth.FacebookAuthProvider();
-        // [END createprovider]
-        // [START addscopes]
-        provider.addScope('user_birthday');
-        // [END addscopes]
-        // [START signin]
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-          var token = result.credential.accessToken;
-          // The signed-in user info.
-          var user = result.user;
-          // [START_EXCLUDE]
-          //document.getElementById('quickstart-oauthtoken').textContent = token;
-            window.alert(token);
-          // [END_EXCLUDE]
-        }).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // [START_EXCLUDE]
-          if (errorCode === 'auth/account-exists-with-different-credential') {
-            alert('You have already signed up with a different auth provider for that email.');
-            // If you are using multiple auth providers on your app you should handle linking
-            // the user's accounts here.
-          } else {
-            console.error(error);
-          }
-          // [END_EXCLUDE]
-        });
-        // [END signin]
-           } else {
-        // [START signout]
-        firebase.auth().signOut();
-        // [END signout]
-      }
-      // [START_EXCLUDE]
-      document.getElementById('facebook-login').disabled = true;
-      // [END_EXCLUDE]
-    }
+  $("#logout").on("click", function(){
+    $("#signin").hide();
+    $("#create").hide();
+    $("#scratch").show();
+    $('#logout').hide();
+    $('#login').show();
+    $('#join').show();
+  })
 
 
 
-        //Google login
-
-        function googleSignIn() {
-      if (!firebase.auth().currentUser) {
-        // [START createprovider]
-        var provider = new firebase.auth.GoogleAuthProvider();
-        // [END createprovider]
-        // [START addscopes]
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-        // [END addscopes]
-        // [START signin]
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          var token = result.credential.accessToken;
-          // The signed-in user info.
-          var user = result.user;
-          // [START_EXCLUDE]
-          //document.getElementById('quickstart-oauthtoken').textContent = token;
-            alert(token);
-          // [END_EXCLUDE]
-        }).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // [START_EXCLUDE]
-          if (errorCode === 'auth/account-exists-with-different-credential') {
-            alert('You have already signed up with a different auth provider for that email.');
-            // If you are using multiple auth providers on your app you should handle linking
-            // the user's accounts here.
-          } else {
-            console.error(error);
-          }
-          // [END_EXCLUDE]
-        });
-        // [END signin]
-      } else {
-        // [START signout]
-        firebase.auth().signOut();
-        // [END signout]
-      }
-      // [START_EXCLUDE]
-      document.getElementById('google-login').disabled = true;
-      // [END_EXCLUDE]
-    }
-    // [END buttoncallback]
-
-
-
-
-        document.getElementById('sign-in').addEventListener('click', toggleSignIn, false);
-          document.getElementById('facebook-login').addEventListener('click', facebookSignIn, false);
-        document.getElementById('google-login').addEventListener('click', googleSignIn, false);
-
-
-    //Signup
-    function handleSignUp() {
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
+  function toggleSignIn() {
+    if (firebase.auth().currentUser) {
+      // [START signout]
+      firebase.auth().signOut();
+      // [END signout]
+    } else {
+      var email = document.getElementById('email_signin').value;
+      var password = document.getElementById('password_signin').value;
       if (email.length < 4) {
         alert('Please enter an email address.');
         return;
@@ -406,42 +312,185 @@
         return;
       }
       // Sign in with email and pass.
-      // [START createwithemail]
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      // [START authwithemail]
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
+        if (errorCode === 'auth/wrong-password') {
+          alert('Wrong password.');
         } else {
           alert(errorMessage);
         }
         console.log(error);
+        document.getElementById('sign-in').disabled = false;
         // [END_EXCLUDE]
       });
-      // [END createwithemail]
+      // [END authwithemail]
     }
+    document.getElementById('sign-in').disabled = true;
+  }
 
-    document.getElementById('sign-up').addEventListener('click', handleSignUp, false);
 
+  //Facebook Login
 
-
-    //Firebase session details
-    /*
-      firebase.auth().onAuthStateChanged(firebaseUser => {
-        if(firebaseUser){
-            //console.log(firebaseUser.email);
-            sessionstorage.setItem("email", firebaseUser.email);
-        }else{
-            //console.log("User not logged in");
+  function facebookSignIn() {
+    if (!firebase.auth().currentUser) {
+      // [START createprovider]
+      var provider = new firebase.auth.FacebookAuthProvider();
+      // [END createprovider]
+      // [START addscopes]
+      provider.addScope('user_birthday');
+      // [END addscopes]
+      // [START signin]
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // [START_EXCLUDE]
+        //document.getElementById('quickstart-oauthtoken').textContent = token;
+        window.alert(token);
+        // [END_EXCLUDE]
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // [START_EXCLUDE]
+        if (errorCode === 'auth/account-exists-with-different-credential') {
+          alert('You have already signed up with a different auth provider for that email.');
+          // If you are using multiple auth providers on your app you should handle linking
+          // the user's accounts here.
+        } else {
+          console.error(error);
         }
-      })
-    */
+        // [END_EXCLUDE]
+      });
+      // [END signin]
+    } else {
+      // [START signout]
+      firebase.auth().signOut();
+      // [END signout]
+    }
+    // [START_EXCLUDE]
+    document.getElementById('facebook-login').disabled = true;
+    // [END_EXCLUDE]
+  }
+
+
+
+  //Google login
+
+  function googleSignIn() {
+    if (!firebase.auth().currentUser) {
+      // [START createprovider]
+      var provider = new firebase.auth.GoogleAuthProvider();
+      // [END createprovider]
+      // [START addscopes]
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+      // [END addscopes]
+      // [START signin]
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // [START_EXCLUDE]
+        //document.getElementById('quickstart-oauthtoken').textContent = token;
+        alert(token);
+        // [END_EXCLUDE]
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // [START_EXCLUDE]
+        if (errorCode === 'auth/account-exists-with-different-credential') {
+          alert('You have already signed up with a different auth provider for that email.');
+          // If you are using multiple auth providers on your app you should handle linking
+          // the user's accounts here.
+        } else {
+          console.error(error);
+        }
+        // [END_EXCLUDE]
+      });
+      // [END signin]
+    } else {
+      // [START signout]
+      firebase.auth().signOut();
+      // [END signout]
+    }
+    // [START_EXCLUDE]
+    document.getElementById('google-login').disabled = true;
+    // [END_EXCLUDE]
+  }
+  // [END buttoncallback]
+
+
+
+
+  document.getElementById('sign-in').addEventListener('click', toggleSignIn, false);
+  document.getElementById('facebook-login').addEventListener('click', facebookSignIn, false);
+  document.getElementById('google-login').addEventListener('click', googleSignIn, false);
+
+
+  //Signup
+  function handleSignUp() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    if (email.length < 4) {
+      alert('Please enter an email address.');
+      return;
+    }
+    if (password.length < 4) {
+      alert('Please enter a password.');
+      return;
+    }
+    // Sign in with email and pass.
+    // [START createwithemail]
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // [START_EXCLUDE]
+      if (errorCode == 'auth/weak-password') {
+        alert('The password is too weak.');
+      } else {
+        alert(errorMessage);
+      }
+      console.log(error);
+      // [END_EXCLUDE]
     });
+    // [END createwithemail]
+  }
+
+  document.getElementById('sign-up').addEventListener('click', handleSignUp, false);
 
 
 
+  //Firebase session details
+
+  firebase.auth().onAuthStateChanged(firebaseUser => {
+    if(firebaseUser){
+      console.log(firebaseUser.email);
+      alert(firebaseUser.email);
+      sessionstorage.setItem("email", firebaseUser.email);
+    }else{
+      console.log("User not logged in");
+    }
+  })
+
+
+
+});
 
 
 
