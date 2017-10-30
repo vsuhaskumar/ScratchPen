@@ -162,6 +162,27 @@
 
 
 
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+<script>
+//Sarah - Added config object and storage bucket
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD-8lQUILli9sLB30y-cekNONwjIBzdiOg",
+    authDomain: "scratchpen-de051.firebaseapp.com",
+    databaseURL: "https://scratchpen-de051.firebaseio.com",
+    projectId: "scratchpen-de051",
+    storageBucket: "scratchpen-de051.appspot.com",
+    messagingSenderId: "355301139728"
+  };
+  firebase.initializeApp(config);
+
+// Get a reference to the storage service, which is used to create references in your storage bucket
+  var storage = firebase.storage();
+
+</script>
+
+
+
 
 
 <script>
@@ -491,7 +512,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 });
-
 
 
 </script>
