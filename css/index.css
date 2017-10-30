@@ -17,16 +17,6 @@
     width: 300px;
 }
 
-.save-code {
-    background: url("../images/Save.png");
-    width: 64px;
-    height: 64px;
-    position: absolute;
-    margin-left: 135px;
-    margin-top: 410px;
-    cursor: pointer;
-}
-
 .play-code {
     background: url("../images/play-button.png");
     width: 64px;
@@ -145,3 +135,27 @@
     right: 0;
 
 }
+
+//Sarah - Added Load, Save and Play..
+.load-code {
+    background: url("../images/load.png");
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    margin-left: 135px;
+    margin-top: 410px;
+    cursor: pointer;
+}
+
+//new file name (lower case)
+.save-code {
+    background: url("../images/save.png");
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    margin-left: 135px;
+    margin-top: 410px;
+    cursor: pointer;
+}
+
+
