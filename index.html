@@ -29,18 +29,7 @@
     <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyD8OibuAabJVoTEqKJ9o5HPeGtOG556TNk",
-    authDomain: "scratchpen-007.firebaseapp.com",
-    databaseURL: "https://scratchpen-007.firebaseio.com",
-    projectId: "scratchpen-007",
-    storageBucket: "scratchpen-007.appspot.com",
-    messagingSenderId: "343797610817"
-  };
-  firebase.initializeApp(config);
-</script>
+
 
 <body>
     <div class="main-container">
@@ -83,8 +72,8 @@
                     <button type="submit" class="btn btn-primary">Sign in</button>
                 </form>-->
                     <div class="navbar-right">
-                    <button type="button" class="btn btn-default navbar-btn" id="join">Join ScratchPen</button>
-                    <button type="button" class="btn btn-default navbar-btn" id="login">Sign In</button>
+                    <button type="button" class="btn btn-link navbar-btn" id="join">Join ScratchPen</button>
+                    <button type="button" class="btn btn-primary navbar-btn" id="login">Sign In</button>
                     </div>
             </div>
             </div>
@@ -103,8 +92,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
         <div class="container-fluid container-fill-height" id="create">
             <div class="container-content-middle">
                 <form role="form" class="m-x-auto text-center app-login-form">
@@ -116,7 +103,7 @@
                     <div class="form-group">
                         <input class="form-control" id="email" placeholder="email">
                     </div>
-        
+
 
                     <div class="form-group m-b-md">
                     <input class="form-control" type="password" id="password" placeholder="Password">
@@ -124,13 +111,13 @@
 
                     <div class="m-b-lg">
                         <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
-                        <button  type="button" class="btn btn-primary" id="cancel">Cancel</a>
+                        <button  type="button" class="btn btn-primary" id="cancel">Cancel</button>
                     </div>
 
                 </form>
             </div>
         </div>
-        
+
         <div class="container-fluid container-fill-height" id="signin">
             <div class="container-content-middle">
                 <form role="form" class="m-x-auto text-center app-login-form">
@@ -156,7 +143,7 @@
 
                     <div class="m-b-lg">
                         <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
-                        <button type="button" class="btn btn-default" id="signupButton">Sign up</a>
+                        <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
                     </div>
 
                     <footer class="screen-login">
@@ -165,6 +152,9 @@
                 </form>
             </div>
         </div>
+    </div>
+
+
 
 
 
@@ -223,11 +213,8 @@
             }, 30)
 
         }));
-    });
-    
-    
-    
-    //Fading both signin and create
+
+        //Fading both signin and create
     $("#signin").hide();
     $("#create").hide();
     //#signin,#create
@@ -237,7 +224,7 @@
         $("#create").show();
         //$("#create").fadeToggle();
     })
-    
+
     $("#login").on("click", function(){
         $("#signin").show();
         $("#scratch").hide();
@@ -245,19 +232,19 @@
         //$("#create").fadeToggle();
     })
 
-    
+
     $("#signupButton").on("click", function(){
          $("#signin").hide();
         $("#create").show();
     })
-    
+
     $("#cancel").on("click", function(){
          $("#signin").hide();
          $("#create").hide();
         $("#scratch").show();
-        
+
     })
-    
+
     function toggleSignIn() {
       if (firebase.auth().currentUser) {
         // [START signout]
@@ -294,10 +281,10 @@
       }
       document.getElementById('sign-in').disabled = true;
     }
-        
-        
+
+
         //Facebook Login
-        
+
         function facebookSignIn() {
       if (!firebase.auth().currentUser) {
         // [START createprovider]
@@ -344,11 +331,11 @@
       document.getElementById('facebook-login').disabled = true;
       // [END_EXCLUDE]
     }
-          
-        
-        
+
+
+
         //Google login
-        
+
         function googleSignIn() {
       if (!firebase.auth().currentUser) {
         // [START createprovider]
@@ -397,14 +384,14 @@
     }
     // [END buttoncallback]
 
-          
-          
-     
+
+
+
         document.getElementById('sign-in').addEventListener('click', toggleSignIn, false);
           document.getElementById('facebook-login').addEventListener('click', facebookSignIn, false);
         document.getElementById('google-login').addEventListener('click', googleSignIn, false);
-    
-    
+
+
     //Signup
     function handleSignUp() {
       var email = document.getElementById('email').value;
@@ -434,11 +421,11 @@
       });
       // [END createwithemail]
     }
-      
+
     document.getElementById('sign-up').addEventListener('click', handleSignUp, false);
 
 
-    
+
     //Firebase session details
     /*
       firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -450,6 +437,11 @@
         }
       })
     */
+    });
+    
+    
+    
+
 
 
 </script>
