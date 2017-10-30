@@ -60,3 +60,13 @@
     width: 100%;
     height: 1300px;
 }
+
+
+/*added by suhas*/
+.login-button {
+  display: show;
+}
+
+.logout-button {
+    display: show;
+}

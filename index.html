@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://www.gstatic.com/firebasejs/3.6.5/firebase.js"></script>
+
 <script src="bower_components/blockly/blockly_compressed.js"></script>
 <script src="bower_components/blockly/blocks_compressed.js"></script>
 <script src="bower_components/blockly/msg/js/en.js"></script>
@@ -7,8 +9,14 @@
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/firebase/firebase.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- added by Suhas  start -->
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+<!-- added by Suhas  end-->
+
 
 <script src="js/customBlocks.js"></script>
+<script src="js/index.js"></script>
 
 
 <link rel="stylesheet" href="css/index.css">
@@ -18,19 +26,33 @@
     <title>Scratch Pen</title>
 </head>
 <script>
-  // Initialize Firebase
+  // Initialize Firebase - Raghav configurations
   var config = {
-    apiKey: "AIzaSyD8OibuAabJVoTEqKJ9o5HPeGtOG556TNk",
-    authDomain: "scratchpen-007.firebaseapp.com",
-    databaseURL: "https://scratchpen-007.firebaseio.com",
-    projectId: "scratchpen-007",
-    storageBucket: "scratchpen-007.appspot.com",
-    messagingSenderId: "343797610817"
+    apiKey: "AIzaSyD-8lQUILli9sLB30y-cekNONwjIBzdiOg",
+    authDomain: "scratchpen-de051.firebaseapp.com",
+    databaseURL: "https://scratchpen-de051.firebaseio.com",
+    projectId: "scratchpen-de051",
+    storageBucket: "scratchpen-de051.appspot.com",
+    messagingSenderId: "355301139728"
   };
   firebase.initializeApp(config);
 </script>
 
 <body>
+  <!-- added by Suhas  Start -->
+  <div>
+
+    <a href="signup.html"><button class='login-button'>Login</button></a>
+     <div>
+       <script>
+       // document.write("<h3> Hi "+ localStorage.email + "</h3>");
+       document.write("<h3> Welcome "+ sessionStorage.email + "</h3>");
+       </script>
+       <button data-logout-button class='logout-button' click = 'Logout()'>Logout</button>
+     </div>
+  </div>
+    <!-- added by Suhas end -->
+
     <div class="main-container">
         <div class="scratchContainer">
             <div id="blocklyDiv"></div>
