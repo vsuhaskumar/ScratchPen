@@ -1,7 +1,7 @@
 .scratchContainer {
     float: left;
     margin-left: 8%;
-    margin-top: 2%;
+    margin-top: 60px;
 }
 
 .scratchContainer #blocklyDiv {
@@ -59,4 +59,10 @@
 .main-container {
     width: 100%;
     height: 1300px;
+    background-color: #eee
+}
+
+.toolbar-container {
+    margin-left: 40px;
+    margin-right: 40px;
 }
