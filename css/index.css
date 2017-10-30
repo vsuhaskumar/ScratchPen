@@ -59,6 +59,7 @@
 .main-container {
     width: 100%;
     height: 1300px;
+<<<<<<< HEAD
     background-color: #eee
 }
 
@@ -66,3 +67,6 @@
     margin-left: 40px;
     margin-right: 40px;
 }
+=======
+}
+>>>>>>> parent of 2dac6c9... Saving User Session
