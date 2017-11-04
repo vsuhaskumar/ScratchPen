@@ -2,7 +2,6 @@
 /bower_components/
 .idea/
 /html/sample.html
-.firebaserc
 /functions/
 firebase-debug.log
 index.html___jb_old___
