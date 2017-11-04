@@ -7,7 +7,6 @@
 /functions/
 database.rules.json
 firebase-debug.log
-firebase.json
 firestore.indexes.json
 firestore.rules
 storage.rules
