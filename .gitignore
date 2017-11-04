@@ -1,12 +1,8 @@
 /node_modules/
 /bower_components/
 .idea/
-
 /html/sample.html
 .firebaserc
 /functions/
 firebase-debug.log
-firestore.indexes.json
-firestore.rules
-storage.rules
 index.html___jb_old___
