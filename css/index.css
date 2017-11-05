@@ -1,6 +1,6 @@
 .scratchContainer {
     float: left;
-    margin-left: 8%;
+    margin-left: 15px;
     margin-top: 60px;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .playground-container {
-    background-color: #bbbbcc;
+    background-color: #fff;
     width: 330px;
     height: 480px;
     float: left;

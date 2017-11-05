@@ -4,36 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Scratch Pen</title>
+    <script src="bower_components/blockly/blockly_compressed.js"></script>
+    <script src="bower_components/blockly/blocks_compressed.js"></script>
+    <script src="bower_components/blockly/msg/js/en.js"></script>
+    <script src="bower_components/blockly/javascript_compressed.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+    <script src="js/customBlocks.js"></script>
+    <script src="js/authentication.js"></script>
 
-  <script src="bower_components/blockly/blockly_compressed.js"></script>
-  <script src="bower_components/blockly/blocks_compressed.js"></script>
-  <script src="bower_components/blockly/msg/js/en.js"></script>
-  <script src="bower_components/blockly/javascript_compressed.js"></script>
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="bower_components/firebase/firebase.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <!-- update the version number as needed -->
-  <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
-  <!-- include only the Firebase features as you need -->
-  <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
-  <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
-  <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
-  <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
-  <!-- initialize the SDK after all desired features are loaded -->
-  <script defer src="/__/firebase/init.js"></script>
-  <script src="js/customBlocks.js"></script>
-
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/application.css">
-  <link rel="stylesheet" href="css/toolkit.css">
-  <!--<link rel="stylesheet" href="css/index.css">-->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/application.css">
+    <link rel="stylesheet" href="css/toolkit.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
-
-
 <body>
-
   <div class="main-container">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="toolbar-container">
@@ -82,19 +79,21 @@
   </div>
 </div>
 </nav>
-<div id="scratch">
-  <div class="scratchContainer">
-    <div id="blocklyDiv"></div>
-    <div class="text-container">
-      <textarea id="textGenerator"></textarea>
-      <div class="play-code"></div>
-      <div class="save-code"></div>
-      <div class="load-code"></div>
+    <div id="scratch">
+        <div class="scratchContainer">
+            <div id="blocklyDiv"></div>
+            <div class="text-container">
+                <textarea id="textGenerator"></textarea>
+                <div class="play-code"></div>
+                <div class="save-code"></div>
+                <div class="load-code"></div>
+            </div>
+        </div>
+        <div class="playground-container">
+            <div class="playground"></div>
+        </div>
     </div>
-  </div>
-  <div class="playground-container">
-    <div class="playground">
-    </div>
+<<<<<<< HEAD
   </div>
 </div>
 <div class="container-fluid container-fill-height" id="create">
@@ -102,7 +101,7 @@
     <form role="form" class="m-x-auto text-center app-login-form">
 
       <a href="../index.html" class="app-brand m-b-lg">
-        <img src="/images/lock.svg" alt="lock">
+        <img src="images/lock.svg" alt="lock">
       </a>
 
       <div class="form-group">
@@ -128,7 +127,7 @@
     <form role="form" class="m-x-auto text-center app-login-form">
 
       <a href="../index.html" class="app-brand m-b-lg">
-        <img src="/images/lock.svg" alt="brand">
+        <img src="images/lock.svg" alt="brand">
       </a>
       <div class="form-group">
         <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
@@ -143,30 +142,62 @@
 
       <div class="form-group m-b-md">
         <input type="password" class="form-control" id="password_signin" placeholder="Password">
+=======
+    <div class="container-fluid container-fill-height" id="create">
+      <div class="container-content-middle">
+        <form role="form" class="m-x-auto text-center app-login-form">
+          <a href="../index.html" class="app-brand m-b-lg">
+            <img src="/images/lock.svg" alt="lock">
+          </a>
+          <div class="form-group">
+            <input class="form-control" id="email" placeholder="email">
+          </div>
+          <div class="form-group m-b-md">
+            <input class="form-control" type="password" id="password" placeholder="Password">
+          </div>
+          <div class="m-b-lg">
+            <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
+            <button  type="button" class="btn btn-danger" id="cancel1">Cancel</button>
+          </div>
+        </form>
+>>>>>>> e2cc63b5ba50db499af6422e5619c9d49bd56329
       </div>
+    </div>
 
+    <div class="container-fluid container-fill-height" id="signin">
+      <div class="container-content-middle">
+        <form role="form" class="m-x-auto text-center app-login-form">
+          <a href="../index.html" class="app-brand m-b-lg">
+            <img src="/images/lock.svg" alt="brand">
+          </a>
+          <div class="form-group">
+            <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
+          </div>
+          <div class="form-group m-b-md">
+            <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
+          </div>
+          <div class="form-group">
+            <input class="form-control" id="email_signin" placeholder="Email">
+          </div>
+          <div class="form-group m-b-md">
+            <input type="password" class="form-control" id="password_signin" placeholder="Password">
+          </div>
+          <div class="m-b-lg">
+            <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
+            <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
+            <button  type="button" class="btn btn-danger" id="cancel2">Cancel</button>
+          </div>
 
-      <div class="m-b-lg">
-        <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
-        <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
-        <button  type="button" class="btn btn-danger" id="cancel2">Cancel</button>
+          <!-- <footer class="screen-login">
+          <a href="#" class="text-muted">Forgot password</a>
+        </footer> -->
+        </form>
       </div>
-
-      <!-- <footer class="screen-login">
-      <a href="#" class="text-muted">Forgot password</a>
-    </footer> -->
-  </form>
-</div>
-</div>
-</div>
+    </div>
+    </div>
 
 
-
-
-<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
 <script>
-//Sarah - Added config object and storage bucket
-  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyD-8lQUILli9sLB30y-cekNONwjIBzdiOg",
     authDomain: "scratchpen-de051.firebaseapp.com",
@@ -176,17 +207,13 @@
     messagingSenderId: "355301139728"
   };
   firebase.initializeApp(config);
-
-// Get a reference to the storage service, which is used to create references in your storage bucket
+  // Get a reference to the storage service, which is used to create references in your storage bucket
   var storage = firebase.storage();
-
 </script>
 
-
-
-
-
+<!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
 <script>
+<<<<<<< HEAD
 
 
 
@@ -249,9 +276,12 @@ window.alert("Load button clicked");
   }));
 
   $(".save-code").on('click', (function (event) {
-window.alert("Save button clicked");
+	var xml = Blockly.Xml.workspaceToDom(workspace);
+	var xml_text = Blockly.Xml.domToText(xml);
+	window.alert(xml_text);
+  });
+}
   }));
-
 
 
   //Fading both signin and create
@@ -497,30 +527,81 @@ window.alert("Save button clicked");
         alert('The password is too weak.');
       } else {
         alert(errorMessage);
+=======
+    // execute/clear BS loaders for docs
+    $(function(){
+      if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+        while(BS.loader.length){(BS.loader.pop())()}
+>>>>>>> e2cc63b5ba50db499af6422e5619c9d49bd56329
       }
-      console.log(error);
-      // [END_EXCLUDE]
     });
-    // [END createwithemail]
-  }
 
-  document.getElementById('sign-up').addEventListener('click', handleSignUp, false);
+    document.addEventListener('DOMContentLoaded', function(){
+        var $ = jQuery;
+        authentication.init();
+        authentication.addClickListner();
+
+        var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+        function myUpdateFunction(event) {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            document.getElementById('textGenerator').value = code;  //puts block code into text editor
+            console.log(code);
+
+        }
+        workspace.addChangeListener(myUpdateFunction)
+
+        Blockly.Blocks['move'] = {
+            init: function() {
+              this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
+              'FIELDNAME');
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
+              this.setColour(160);
+              this.setTooltip('Returns number of letters in the provided text.');
+              this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+            }
+        };
+
+        Blockly.Blocks['turn_clockwise'] = {
+            init: function() {
+              this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
+              this.setColour(160);
+              this.setTooltip('Returns number of letters in the provided text.');
+              this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+            }
+        };
+
+        $(".play-code").on('click', (function (event) {
+            var i = 1;
+            setInterval(function(){
+              i++;
+              if(i<=20){
+                $(".playground").css({
+                  'transform': 'rotate('+ i*10 +'deg)'
+                });
+              }
+            }, 30)
+
+        }));
 
 
+        document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
+        document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
+        document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
+        document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
 
-  //Firebase session details
-
-  firebase.auth().onAuthStateChanged(firebaseUser => {
-    if(firebaseUser){
-      console.log(firebaseUser.email);
-      alert(firebaseUser.email);
-      sessionstorage.setItem("email", firebaseUser.email);
-    }else{
-      console.log("User not logged in");
-    }
-  })
-
-
+        //Firebase session details
+        firebase.auth().onAuthStateChanged(firebaseUser => {
+            if (firebaseUser){
+              console.log(firebaseUser.email);
+              alert(firebaseUser.email);
+              sessionstorage.setItem("email", firebaseUser.email);
+            } else{
+              console.log("User not logged in");
+            }
+        });
 
 });
 
