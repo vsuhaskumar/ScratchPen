@@ -80,18 +80,39 @@
 </div>
 </nav>
     <div id="scratch">
+        <div class="col-sm-3 col-md-2 sidebar scratch-options">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Save</a></li>
+            <li><a href="#">Import</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Play</a></li>
+            <li><a href="">More Options</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+          </ul>
+        </div>
         <div class="scratchContainer">
             <div id="blocklyDiv"></div>
             <div class="text-container">
                 <textarea id="textGenerator"></textarea>
-                <div class="play-code"></div>
-                <div class="save-code"></div>
-                <div class="load-code"></div>
+                <!--<div class="play-code"></div>-->
+                <!--<div class="save-code"></div>-->
+                <!--<div class="load-code"></div>-->
+                <div class="playground-container">
+                    <div class="playground"></div>
+                </div>
             </div>
         </div>
-        <div class="playground-container">
-            <div class="playground"></div>
-        </div>
+
     </div>
     <div class="container-fluid container-fill-height" id="create">
       <div class="container-content-middle">
@@ -112,7 +133,6 @@
         </form>
       </div>
     </div>
-
     <div class="container-fluid container-fill-height" id="signin">
       <div class="container-content-middle">
         <form role="form" class="m-x-auto text-center app-login-form">

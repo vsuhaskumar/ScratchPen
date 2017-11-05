@@ -6,15 +6,16 @@
 
 .scratchContainer #blocklyDiv {
     float: left;
-    height: 480px;
-    width: 600px;
+    height: 700px;
+    width: 580px;
 }
 
 .scratchContainer .text-container, #textGenerator {
     float: left;
     margin-left: 5px;
-    height: 480px;
-    width: 300px;
+    height: 320px;
+    width: 430px;
+    border: none;
 }
 
 
@@ -60,11 +61,11 @@
 
 .playground-container {
     background-color: #fff;
-    width: 330px;
-    height: 480px;
+    width: 430px;
+    height: 370px;
     float: left;
-    margin-left: 20px;
-    margin-top: 60px;
+    margin-left: 5px;
+    margin-top: 10px;
 }
 
 .main-container {
@@ -157,5 +158,9 @@
 
 }
 
-
+.scratch-options {
+    margin-top: 60px;
+    background-color: #ddd;
+    margin-left: 15px;
+}
 
