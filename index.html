@@ -80,76 +80,73 @@
 </div>
 </nav>
     <div id="scratch">
-    <div class="scratchContainer">
-    <div id="blocklyDiv"></div>
-    <div class="text-container">
-      <textarea id="textGenerator"></textarea>
-      <div class="play-code"></div>
-      <div class="save-code"></div>
-      <div class="load-code"></div>
+        <div class="scratchContainer">
+            <div id="blocklyDiv"></div>
+            <div class="text-container">
+                <textarea id="textGenerator"></textarea>
+                <div class="play-code"></div>
+                <div class="save-code"></div>
+                <div class="load-code"></div>
+            </div>
+        </div>
+        <div class="playground-container">
+            <div class="playground"></div>
+        </div>
     </div>
-  </div>
-  <div class="playground-container">
-    <div class="playground">
+    <div class="container-fluid container-fill-height" id="create">
+      <div class="container-content-middle">
+        <form role="form" class="m-x-auto text-center app-login-form">
+          <a href="../index.html" class="app-brand m-b-lg">
+            <img src="/images/lock.svg" alt="lock">
+          </a>
+          <div class="form-group">
+            <input class="form-control" id="email" placeholder="email">
+          </div>
+          <div class="form-group m-b-md">
+            <input class="form-control" type="password" id="password" placeholder="Password">
+          </div>
+          <div class="m-b-lg">
+            <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
+            <button  type="button" class="btn btn-danger" id="cancel1">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-</div>
-<div class="container-fluid container-fill-height" id="create">
-  <div class="container-content-middle">
-    <form role="form" class="m-x-auto text-center app-login-form">
-      <a href="../index.html" class="app-brand m-b-lg">
-        <img src="/images/lock.svg" alt="lock">
-      </a>
-      <div class="form-group">
-        <input class="form-control" id="email" placeholder="email">
-      </div>
-      <div class="form-group m-b-md">
-        <input class="form-control" type="password" id="password" placeholder="Password">
-      </div>
-      <div class="m-b-lg">
-        <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
-        <button  type="button" class="btn btn-danger" id="cancel1">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>
 
-<div class="container-fluid container-fill-height" id="signin">
-  <div class="container-content-middle">
-    <form role="form" class="m-x-auto text-center app-login-form">
-      <a href="../index.html" class="app-brand m-b-lg">
-        <img src="/images/lock.svg" alt="brand">
-      </a>
-      <div class="form-group">
-        <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
-      </div>
-      <div class="form-group m-b-md">
-        <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
-      </div>
-      <div class="form-group">
-        <input class="form-control" id="email_signin" placeholder="Email">
-      </div>
-      <div class="form-group m-b-md">
-        <input type="password" class="form-control" id="password_signin" placeholder="Password">
-      </div>
-      <div class="m-b-lg">
-        <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
-        <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
-        <button  type="button" class="btn btn-danger" id="cancel2">Cancel</button>
-      </div>
+    <div class="container-fluid container-fill-height" id="signin">
+      <div class="container-content-middle">
+        <form role="form" class="m-x-auto text-center app-login-form">
+          <a href="../index.html" class="app-brand m-b-lg">
+            <img src="/images/lock.svg" alt="brand">
+          </a>
+          <div class="form-group">
+            <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
+          </div>
+          <div class="form-group m-b-md">
+            <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
+          </div>
+          <div class="form-group">
+            <input class="form-control" id="email_signin" placeholder="Email">
+          </div>
+          <div class="form-group m-b-md">
+            <input type="password" class="form-control" id="password_signin" placeholder="Password">
+          </div>
+          <div class="m-b-lg">
+            <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
+            <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
+            <button  type="button" class="btn btn-danger" id="cancel2">Cancel</button>
+          </div>
 
-      <!-- <footer class="screen-login">
-      <a href="#" class="text-muted">Forgot password</a>
-    </footer> -->
-  </form>
-</div>
-</div>
-</div>
+          <!-- <footer class="screen-login">
+          <a href="#" class="text-muted">Forgot password</a>
+        </footer> -->
+        </form>
+      </div>
+    </div>
+    </div>
 
 
 <script>
-//Sarah - Added config object and storage bucket
-  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyD-8lQUILli9sLB30y-cekNONwjIBzdiOg",
     authDomain: "scratchpen-de051.firebaseapp.com",
