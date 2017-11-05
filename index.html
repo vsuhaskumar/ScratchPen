@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Scratch Pen</title>
-
   <script src="bower_components/blockly/blockly_compressed.js"></script>
   <script src="bower_components/blockly/blocks_compressed.js"></script>
   <script src="bower_components/blockly/msg/js/en.js"></script>
@@ -19,6 +18,7 @@
   <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
   <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
   <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
   <script src="js/customBlocks.js"></script>
@@ -26,14 +26,12 @@
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/application.css">
   <link rel="stylesheet" href="css/toolkit.css">
-  <!--<link rel="stylesheet" href="css/index.css">-->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
 
 
 <body>
-
   <div class="main-container">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="toolbar-container">
@@ -82,8 +80,8 @@
   </div>
 </div>
 </nav>
-<div id="scratch">
-  <div class="scratchContainer">
+    <div id="scratch">
+    <div class="scratchContainer">
     <div id="blocklyDiv"></div>
     <div class="text-container">
       <textarea id="textGenerator"></textarea>
@@ -100,25 +98,19 @@
 <div class="container-fluid container-fill-height" id="create">
   <div class="container-content-middle">
     <form role="form" class="m-x-auto text-center app-login-form">
-
       <a href="../index.html" class="app-brand m-b-lg">
         <img src="/images/lock.svg" alt="lock">
       </a>
-
       <div class="form-group">
         <input class="form-control" id="email" placeholder="email">
       </div>
-
-
       <div class="form-group m-b-md">
         <input class="form-control" type="password" id="password" placeholder="Password">
       </div>
-
       <div class="m-b-lg">
         <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
         <button  type="button" class="btn btn-danger" id="cancel1">Cancel</button>
       </div>
-
     </form>
   </div>
 </div>
@@ -126,7 +118,6 @@
 <div class="container-fluid container-fill-height" id="signin">
   <div class="container-content-middle">
     <form role="form" class="m-x-auto text-center app-login-form">
-
       <a href="../index.html" class="app-brand m-b-lg">
         <img src="/images/lock.svg" alt="brand">
       </a>
@@ -136,16 +127,12 @@
       <div class="form-group m-b-md">
         <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
       </div>
-
       <div class="form-group">
         <input class="form-control" id="email_signin" placeholder="Email">
       </div>
-
       <div class="form-group m-b-md">
         <input type="password" class="form-control" id="password_signin" placeholder="Password">
       </div>
-
-
       <div class="m-b-lg">
         <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
         <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
@@ -161,9 +148,6 @@
 </div>
 
 
-
-
-<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
 <script>
 //Sarah - Added config object and storage bucket
   // Initialize Firebase
@@ -182,14 +166,8 @@
 
 </script>
 
-
-
-
-
+<!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
 <script>
-
-
-
 // execute/clear BS loaders for docs
 $(function(){
   if (window.BS&&window.BS.loader&&window.BS.loader.length) {
@@ -519,8 +497,6 @@ window.alert("Save button clicked");
       console.log("User not logged in");
     }
   })
-
-
 
 });
 
