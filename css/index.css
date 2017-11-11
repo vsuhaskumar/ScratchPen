@@ -14,7 +14,7 @@
     float: left;
     margin-left: 5px;
     height: 320px;
-    width: 430px;
+    width: 450px;
     border: none;
 }
 
@@ -61,7 +61,7 @@
 
 .playground-container {
     background-color: #fff;
-    width: 430px;
+    width: 450px;
     height: 370px;
     float: left;
     margin-left: 5px;
@@ -159,8 +159,11 @@
 }
 
 .scratch-options {
-    margin-top: 60px;
     background-color: #ddd;
-    margin-left: 15px;
+    margin-left: 10px;
+    width: 200px !important;
 }
 
+#signin, #create, #logout {
+    display: none;
+}
