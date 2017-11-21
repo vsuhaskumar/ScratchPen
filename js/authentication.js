@@ -211,7 +211,7 @@ var authentication = {
     }
     firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user){
         authentication.globalVar.setStorageValue("email", user.email);
-        authentication.globalVar.fbDatabase.ref("/Users").set({
+        authentication.globalVar.fbDatabase.ref("/Users/" + user.uid).set({
             "userId": user.email
         });
         $("#login").hide();
