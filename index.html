@@ -192,12 +192,24 @@
           // Get a reference to the storage service, which is used to create references in your storage bucket
     var storage = firebase.storage();
 
+
+    //Entry point into the application
     document.addEventListener('DOMContentLoaded', function(){
         var $ = jQuery;
-        authentication.init();
-        authentication.addClickListner();
+        //authentication.init();
+        var database = firebase.database();
         var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
-        var globalVar = {};
+        var globalVar = {
+            setStorageValue: function (key, value) {
+                sessionStorage.setItem(key, value);
+            },
+            getStorageValue: function (key) {
+                return sessionStorage.getItem(key)
+            },
+            fbDatabase: database
+        };
+        authentication.globalVar = globalVar;
+        authentication.addClickListner();
 
         $("#save").click(function(){
             if ($("#login").is(":visible")){
@@ -242,10 +254,18 @@
         //Firebase session details
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-                if(sessionStorage.getItem("email")){
-                    sessionStorage.setItem("email", user.email);
+                $("#login").hide();
+                $("#join").hide();
+                $("#scratch").show();
+                $('#logout').show();
+                $("#signin").hide();
+                $("#create").hide();
+                if(!globalVar.getStorageValue("email")){
+                    globalVar.setStorageValue("email", user.email)
                 }
-            } else {
+            }
+            else {
+                authentication.init();
                 console.log("not logged in");
             }
         });
