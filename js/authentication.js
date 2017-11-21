@@ -69,7 +69,8 @@ var authentication = {
   toggleSignIn: function toggleSignIn() {
     if (firebase.auth().currentUser) {
       firebase.auth().signOut();
-    } else {
+    }
+    else {
       var email = document.getElementById('email_signin').value;
       var password = document.getElementById('password_signin').value;
       if (email.length < 4) {
@@ -94,6 +95,7 @@ var authentication = {
     }
     document.getElementById('sign-in').disabled = true;
   },
+
   facebookSignIn: function facebookSignIn() {
     if (!firebase.auth().currentUser) {
       // [START createprovider]
@@ -140,6 +142,7 @@ var authentication = {
     document.getElementById('facebook-login').disabled = true;
     // [END_EXCLUDE]
   },
+
   googleSignIn: function googleSignIn() {
     if (!firebase.auth().currentUser) {
       // [START createprovider]
@@ -186,6 +189,7 @@ var authentication = {
     document.getElementById('google-login').disabled = true;
     // [END_EXCLUDE]
   },
+
   handleSignUp: function handleSignUp() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;

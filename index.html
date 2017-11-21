@@ -197,6 +197,7 @@
         authentication.init();
         authentication.addClickListner();
         var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+        var globalVar = {};
 
         $("#save").click(function(){
             if ($("#login").is(":visible")){
