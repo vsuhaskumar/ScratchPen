@@ -6,13 +6,11 @@ var authentication = {
     $('#logout').hide();
   },
   addClickListner: function(){
-    //#signin,#create
     $("#join").on("click", function(){
       $("#signin").hide();
       $("#scratch").hide();
       $("#create").show();
       $('#logout').hide();
-      //$("#create").fadeToggle();
     });
 
     $("#login").on("click", function(){
@@ -20,9 +18,7 @@ var authentication = {
       $("#scratch").hide();
       $("#create").hide();
       $('#logout').hide();
-      //$("#create").fadeToggle();
     });
-
 
     $("#signupButton").on("click", function(){
       $("#signin").hide();
@@ -72,9 +68,7 @@ var authentication = {
   },
   toggleSignIn: function toggleSignIn() {
     if (firebase.auth().currentUser) {
-      // [START signout]
       firebase.auth().signOut();
-      // [END signout]
     } else {
       var email = document.getElementById('email_signin').value;
       var password = document.getElementById('password_signin').value;
@@ -86,13 +80,9 @@ var authentication = {
         alert('Please enter a password.');
         return;
       }
-      // Sign in with email and pass.
-      // [START authwithemail]
       firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // [START_EXCLUDE]
         if (errorCode === 'auth/wrong-password') {
           alert('Wrong password.');
         } else {
@@ -100,9 +90,7 @@ var authentication = {
         }
         console.log(error);
         document.getElementById('sign-in').disabled = false;
-        // [END_EXCLUDE]
       });
-      // [END authwithemail]
     }
     document.getElementById('sign-in').disabled = true;
   },
@@ -209,30 +197,15 @@ var authentication = {
       alert('Please enter a password.');
       return;
     }
-    // Sign in with email and pass.
-    // [START createwithemail]
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      // [START_EXCLUDE]
       if (errorCode == 'auth/weak-password') {
         alert('The password is too weak.');
       } else {
         alert(errorMessage);
       }
       console.log(error);
-      // [END_EXCLUDE]
     });
-    // [END createwithemail]
   }
 };
-
-//
-// $(".load-code").on('click', (function (event) {
-// window.alert("Load button clicked");
-//   }));
-//
-//   $(".save-code").on('click', (function (event) {
-// window.alert("Save button clicked");
-//   }));

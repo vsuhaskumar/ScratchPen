@@ -80,13 +80,16 @@
 </div>
 </nav>
     <div id="scratch">
-
         <div class="scratchContainer">
+            <div class="alert alert-danger notification" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+            </div>
             <div id="blocklyDiv"></div>
             <div class="col-sm-3 col-md-2 sidebar scratch-options">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Save</a></li>
+            <li><a id = "save" href="#">Save</a></li>
             <li><a href="#">Import</a></li>
             <li><a href="#">Export</a></li>
           </ul>
@@ -104,7 +107,8 @@
           </ul>
         </div>
             <div class="text-container">
-                <textarea id="textGenerator"></textarea>
+                <pre id="textGenerator" class="prettyprint lang-js"></pre>
+                <!--<textarea id="textGenerator"></textarea>-->
                 <!--<div class="play-code"></div>-->
                 <!--<div class="save-code"></div>-->
                 <!--<div class="load-code"></div>-->
@@ -173,7 +177,6 @@
     $(function(){
       if (window.BS&&window.BS.loader&&window.BS.loader.length) {
         while(BS.loader.length){(BS.loader.pop())()}
-
       }
     });
 
@@ -190,17 +193,23 @@
     var storage = firebase.storage();
 
     document.addEventListener('DOMContentLoaded', function(){
-
-
-
         var $ = jQuery;
         authentication.init();
         authentication.addClickListner();
         var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
 
+        $("#save").click(function(){
+            if ($("#login").is(":visible")){
+                $(".notification").html("Please login to save").show();
+                setTimeout(function () {
+                    $(".notification").fadeOut("slow");
+                }, 1000);
+            }
+        });
+
         function myUpdateFunction(event) {
             var code = Blockly.JavaScript.workspaceToCode(workspace);
-            document.getElementById('textGenerator').value = code;  //puts block code into text editor
+            document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
             console.log(code);
 
         }
@@ -229,34 +238,21 @@
             }
         };
 
-        $(".play-code").on('click', (function (event) {
-            var i = 1;
-            setInterval(function(){
-              i++;
-              if(i<=20){
-                $(".playground").css({
-                  'transform': 'rotate('+ i*10 +'deg)'
-                });
-              }
-            }, 30)
-
-        }));
         document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
         document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
         document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
         document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
 
         //Firebase session details
-        firebase.auth().onAuthStateChanged(firebaseUser => {
-            if (firebaseUser){
-              console.log(firebaseUser.email);
-              alert(firebaseUser.email);
-              sessionstorage.setItem("email", firebaseUser.email);
-            } else{
-              console.log("User not logged in");
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                if(sessionStorage.getItem("email")){
+                    sessionStorage.setItem("email", user.email);
+                }
+            } else {
+                console.log("not logged in");
             }
         });
-
 });
 </script>
 </body>

@@ -24,6 +24,7 @@
     "jquery": "*",
     "toolkit": "*",
     "bootstrap": "^3.3.7",
-    "firebase": "4.6.0"
+    "firebase": "4.6.0",
+    "code-prettify": "*"
   }
 }
