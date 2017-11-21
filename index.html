@@ -91,7 +91,7 @@
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
             <li><a id = "save" href="#">Save</a></li>
             <li><a href="#">Import</a></li>
-            <li><a href="#">Export</a></li>
+            <li><a id = "export" href="#">Export</a></li>
           </ul>
           <ul class="nav nav-sidebar">
             <li><a href="">Play</a></li>
@@ -238,11 +238,6 @@
             }
         };
 
-        document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
-        document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
-        document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
-        document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
-
         //Firebase session details
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
@@ -253,6 +248,19 @@
                 console.log("not logged in");
             }
         });
+
+
+ 		function myScript(e) {
+            var xml = Blockly.Xml.workspaceToDom(workspace);
+            var xml_text = Blockly.Xml.domToText(xml);
+            window.alert(xml_text);
+        }
+
+        document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
+        document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
+        document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
+        document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
+        document.getElementById("export").addEventListener("click", myScript);
 });
 </script>
 </body>
