@@ -4,6 +4,8 @@ var authentication = {
     $("#signin").hide();
     $("#create").hide();
     $('#logout').hide();
+    $('#login').show();
+    $('#join').show();
   },
   addClickListner: function(){
     $("#join").on("click", function(){
@@ -64,6 +66,12 @@ var authentication = {
       $('#logout').hide();
       $('#login').show();
       $('#join').show();
+      sessionStorage.removeItem("email");
+      firebase.auth().signOut().then(function() {
+        console.log("successfully signed out");
+      }).catch(function(error) {
+        // An error happened.
+      });
     })
   },
   toggleSignIn: function toggleSignIn() {
@@ -201,7 +209,18 @@ var authentication = {
       alert('Please enter a password.');
       return;
     }
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user){
+        authentication.globalVar.setStorageValue("email", user.email);
+        authentication.globalVar.fbDatabase.ref("/Users").set({
+            "userId": user.email
+        });
+        $("#login").hide();
+        $("#join").hide();
+        $("#scratch").show();
+        $('#logout').show();
+        $("#signin").hide();
+        $("#create").hide();
+    }).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
       if (errorCode == 'auth/weak-password') {

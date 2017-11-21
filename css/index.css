@@ -164,7 +164,7 @@
     width: 200px !important;
 }
 
-#signin, #create, #logout {
+#join, #login, #signin, #create, #logout {
     display: none;
 }
 
