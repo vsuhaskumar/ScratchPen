@@ -192,24 +192,12 @@
           // Get a reference to the storage service, which is used to create references in your storage bucket
     var storage = firebase.storage();
 
-
-    //Entry point into the application
     document.addEventListener('DOMContentLoaded', function(){
         var $ = jQuery;
-        //authentication.init();
-        var database = firebase.database();
-        var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
-        var globalVar = {
-            setStorageValue: function (key, value) {
-                sessionStorage.setItem(key, value);
-            },
-            getStorageValue: function (key) {
-                return sessionStorage.getItem(key)
-            },
-            fbDatabase: database
-        };
-        authentication.globalVar = globalVar;
+        authentication.init();
         authentication.addClickListner();
+        var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+        var globalVar = {};
 
         $("#save").click(function(){
             if ($("#login").is(":visible")){
@@ -254,17 +242,10 @@
         //Firebase session details
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-                $("#login").hide();
-                $("#join").hide();
-                $("#scratch").show();
-                $('#logout').show();
-                $("#signin").hide();
-                $("#create").hide();
-                if(!globalVar.getStorageValue("email")){
-                    globalVar.setStorageValue("email", user.email)
+                if(sessionStorage.getItem("email")){
+                    sessionStorage.setItem("email", user.email);
                 }
             } else {
-                authentication.init();
                 console.log("not logged in");
             }
         });
@@ -273,46 +254,9 @@
  		function myScript(e) {
             var xml = Blockly.Xml.workspaceToDom(workspace);
             var xml_text = Blockly.Xml.domToText(xml);
-            window.alert(xml_text);
-			
-			var json_obj =  xmlToJson(xml);
-			var json_text = JSON.stringify(json_obj);
-			window.alert(json_text);	
+            window.alert(xml_text);	
         }
-		
-		function xmlToJson(xml) {
-			var obj = {};
 
-			if (xml.nodeType == 1) {
-				if (xml.attributes.length > 0) {
-					obj["@attributes"] = {};
-					for (var j = 0; j < xml.attributes.length; j++) {
-						var attribute = xml.attributes.item(j);
-						obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-					}
-				}
-			}else if (xml.nodeType == 3) {
-				obj = xml.nodeValue;
-				}
-
-			if (xml.hasChildNodes()) {
-				for(var i = 0; i < xml.childNodes.length; i++) {
-					var item = xml.childNodes.item(i);
-					var nodeName = item.nodeName;
-					if (typeof(obj[nodeName]) == "undefined") {
-						obj[nodeName] = xmlToJson(item);
-					}else {
-						if (typeof(obj[nodeName].push) == "undefined") {
-							var old = obj[nodeName];
-							obj[nodeName] = [];
-							obj[nodeName].push(old);
-						}
-						obj[nodeName].push(xmlToJson(item));
-					}
-				}
-			}
-			return obj;
-		};
 
         document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
         document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
