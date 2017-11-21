@@ -167,3 +167,11 @@
 #signin, #create, #logout {
     display: none;
 }
+
+.notification {
+    position: absolute;
+    z-index: 999;
+    margin-left: 485px;
+    display: none;
+
+}
