@@ -11,6 +11,7 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
     <!-- include only the Firebase features as you need -->
@@ -153,6 +154,34 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" id="saveProject" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!----End Modal ---->
+
+            <!-- Modal -->
+            <div class="modal fade" id="openVersionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelVersion">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabelVersion">Select version from available versions</h4>
+                      </div>
+                      <div class="modal-body">
+                          <!-- Large button group -->
+                          <div class="btn-group">
+                              <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Large button <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu version-list">
+
+                              </ul>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="openVersion" class="btn btn-primary">Load version</button>
                       </div>
                     </div>
                 </div>
@@ -425,6 +454,20 @@
             Blockly.mainWorkspace.clear();
         };
 
+        var openFromVersion = function () {
+            $("#openVersionModal").modal();
+            var projectID = globalVar.currentProjectId;
+            var ref = firebase.app().database().ref();
+            var projRef = ref.child('Projects/' + projectID + '/versions');
+            projRef.once('value', function (snap) {
+                console.log(snap.val());
+                var versionObj = snap.val();
+                for (var obj in versionObj) {
+                    $(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
+                }
+            });
+        };
+
         workspace.addChangeListener(blockToText);
         document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
         document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
@@ -434,6 +477,7 @@
         document.getElementById("save").addEventListener("click", saveToolbar);
         document.getElementById("saveVersion").addEventListener("click", saveVersion);
         document.getElementById("newProject").addEventListener("click", openNewProject);
+        document.getElementById("uploadVersion").addEventListener("click", openFromVersion);
 });
 </script>
 </body>
