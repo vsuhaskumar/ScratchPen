@@ -23,6 +23,7 @@
     <script defer src="/__/firebase/init.js"></script>
     <script src="js/customBlocks.js"></script>
     <script src="js/authentication.js"></script>
+    <script src="js/save.js"></script>
 
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/application.css">
@@ -242,30 +243,12 @@
             currentProjectName: null,
             getCurrentProjectName: function () {
                 return this.currentProjectName
-            }
+            },
+            workspace:workspace
         };
         authentication.globalVar = globalVar;
+        saveObj.globarVar = globalVar;
         authentication.addClickListner();
-
-        $("#save").click(function(){
-            if ($("#login").is(":visible")){
-                $(".notification").html("Please login to save").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-            }
-            else {
-                $("#saveModal").modal();
-            }
-        });
-
-        function blockToText(event) {
-            var code = Blockly.JavaScript.workspaceToCode(workspace);
-            document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
-            console.log(code);
-
-        }
-        workspace.addChangeListener(blockToText);
 
         Blockly.Blocks['move'] = {
             init: function() {
@@ -310,66 +293,15 @@
             }
         });
 
-
- 		function blockToXml(XMLFormat) {
-            var xml = Blockly.Xml.workspaceToDom(workspace);
-            var xml_text = Blockly.Xml.domToText(xml);
-            console.log(xml_text);
-            if (XMLFormat) {
-                return xml_text;
-            }
-            else {
-                var json_obj =  xmlToJson(xml);
-			    var json_text = JSON.stringify(json_obj);
-			    console.log(json_text);
-			    return json_text;
-            }
-        }
-		
-		function xmlToJson(xml) {
-			var obj = {};
-			if (xml.nodeType == 1) {
-				if (xml.attributes.length > 0) {
-					obj["@attributes"] = {};
-					for (var j = 0; j < xml.attributes.length; j++) {
-						var attribute = xml.attributes.item(j);
-						obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-					}
-				}
-			}
-			else if (xml.nodeType == 3) {
-				obj = xml.nodeValue;
-			}
-
-			if (xml.hasChildNodes()) {
-				for(var i = 0; i < xml.childNodes.length; i++) {
-					var item = xml.childNodes.item(i);
-					var nodeName = item.nodeName;
-					if (typeof(obj[nodeName]) == "undefined") {
-						obj[nodeName] = xmlToJson(item);
-					}
-					else {
-						if (typeof(obj[nodeName].push) == "undefined") {
-							var old = obj[nodeName];
-							obj[nodeName] = [];
-							obj[nodeName].push(old);
-						}
-						obj[nodeName].push(xmlToJson(item));
-					}
-				}
-			}
-			return obj;
-		}
-
-		$("#saveProject").click(function(){
-		    var projectName = $("#projectName")[0].value;
+        var saveChangesModal = function () {
+            var projectName = $("#projectName")[0].value;
 		    var projectDesc = $("#projectDesc")[0].value;
 		    var uid = globalVar.generateUniqueID();
 		    globalVar.fbDatabase.ref("/Projects/" + uid).set({
 		        "name": projectName,
                 "desc": projectDesc,
                 "author": globalVar.getStorageValue("email"),
-                "blockXML": blockToXml(true)
+                "blockXML": saveObj.blockToXml(true)
             }).then(function () {
                 $("#saveModal").modal('hide');
                 globalVar.currentProject = projectName;
@@ -377,13 +309,34 @@
             }).catch(function (error) {
                 console.log("error saving project" ,error);
             });
-        });
+        };
 
+        var saveToolbar = function(){
+            if ($("#login").is(":visible")){
+                $(".notification").html("Please login to save").show();
+                setTimeout(function () {
+                    $(".notification").fadeOut("slow");
+                }, 1000);
+            }
+            else {
+                $("#saveModal").modal();
+            }
+        };
+
+        var blockToText = function (event) {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
+            console.log(code);
+
+        };
+
+        workspace.addChangeListener(blockToText);
         document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
         document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
         document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
         document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
-        document.getElementById("save").addEventListener("click", blockToXml);
+        document.getElementById('saveProject').addEventListener('click', saveChangesModal, false);
+        document.getElementById("save").addEventListener("click", saveToolbar);
 });
 </script>
 </body>
