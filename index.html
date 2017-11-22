@@ -87,25 +87,25 @@
             </div>
             <div id="blocklyDiv"></div>
             <div class="col-sm-3 col-md-2 sidebar scratch-options">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a id = "save" href="#">Save</a></li>
-            <li><a href="#">Import</a></li>
-            <li><a id = "export" href="#">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Play</a></li>
-            <li><a href="">More Options</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul>
-        </div>
+              <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+                <li><a id = "save" href="#">Save</a></li>
+                <li><a href="#">Import</a></li>
+                <li><a id = "export" href="#">Export</a></li>
+              </ul>
+              <ul class="nav nav-sidebar">
+                <li><a href="">Play</a></li>
+                <li><a href="">More Options</a></li>
+                <li><a href="">One more nav</a></li>
+                <li><a href="">Another nav item</a></li>
+                <li><a href="">More navigation</a></li>
+              </ul>
+              <ul class="nav nav-sidebar">
+                <li><a href="">Nav item again</a></li>
+                <li><a href="">One more nav</a></li>
+                <li><a href="">Another nav item</a></li>
+              </ul>
+            </div>
             <div class="text-container">
                 <pre id="textGenerator" class="prettyprint lang-js"></pre>
                 <!--<textarea id="textGenerator"></textarea>-->
@@ -116,9 +116,34 @@
                     <div class="playground"></div>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabel">Enter Project Details</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="form-group">
+                              <input type="text" id = "projectName" class="form-control" placeholder="Enter project name" aria-describedby="sizing-addon1">
+                          </div>
+                          <span></span>
+                          <div class="form-group">
+                              <input type="text" id = "projectDesc" class="form-control" placeholder="Enter project description" aria-describedby="sizing-addon1">
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="saveProject" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!----End Modal ---->
         </div>
-
     </div>
+
     <div class="container-fluid container-fill-height" id="create">
       <div class="container-content-middle">
         <form role="form" class="m-x-auto text-center app-login-form">
@@ -206,7 +231,18 @@
             getStorageValue: function (key) {
                 return sessionStorage.getItem(key)
             },
-            fbDatabase: database
+            fbDatabase: database,
+            generateUniqueID: function(){
+                return Math.random().toString(36).substr(2, 9);
+            },
+            currentProjectId: null,
+            getCurrentProjectId: function () {
+                return this.currentProjectId
+            },
+            currentProjectName: null,
+            getCurrentProjectName: function () {
+                return this.currentProjectName
+            }
         };
         authentication.globalVar = globalVar;
         authentication.addClickListner();
@@ -218,15 +254,18 @@
                     $(".notification").fadeOut("slow");
                 }, 1000);
             }
+            else {
+                $("#saveModal").modal();
+            }
         });
 
-        function myUpdateFunction(event) {
+        function blockToText(event) {
             var code = Blockly.JavaScript.workspaceToCode(workspace);
             document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
             console.log(code);
 
         }
-        workspace.addChangeListener(myUpdateFunction);
+        workspace.addChangeListener(blockToText);
 
         Blockly.Blocks['move'] = {
             init: function() {
@@ -271,19 +310,23 @@
         });
 
 
- 		function blockToXml(e) {
+ 		function blockToXml(XMLFormat) {
             var xml = Blockly.Xml.workspaceToDom(workspace);
             var xml_text = Blockly.Xml.domToText(xml);
-            console.log(xml_text);	
-			
-			var json_obj =  xmlToJson(xml);
-			var json_text = JSON.stringify(json_obj);
-			console.log(json_text);
+            console.log(xml_text);
+            if (XMLFormat) {
+                return xml_text;
+            }
+            else {
+                var json_obj =  xmlToJson(xml);
+			    var json_text = JSON.stringify(json_obj);
+			    console.log(json_text);
+			    return json_text;
+            }
         }
 		
 		function xmlToJson(xml) {
 			var obj = {};
-
 			if (xml.nodeType == 1) {
 				if (xml.attributes.length > 0) {
 					obj["@attributes"] = {};
@@ -292,9 +335,10 @@
 						obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
 					}
 				}
-			}else if (xml.nodeType == 3) {
+			}
+			else if (xml.nodeType == 3) {
 				obj = xml.nodeValue;
-				}
+			}
 
 			if (xml.hasChildNodes()) {
 				for(var i = 0; i < xml.childNodes.length; i++) {
@@ -302,7 +346,8 @@
 					var nodeName = item.nodeName;
 					if (typeof(obj[nodeName]) == "undefined") {
 						obj[nodeName] = xmlToJson(item);
-					}else {
+					}
+					else {
 						if (typeof(obj[nodeName].push) == "undefined") {
 							var old = obj[nodeName];
 							obj[nodeName] = [];
@@ -313,8 +358,25 @@
 				}
 			}
 			return obj;
-		};
+		}
 
+		$("#saveProject").click(function(){
+		    var projectName = $("#projectName")[0].value;
+		    var projectDesc = $("#projectDesc")[0].value;
+		    var uid = globalVar.generateUniqueID();
+		    globalVar.fbDatabase.ref("/Projects/" + uid).set({
+		        "name": projectName,
+                "desc": projectDesc,
+                "author": globalVar.getStorageValue("email"),
+                "blockXML": blockToXml(true)
+            }).then(function () {
+                $("#saveModal").modal('hide');
+                globalVar.currentProject = projectName;
+                globalVar.currentProjectId = uid;
+            }).catch(function (error) {
+                console.log("error saving project" ,error);
+            });
+        });
 
         document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
         document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
