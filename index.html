@@ -89,8 +89,10 @@
             <div id="blocklyDiv"></div>
             <div class="col-sm-3 col-md-2 sidebar scratch-options">
               <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a id = "save" href="#">Save</a></li>
+                <li class="active"><a href="#">New Project <span class="sr-only">(current)</span></a></li>
+                <li><a id = "save" href="#">Save Project</a></li>
+                <li><a id = "saveVersion" href="#">Save Version</a></li>
+                <li><a id = "uploadVersion" href="#">Upload Version</a></li>
                 <li><a href="#">Import</a></li>
                 <li><a id = "export" href="#">Export</a></li>
               </ul>
@@ -297,11 +299,14 @@
             var projectName = $("#projectName")[0].value;
 		    var projectDesc = $("#projectDesc")[0].value;
 		    var uid = globalVar.generateUniqueID();
+		    var versionData = {};
+            versionData[globalVar.generateUniqueID()] = saveObj.blockToXml(true);
 		    globalVar.fbDatabase.ref("/Projects/" + uid).set({
 		        "name": projectName,
                 "desc": projectDesc,
                 "author": globalVar.getStorageValue("email"),
-                "blockXML": saveObj.blockToXml(true)
+                //Default version//
+                "versions":versionData
             }).then(function () {
                 $("#saveModal").modal('hide');
                 globalVar.currentProject = projectName;
@@ -330,6 +335,15 @@
 
         };
 
+        var saveVersion = function () {
+            var newVersion = Date.now();
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            var updates = {};
+            //var ref = firebase.database().ref('/Projects/' + globalVar.currentProjectId + '/versions/');
+            updates['/Projects/' + globalVar.currentProjectId + '/versions/' + newVersion] = saveObj.blockToXml(true);
+            return firebase.database().ref().update(updates);
+        };
+
         workspace.addChangeListener(blockToText);
         document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
         document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
@@ -337,6 +351,7 @@
         document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
         document.getElementById('saveProject').addEventListener('click', saveChangesModal, false);
         document.getElementById("save").addEventListener("click", saveToolbar);
+        document.getElementById("saveVersion").addEventListener("click", saveVersion);
 });
 </script>
 </body>
