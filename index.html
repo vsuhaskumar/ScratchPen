@@ -246,7 +246,11 @@
             getCurrentProjectName: function () {
                 return this.currentProjectName
             },
-            workspace:workspace
+            workspace:workspace,
+            getTimeStamp: function(){
+                return Date.now();
+            },
+            user: null //Storing logged in user
         };
         authentication.globalVar = globalVar;
         saveObj.globarVar = globalVar;
@@ -285,6 +289,7 @@
                 $("#signin").hide();
                 $("#create").hide();
                 $("#userLabel").text("Logged in as " + user.email);
+                globalVar.user = user;
                 if(!globalVar.getStorageValue("email")){
                     globalVar.setStorageValue("email", user.email)
                 }
@@ -298,19 +303,27 @@
         var saveChangesModal = function () {
             var projectName = $("#projectName")[0].value;
 		    var projectDesc = $("#projectDesc")[0].value;
-		    var uid = globalVar.generateUniqueID();
+		    var uid = globalVar.generateUniqueID(); //Unique Id for Project
 		    var versionData = {};
-            versionData[globalVar.generateUniqueID()] = saveObj.blockToXml(true);
+		    var timeStamp = globalVar.getTimeStamp()
+            versionData[timeStamp] = saveObj.blockToXml(true); //Timestamp is unique ID for version
 		    globalVar.fbDatabase.ref("/Projects/" + uid).set({
 		        "name": projectName,
                 "desc": projectDesc,
+                "timeStamp": timeStamp,
                 "author": globalVar.getStorageValue("email"),
-                //Default version//
                 "versions":versionData
             }).then(function () {
                 $("#saveModal").modal('hide');
                 globalVar.currentProject = projectName;
                 globalVar.currentProjectId = uid;
+
+                var updates = {};
+                updates['/Users/' + globalVar.user.uid + '/projects/' + uid] = {
+                    "name": projectName,
+                    "timestamp": timeStamp
+                };
+                return firebase.database().ref().update(updates);
             }).catch(function (error) {
                 console.log("error saving project" ,error);
             });
