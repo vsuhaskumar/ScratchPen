@@ -299,6 +299,7 @@
                 $('#logout').show();
                 $("#signin").hide();
                 $("#create").hide();
+                $("#userLabel").text("Logged in as " + user.email);
                 if(!globalVar.getStorageValue("email")){
                     globalVar.setStorageValue("email", user.email)
                 }

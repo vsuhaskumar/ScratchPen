@@ -69,6 +69,7 @@ var authentication = {
       sessionStorage.removeItem("email");
       firebase.auth().signOut().then(function() {
         console.log("successfully signed out");
+        $("#userLabel").text("");
       }).catch(function(error) {
         // An error happened.
       });
@@ -220,6 +221,7 @@ var authentication = {
         $('#logout').show();
         $("#signin").hide();
         $("#create").hide();
+        $("#userLabel").text("Logged in as ", user.email);
     }).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
