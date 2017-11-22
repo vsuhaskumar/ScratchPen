@@ -82,7 +82,16 @@
 </nav>
 
     <!--Thumbnail start-->
-    <div class="row project-list"></div>
+    <div class="row project-list">
+        <div class="col-sm-6 col-md-3">
+            <div class="thumbnail">
+                <img id="newProject" class="newProjectThumbnail" src="images/add_circle_grey.png" alt="...">
+                <div class="caption">
+                    <h3>Create A New Project</h3>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--Thumbnail End-->
 
     <div id="scratch">
@@ -409,6 +418,13 @@
             });
         };
 
+        var openNewProject = function () {
+            //Resetting blocks
+            $("#scratch").show();
+            $(".project-list").hide();
+            Blockly.mainWorkspace.clear();
+        };
+
         workspace.addChangeListener(blockToText);
         document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
         document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
@@ -417,6 +433,7 @@
         document.getElementById('saveProject').addEventListener('click', saveChangesModal, false);
         document.getElementById("save").addEventListener("click", saveToolbar);
         document.getElementById("saveVersion").addEventListener("click", saveVersion);
+        document.getElementById("newProject").addEventListener("click", openNewProject);
 });
 </script>
 </body>

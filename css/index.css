@@ -191,3 +191,8 @@
     margin-top: 15px;
     margin-right: 5px;
 }
+
+.newProjectThumbnail {
+    width: 75px;
+    cursor: pointer;
+}
