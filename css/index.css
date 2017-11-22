@@ -164,7 +164,7 @@
     width: 200px !important;
 }
 
-#join, #login, #signin, #create, #logout {
+#join, #login, #signin, #create, #logout, .project-list {
     display: none;
 }
 
@@ -178,4 +178,16 @@
 
 #userLabel {
     color: #DDDDDD;
+}
+
+.project-list {
+    margin-top: 50px;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+.thumbnail {
+    margin-left: 5px;
+    margin-top: 15px;
+    margin-right: 5px;
 }

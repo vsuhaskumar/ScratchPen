@@ -19,6 +19,7 @@
   "dependencies": {
     "bower": "*",
     "firebase": "^4.6.0",
-    "firebase-tools": "^3.13.1"
+    "firebase-tools": "^3.13.1",
+    "spin.js": "^3.0.0"
   }
 }

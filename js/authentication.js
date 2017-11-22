@@ -6,6 +6,8 @@ var authentication = {
     $('#logout').hide();
     $('#login').show();
     $('#join').show();
+    $('#scratch').show();
+    $(".project-list").hide();
   },
   addClickListner: function(){
     $("#join").on("click", function(){
@@ -70,6 +72,9 @@ var authentication = {
       firebase.auth().signOut().then(function() {
         console.log("successfully signed out");
         $("#userLabel").text("");
+
+        //resetting blocks and text generator
+        Blockly.mainWorkspace.clear();
       }).catch(function(error) {
         // An error happened.
       });
