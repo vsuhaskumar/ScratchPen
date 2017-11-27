@@ -4,32 +4,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Scratch Pen</title>
-    <script src="bower_components/blockly/blockly_compressed.js"></script>
-    <script src="bower_components/blockly/blocks_compressed.js"></script>
-    <script src="bower_components/blockly/msg/js/en.js"></script>
-    <script src="bower_components/blockly/javascript_compressed.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/firebase/firebase.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/moment/moment.js"></script>
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    <script src="js/customBlocks.js"></script>
-    <script src="js/authentication.js"></script>
-    <script src="js/save.js"></script>
+  <script src="bower_components/blockly/blockly_compressed.js"></script>
+  <script src="bower_components/blockly/blocks_compressed.js"></script>
+  <script src="bower_components/blockly/msg/js/en.js"></script>
+  <script src="bower_components/blockly/javascript_compressed.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/firebase/firebase.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/4.6.0/firebase-auth.js"></script>
+  <script defer src="/__/firebase/4.6.0/firebase-database.js"></script>
+  <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js"></script>
+  <script src="js/customBlocks.js"></script>
+  <script src="js/authentication.js"></script>
+  <script src="js/save.js"></script>
 
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/application.css">
-    <link rel="stylesheet" href="css/toolkit.css">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/application.css">
+  <link rel="stylesheet" href="css/toolkit.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -82,165 +82,165 @@
 </div>
 </nav>
 
-    <!--Thumbnail start-->
-    <div class="row project-list">
-        <div class="col-sm-6 col-md-3">
-            <div class="thumbnail">
-                <img id="newProject" class="newProjectThumbnail" src="images/add_circle_grey.png" alt="...">
-                <div class="caption">
-                    <h3>Create A New Project</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Thumbnail End-->
-
-    <div id="scratch">
-        <div class="scratchContainer">
-            <div class="alert alert-danger notification" role="alert">
-              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <span class="sr-only">Error:</span>
-            </div>
-            <div id="blocklyDiv"></div>
-            <div class="col-sm-3 col-md-2 sidebar scratch-options">
-              <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">New Project <span class="sr-only">(current)</span></a></li>
-                <li><a id = "save" href="#">Save Project</a></li>
-                <li><a id = "saveVersion" href="#">Save Version</a></li>
-                <li><a id = "uploadVersion" href="#">Upload from Version</a></li>
-                <li><a href="#">Import</a></li>
-                <li><a id = "export" href="#">Export</a></li>
-              </ul>
-              <ul class="nav nav-sidebar">
-                <li><a href="">Play</a></li>
-                <li><a href="">More Options</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-                <li><a href="">More navigation</a></li>
-              </ul>
-              <ul class="nav nav-sidebar">
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-              </ul>
-            </div>
-            <div class="text-container">
-                <pre id="textGenerator" class="prettyprint lang-js"></pre>
-                <!--<textarea id="textGenerator"></textarea>-->
-                <!--<div class="play-code"></div>-->
-                <!--<div class="save-code"></div>-->
-                <!--<div class="load-code"></div>-->
-                <div class="playground-container">
-                    <div class="playground"></div>
-                </div>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalLabel">Enter Project Details</h4>
-                      </div>
-                      <div class="modal-body">
-                          <div class="form-group">
-                              <input type="text" id = "projectName" class="form-control" placeholder="Enter project name" aria-describedby="sizing-addon1">
-                          </div>
-                          <span></span>
-                          <div class="form-group">
-                              <input type="text" id = "projectDesc" class="form-control" placeholder="Enter project description" aria-describedby="sizing-addon1">
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="saveProject" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <!----End Modal ---->
-
-            <!-- Modal -->
-            <div class="modal fade" id="openVersionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelVersion">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalLabelVersion">Select version from available versions</h4>
-                      </div>
-                      <div class="modal-body">
-                          <!-- Large button group -->
-                          <div class="btn-group">
-                              <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Large button <span class="caret"></span>
-                              </button>
-                              <ul class="dropdown-menu version-list">
-
-                              </ul>
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="openVersion" class="btn btn-primary">Load version</button>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <!----End Modal ---->
-        </div>
-    </div>
-
-    <div class="container-fluid container-fill-height" id="create">
-      <div class="container-content-middle">
-        <form role="form" class="m-x-auto text-center app-login-form">
-          <a href="../index.html" class="app-brand m-b-lg">
-            <img src="/images/lock.svg" alt="lock">
-          </a>
-          <div class="form-group">
-            <input class="form-control" id="email" placeholder="email">
-          </div>
-          <div class="form-group m-b-md">
-            <input class="form-control" type="password" id="password" placeholder="Password">
-          </div>
-          <div class="m-b-lg">
-            <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
-            <button  type="button" class="btn btn-danger" id="cancel1">Cancel</button>
-          </div>
-        </form>
-
-      </div>
-    </div>
-    <div class="container-fluid container-fill-height" id="signin">
-      <div class="container-content-middle">
-        <form role="form" class="m-x-auto text-center app-login-form">
-          <a href="../index.html" class="app-brand m-b-lg">
-            <img src="/images/lock.svg" alt="brand">
-          </a>
-          <div class="form-group">
-            <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
-          </div>
-          <div class="form-group m-b-md">
-            <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
-          </div>
-          <div class="form-group">
-            <input class="form-control" id="email_signin" placeholder="Email">
-          </div>
-          <div class="form-group m-b-md">
-            <input type="password" class="form-control" id="password_signin" placeholder="Password">
-          </div>
-          <div class="m-b-lg">
-            <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
-            <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
-            <button  type="button" class="btn btn-danger" id="cancel2">Cancel</button>
-          </div>
-
-          <!-- <footer class="screen-login">
-          <a href="#" class="text-muted">Forgot password</a>
-        </footer> -->
-        </form>
+<!--Thumbnail start-->
+<div class="row project-list">
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+      <img id="newProject" class="newProjectThumbnail" src="images/add_circle_grey.png" alt="...">
+      <div class="caption">
+        <h3>Create A New Project</h3>
       </div>
     </div>
   </div>
+</div>
+<!--Thumbnail End-->
+
+<div id="scratch">
+  <div class="scratchContainer">
+    <div class="alert alert-danger notification" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span class="sr-only">Error:</span>
+    </div>
+    <div id="blocklyDiv"></div>
+    <div class="col-sm-3 col-md-2 sidebar scratch-options">
+      <ul class="nav nav-sidebar">
+        <li class="active"><a href="#">New Project <span class="sr-only">(current)</span></a></li>
+        <li><a id = "save" href="#">Save Project</a></li>
+        <li><a id = "saveVersion" href="#">Save Version</a></li>
+        <li><a id = "uploadVersion" href="#">Upload from Version</a></li>
+        <li><a href="#">Import</a></li>
+        <li><a id = "export" href="#">Export</a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="">Play</a></li>
+        <li><a href="">More Options</a></li>
+        <li><a href="">One more nav</a></li>
+        <li><a href="">Another nav item</a></li>
+        <li><a href="">More navigation</a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="">Nav item again</a></li>
+        <li><a href="">One more nav</a></li>
+        <li><a href="">Another nav item</a></li>
+      </ul>
+    </div>
+    <div class="text-container">
+      <pre id="textGenerator" class="prettyprint lang-js"></pre>
+      <!--<textarea id="textGenerator"></textarea>-->
+      <!--<div class="play-code"></div>-->
+      <!--<div class="save-code"></div>-->
+      <!--<div class="load-code"></div>-->
+      <div class="playground-container">
+        <div class="playground"></div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modalLabel">Enter Project Details</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="text" id = "projectName" class="form-control" placeholder="Enter project name" aria-describedby="sizing-addon1">
+            </div>
+            <span></span>
+            <div class="form-group">
+              <input type="text" id = "projectDesc" class="form-control" placeholder="Enter project description" aria-describedby="sizing-addon1">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" id="saveProject" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!----End Modal ---->
+
+    <!-- Modal -->
+    <div class="modal fade" id="openVersionModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelVersion">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modalLabelVersion">Select version from available versions</h4>
+          </div>
+          <div class="modal-body">
+            <!-- Large button group -->
+            <div class="btn-group">
+              <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Large button <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu version-list">
+
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" id="openVersion" class="btn btn-primary">Load version</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!----End Modal ---->
+  </div>
+</div>
+
+<div class="container-fluid container-fill-height" id="create">
+  <div class="container-content-middle">
+    <form role="form" class="m-x-auto text-center app-login-form">
+      <a href="../index.html" class="app-brand m-b-lg">
+        <img src="/images/lock.svg" alt="lock">
+      </a>
+      <div class="form-group">
+        <input class="form-control" id="email" placeholder="email">
+      </div>
+      <div class="form-group m-b-md">
+        <input class="form-control" type="password" id="password" placeholder="Password">
+      </div>
+      <div class="m-b-lg">
+        <button  type="button" class="btn btn-primary" id="sign-up">Create</button>
+        <button  type="button" class="btn btn-danger" id="cancel1">Cancel</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+<div class="container-fluid container-fill-height" id="signin">
+  <div class="container-content-middle">
+    <form role="form" class="m-x-auto text-center app-login-form">
+      <a href="../index.html" class="app-brand m-b-lg">
+        <img src="/images/lock.svg" alt="brand">
+      </a>
+      <div class="form-group">
+        <button type="button" class="loginBtn loginBtn--facebook" id="facebook-login">Login with Facebook</button>
+      </div>
+      <div class="form-group m-b-md">
+        <button  type="button" class="loginBtn loginBtn--google" id="google-login">Login with Google</button>
+      </div>
+      <div class="form-group">
+        <input class="form-control" id="email_signin" placeholder="Email">
+      </div>
+      <div class="form-group m-b-md">
+        <input type="password" class="form-control" id="password_signin" placeholder="Password">
+      </div>
+      <div class="m-b-lg">
+        <button type="button" class="btn btn-primary" id="sign-in">Log In</button>
+        <button type="button" class="btn btn-default" id="signupButton">Sign up</button>
+        <button  type="button" class="btn btn-danger" id="cancel2">Cancel</button>
+      </div>
+
+      <!-- <footer class="screen-login">
+      <a href="#" class="text-muted">Forgot password</a>
+    </footer> -->
+  </form>
+</div>
+</div>
+</div>
 
 
 
@@ -250,280 +250,280 @@
 
 <div id = "commentandLike">
 
-    <div id = "likeSection">
-      <button id="likeBtn" alt = "Like" onclick="increaseLike()"></button> &nbsp;
-      <label id="count"/>
-    </div>
-&nbsp;
-&nbsp;
-    <div id = "commentSection">
+  <div id = "likeSection">
+    <button id="likeBtn" alt = "Like" onclick="increaseLike()"></button> &nbsp;
+    <label id="count"/>
+  </div>
+  &nbsp;
+  &nbsp;
+  <div id = "commentSection">
 
-      <div class="wrapper">
-        <div class="main">
-          <form class="generate" method="post">
-            <h3 class="generate-title">Enter your comments here :</h3>
-            <textarea rows="4" cols="50" class="generate-input" placeholder="Type something"></textarea> &nbsp;
-            <input type="submit" class="generate-submit" value=" Post">
-          </form>
+    <div class="wrapper">
+      <div class="main">
+        <form class="generate" method="post">
+          <h3 class="generate-title">Enter your comments here :</h3>
+          <textarea rows="4" cols="50" class="generate-input" placeholder="Type something"></textarea> &nbsp;
+          <input type="submit" class="generate-submit" value=" Post">
+        </form>
 
-          <ol id="links">
-              <li class="dynamic-link"> This is dummy comment</li>
-          </ol>
+        <ol id="links">
+          <li class="dynamic-link"> This is dummy comment</li>
+        </ol>
 
-        </div>
       </div>
+    </div>
 
 
-    </div> <!-- //commentSectionDiv -->
+  </div> <!-- //commentSectionDiv -->
 
 </div> <!--//commentandLike-->
 <!-- Like and Comment Section ********* End **********-->
 
 <!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
 <script>
-    // execute/clear BS loaders for docs
-    $(function(){
-      if (window.BS&&window.BS.loader&&window.BS.loader.length) {
-        while(BS.loader.length){(BS.loader.pop())()}
+// execute/clear BS loaders for docs
+$(function(){
+  if (window.BS&&window.BS.loader&&window.BS.loader.length) {
+    while(BS.loader.length){(BS.loader.pop())()}
+  }
+});
+
+var config = {
+  apiKey: "AIzaSyD-8lQUILli9sLB30y-cekNONwjIBzdiOg",
+  authDomain: "scratchpen-de051.firebaseapp.com",
+  databaseURL: "https://scratchpen-de051.firebaseio.com",
+  projectId: "scratchpen-de051",
+  strageBucket: "scratchpen-de051.appspot.com",
+  messagingSenderId: "355301139728"
+};
+firebase.initializeApp(config);
+// Get a reference to the storage service, which is used to create references in your storage bucket
+var storage = firebase.storage();
+
+
+//Entry point into the application
+document.addEventListener('DOMContentLoaded', function(){
+  var $ = jQuery;
+  //authentication.init();
+  var database = firebase.database();
+  var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+  var globalVar = {
+    setStorageValue: function (key, value) {
+      sessionStorage.setItem(key, value);
+    },
+    getStorageValue: function (key) {
+      return sessionStorage.getItem(key)
+    },
+    fbDatabase: database,
+    generateUniqueID: function(){
+      return Math.random().toString(36).substr(2, 9);
+    },
+    currentProjectId: null,
+    getCurrentProjectId: function () {
+      return this.currentProjectId
+    },
+    currentProjectName: null,
+    getCurrentProjectName: function () {
+      return this.currentProjectName
+    },
+    workspace:workspace,
+    getTimeStamp: function(){
+      return Date.now();
+    },
+    user: null, //Storing logged in user
+    projectsInDOM: []
+  };
+  authentication.globalVar = globalVar;
+  saveObj.globarVar = globalVar;
+  authentication.addClickListner();
+
+  Blockly.Blocks['move'] = {
+    init: function() {
+      this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
+      'FIELDNAME');
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setColour(160);
+      this.setTooltip('Returns number of letters in the provided text.');
+      this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+    }
+  };
+
+  Blockly.Blocks['turn_clockwise'] = {
+    init: function() {
+      this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setColour(160);
+      this.setTooltip('Returns number of letters in the provided text.');
+      this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+    }
+  };
+
+  //Firebase session details
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      $(".project-list").show();
+      $("#login").hide();
+      $("#join").hide();
+      $("#scratch").hide();
+      $('#logout').show();
+      $("#signin").hide();
+      $("#create").hide();
+      $("#userLabel").text("Logged in as " + user.email);
+      globalVar.user = user;
+      if(!globalVar.getStorageValue("email")){
+        globalVar.setStorageValue("email", user.email)
+      }
+      var ref = firebase.app().database().ref();
+      var usersRef = ref.child('Users/' + user.uid + '/projects');
+      usersRef.once('value', function (snap) {
+        var projects = snap.val(); // Keep the local user object synced with the Firebase userRef
+        console.log(projects);
+        for(var p in projects) {
+          var projectListDOM = '<div class="col-sm-6 col-md-4">'+
+          '<div class="thumbnail">' +
+          //'<img src="..." alt="...">'+
+          '<div class="caption">'+
+          '<h3>'+ projects[p]["name"] + '</h3>'+
+          '<p>' +projects[p]["desc"] + '</p>'+
+          '<p>'+
+          '<a href="#" id = ' + p + '_open ' + 'class="btn btn-primary" role="button">Open</a>'+ '\r\r' +
+          '<a href="#" id = ' + p + '_delete ' + 'class="btn btn-default" role="button">Delete</a>'+
+          '</p>'+
+          '</div>'+
+          '</div>'+
+          '</div>';
+          $(".project-list").append(projectListDOM);
+          $("#" + p + "_open").click(openProject);
+        }
+      });
+    }
+    else {
+      authentication.init();
+      console.log("not logged in");
+    }
+  });
+
+  var saveChangesModal = function () {
+    var projectName = $("#projectName")[0].value;
+    var projectDesc = $("#projectDesc")[0].value;
+    var uid = globalVar.generateUniqueID(); //Unique Id for Project
+    var versionData = {};
+    var timeStamp = globalVar.getTimeStamp();
+    versionData[timeStamp] = saveObj.blockToXml(true); //Timestamp is unique ID for version
+    globalVar.fbDatabase.ref("/Projects/" + uid).set({
+      "name": projectName,
+      "desc": projectDesc,
+      "timeStamp": timeStamp,
+      "author": globalVar.getStorageValue("email"),
+      "versions":versionData
+    }).then(function () {
+      $("#saveModal").modal('hide');
+      globalVar.currentProject = projectName;
+      globalVar.currentProjectId = uid;
+
+      var updates = {};
+      updates['/Users/' + globalVar.user.uid + '/projects/' + uid] = {
+        "name": projectName,
+        "desc": projectDesc,
+        "timestamp": timeStamp
+      };
+      return firebase.database().ref().update(updates);
+    }).catch(function (error) {
+      console.log("error saving project" ,error);
+    });
+  };
+
+  var saveToolbar = function(){
+    if ($("#login").is(":visible")){
+      $(".notification").html("Please login to save").show();
+      setTimeout(function () {
+        $(".notification").fadeOut("slow");
+      }, 1000);
+    }
+    else {
+      $("#saveModal").modal();
+    }
+  };
+
+  var blockToText = function (event) {
+    var code = Blockly.JavaScript.workspaceToCode(workspace);
+    document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
+    console.log(code);
+
+  };
+
+  var saveVersion = function () {
+    var newVersion = Date.now();
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+    //var ref = firebase.database().ref('/Projects/' + globalVar.currentProjectId + '/versions/');
+    updates['/Projects/' + globalVar.currentProjectId + '/versions/' + newVersion] = saveObj.blockToXml(true);
+    return firebase.database().ref().update(updates);
+  };
+
+  var openProject = function(event){
+    var projectID = event.currentTarget.id.split("_")[0];
+    globalVar.currentProjectId = projectID;
+    console.log(projectID);
+    var ref = firebase.app().database().ref();
+    var projRef = ref.child('Projects/' + projectID + '/versions');
+    projRef.once('value', function (snap) {
+      console.log(snap);
+      //loading most recent from version//
+      var versions = Object.keys(snap.val());
+      var versionsLen = Object.keys(snap.val()).length;
+      var mostRecent = versions[versionsLen - 1];
+
+      $(".project-list").hide();
+      $("#scratch").show();
+      //loading blocks into DOM
+      var xml = Blockly.Xml.textToDom(snap.val()[mostRecent]);
+      Blockly.Xml.domToWorkspace(xml, workspace);
+    });
+  };
+
+  var openNewProject = function () {
+    //Resetting blocks
+    $("#scratch").show();
+    $(".project-list").hide();
+    Blockly.mainWorkspace.clear();
+  };
+
+  var openFromVersion = function () {
+    $("#openVersionModal").modal();
+    var projectID = globalVar.currentProjectId;
+    var ref = firebase.app().database().ref();
+    var projRef = ref.child('Projects/' + projectID + '/versions');
+    projRef.once('value', function (snap) {
+      console.log(snap.val());
+      var versionObj = snap.val();
+      for (var obj in versionObj) {
+        $(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
       }
     });
+  };
 
-    var config = {
-            apiKey: "AIzaSyD-8lQUILli9sLB30y-cekNONwjIBzdiOg",
-            authDomain: "scratchpen-de051.firebaseapp.com",
-            databaseURL: "https://scratchpen-de051.firebaseio.com",
-            projectId: "scratchpen-de051",
-            strageBucket: "scratchpen-de051.appspot.com",
-            messagingSenderId: "355301139728"
-        };
-        firebase.initializeApp(config);
-          // Get a reference to the storage service, which is used to create references in your storage bucket
-    var storage = firebase.storage();
-
-
-    //Entry point into the application
-    document.addEventListener('DOMContentLoaded', function(){
-        var $ = jQuery;
-        //authentication.init();
-        var database = firebase.database();
-        var workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
-        var globalVar = {
-            setStorageValue: function (key, value) {
-                sessionStorage.setItem(key, value);
-            },
-            getStorageValue: function (key) {
-                return sessionStorage.getItem(key)
-            },
-            fbDatabase: database,
-            generateUniqueID: function(){
-                return Math.random().toString(36).substr(2, 9);
-            },
-            currentProjectId: null,
-            getCurrentProjectId: function () {
-                return this.currentProjectId
-            },
-            currentProjectName: null,
-            getCurrentProjectName: function () {
-                return this.currentProjectName
-            },
-            workspace:workspace,
-            getTimeStamp: function(){
-                return Date.now();
-            },
-            user: null, //Storing logged in user
-            projectsInDOM: []
-        };
-        authentication.globalVar = globalVar;
-        saveObj.globarVar = globalVar;
-        authentication.addClickListner();
-
-        Blockly.Blocks['move'] = {
-            init: function() {
-              this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
-              'FIELDNAME');
-              this.setPreviousStatement(true);
-              this.setNextStatement(true);
-              this.setColour(160);
-              this.setTooltip('Returns number of letters in the provided text.');
-              this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
-            }
-        };
-
-        Blockly.Blocks['turn_clockwise'] = {
-            init: function() {
-              this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
-              this.setPreviousStatement(true);
-              this.setNextStatement(true);
-              this.setColour(160);
-              this.setTooltip('Returns number of letters in the provided text.');
-              this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
-            }
-        };
-
-        //Firebase session details
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                $(".project-list").show();
-                $("#login").hide();
-                $("#join").hide();
-                $("#scratch").hide();
-                $('#logout').show();
-                $("#signin").hide();
-                $("#create").hide();
-                $("#userLabel").text("Logged in as " + user.email);
-                globalVar.user = user;
-                if(!globalVar.getStorageValue("email")){
-                    globalVar.setStorageValue("email", user.email)
-                }
-                var ref = firebase.app().database().ref();
-                var usersRef = ref.child('Users/' + user.uid + '/projects');
-                usersRef.once('value', function (snap) {
-                    var projects = snap.val(); // Keep the local user object synced with the Firebase userRef
-                    console.log(projects);
-                    for(var p in projects) {
-                        var projectListDOM = '<div class="col-sm-6 col-md-4">'+
-                                                '<div class="thumbnail">' +
-                                                //'<img src="..." alt="...">'+
-                                                '<div class="caption">'+
-                                                    '<h3>'+ projects[p]["name"] + '</h3>'+
-                                                    '<p>' +projects[p]["desc"] + '</p>'+
-                                                    '<p>'+
-                                                        '<a href="#" id = ' + p + '_open ' + 'class="btn btn-primary" role="button">Open</a>'+ '\r\r' +
-                                                        '<a href="#" id = ' + p + '_delete ' + 'class="btn btn-default" role="button">Delete</a>'+
-                                                    '</p>'+
-                                                '</div>'+
-                                                '</div>'+
-                                            '</div>';
-                        $(".project-list").append(projectListDOM);
-                        $("#" + p + "_open").click(openProject);
-                    }
-                });
-            }
-            else {
-                authentication.init();
-                console.log("not logged in");
-            }
-        });
-
-        var saveChangesModal = function () {
-            var projectName = $("#projectName")[0].value;
-		    var projectDesc = $("#projectDesc")[0].value;
-		    var uid = globalVar.generateUniqueID(); //Unique Id for Project
-		    var versionData = {};
-		    var timeStamp = globalVar.getTimeStamp();
-            versionData[timeStamp] = saveObj.blockToXml(true); //Timestamp is unique ID for version
-		    globalVar.fbDatabase.ref("/Projects/" + uid).set({
-		        "name": projectName,
-                "desc": projectDesc,
-                "timeStamp": timeStamp,
-                "author": globalVar.getStorageValue("email"),
-                "versions":versionData
-            }).then(function () {
-                $("#saveModal").modal('hide');
-                globalVar.currentProject = projectName;
-                globalVar.currentProjectId = uid;
-
-                var updates = {};
-                updates['/Users/' + globalVar.user.uid + '/projects/' + uid] = {
-                    "name": projectName,
-                    "desc": projectDesc,
-                    "timestamp": timeStamp
-                };
-                return firebase.database().ref().update(updates);
-            }).catch(function (error) {
-                console.log("error saving project" ,error);
-            });
-        };
-
-        var saveToolbar = function(){
-            if ($("#login").is(":visible")){
-                $(".notification").html("Please login to save").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-            }
-            else {
-                $("#saveModal").modal();
-            }
-        };
-
-        var blockToText = function (event) {
-            var code = Blockly.JavaScript.workspaceToCode(workspace);
-            document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
-            console.log(code);
-
-        };
-
-        var saveVersion = function () {
-            var newVersion = Date.now();
-            // Write the new post's data simultaneously in the posts list and the user's post list.
-            var updates = {};
-            //var ref = firebase.database().ref('/Projects/' + globalVar.currentProjectId + '/versions/');
-            updates['/Projects/' + globalVar.currentProjectId + '/versions/' + newVersion] = saveObj.blockToXml(true);
-            return firebase.database().ref().update(updates);
-        };
-
-        var openProject = function(event){
-            var projectID = event.currentTarget.id.split("_")[0];
-            globalVar.currentProjectId = projectID;
-            console.log(projectID);
-            var ref = firebase.app().database().ref();
-            var projRef = ref.child('Projects/' + projectID + '/versions');
-            projRef.once('value', function (snap) {
-                console.log(snap);
-                //loading most recent from version//
-                var versions = Object.keys(snap.val());
-                var versionsLen = Object.keys(snap.val()).length;
-                var mostRecent = versions[versionsLen - 1];
-
-                $(".project-list").hide();
-                $("#scratch").show();
-                //loading blocks into DOM
-                var xml = Blockly.Xml.textToDom(snap.val()[mostRecent]);
-                Blockly.Xml.domToWorkspace(xml, workspace);
-            });
-        };
-
-        var openNewProject = function () {
-            //Resetting blocks
-            $("#scratch").show();
-            $(".project-list").hide();
-            Blockly.mainWorkspace.clear();
-        };
-
-        var openFromVersion = function () {
-            $("#openVersionModal").modal();
-            var projectID = globalVar.currentProjectId;
-            var ref = firebase.app().database().ref();
-            var projRef = ref.child('Projects/' + projectID + '/versions');
-            projRef.once('value', function (snap) {
-                console.log(snap.val());
-                var versionObj = snap.val();
-                for (var obj in versionObj) {
-                    $(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
-                }
-            });
-        };
-
-        workspace.addChangeListener(blockToText);
-        document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
-        document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
-        document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
-        document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
-        document.getElementById('saveProject').addEventListener('click', saveChangesModal, false);
-        document.getElementById("save").addEventListener("click", saveToolbar);
-        document.getElementById("saveVersion").addEventListener("click", saveVersion);
-        document.getElementById("newProject").addEventListener("click", openNewProject);
-        document.getElementById("uploadVersion").addEventListener("click", openFromVersion);
+  workspace.addChangeListener(blockToText);
+  document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
+  document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
+  document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
+  document.getElementById('sign-up').addEventListener('click', authentication.handleSignUp, false);
+  document.getElementById('saveProject').addEventListener('click', saveChangesModal, false);
+  document.getElementById("save").addEventListener("click", saveToolbar);
+  document.getElementById("saveVersion").addEventListener("click", saveVersion);
+  document.getElementById("newProject").addEventListener("click", openNewProject);
+  document.getElementById("uploadVersion").addEventListener("click", openFromVersion);
 });
 
 //function calculating number of likes
-    function increaseLike(){
-        var count = 0;
-        count = +count + 1;
-        document.getElementById("count").innerHTML = count ;
+function increaseLike(){
+  var count = 0;
+  count = +count + 1;
+  document.getElementById("count").innerHTML = count ;
 
-    };
+};
 
 
 //function calculating adding comments
