@@ -242,6 +242,28 @@
     </div>
   </div>
 
+
+
+<!-- Like and Comment Section ********* Start **********-->
+&nbsp;
+&nbsp;
+
+<div id = "commentandLike">
+
+    <div id = "likeSection">
+      <button id="likeBtn" alt = "Like" onclick="increaseLike()"></button> &nbsp;
+      <label id="count"/>
+    </div>
+&nbsp;
+&nbsp;
+    <div id = "commentSection">
+        <h4><b> Comments : </b></h4>
+        <textarea rows="4" cols="50" name="comment" > </textarea>
+    </div>
+
+</div>
+<!-- Like and Comment Section ********* End **********-->
+
 <!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
 <script>
     // execute/clear BS loaders for docs
@@ -479,6 +501,15 @@
         document.getElementById("newProject").addEventListener("click", openNewProject);
         document.getElementById("uploadVersion").addEventListener("click", openFromVersion);
 });
+
+    function increaseLike(){
+        var count = 0;
+        count = +count + 1;
+        document.getElementById("count").innerHTML = count ;
+
+    };
+
+
 </script>
 </body>
 </html>
