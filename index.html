@@ -257,11 +257,26 @@
 &nbsp;
 &nbsp;
     <div id = "commentSection">
-        <h4><b> Comments : </b></h4>
-        <textarea rows="4" cols="50" name="comment" > </textarea>
-    </div>
 
-</div>
+      <div class="wrapper">
+        <div class="main">
+          <form class="generate" method="post">
+            <h3 class="generate-title">Enter your comments here :</h3>
+            <textarea rows="4" cols="50" class="generate-input" placeholder="Type something"></textarea> &nbsp;
+            <input type="submit" class="generate-submit" value=" Post">
+          </form>
+
+          <ol id="links">
+              <li class="dynamic-link"> This is dummy comment</li>
+          </ol>
+
+        </div>
+      </div>
+
+
+    </div> <!-- //commentSectionDiv -->
+
+</div> <!--//commentandLike-->
 <!-- Like and Comment Section ********* End **********-->
 
 <!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
@@ -510,6 +525,63 @@
 
     };
 
+
+//function calculating adding comments
+(function(){
+
+  // querySelector, jQuery style
+  var $ = function (selector) {
+    return document.querySelector(selector);
+  };
+
+  // Create function outside loop
+  function dynamicEvent() {
+    this.innerHTML = 'Dynamic event success.';
+    this.className += ' dynamic-success';
+  }
+
+  // Iterate over #links <li>
+  // Use querySelector to target #links and then get tag names <li>
+  var links = $('#links').getElementsByTagName('li');
+
+  // For each <li> inside #links
+  for (var i = 0; i < links.length; i++) {
+    var link = links[i];
+
+    // <li> onclick, runAlert function
+    link.onclick = dynamicEvent;
+  }
+
+  // Onsubmit
+  $('.generate').onsubmit = function() {
+
+    // Grab the input value
+    var dynamicValue = $('.generate-input').value;
+
+    // If empty value
+    if(!dynamicValue) {
+
+      alert('Please enter something.');
+
+    } else {
+
+      // Change the submit value
+      $('.generate-submit').value = 'Post';
+
+      // Create the links with the input value as innerHTML
+      var li = document.createElement('li');
+      li.className = 'dynamic-link';
+      li.innerHTML = dynamicValue;
+
+      // Append it and attach the event (via onclick)
+      $('#links').appendChild(li);
+      li.onclick = dynamicEvent;
+    }
+
+    // Prevent the form submitting
+    return false;
+  }
+})();
 
 </script>
 </body>
