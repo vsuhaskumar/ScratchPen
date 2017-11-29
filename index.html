@@ -20,13 +20,14 @@
   <script defer src="/__/firebase/4.6.0/firebase-messaging.js"></script>
   <script defer src="/__/firebase/4.6.0/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
-    
+
  <script src="bower_components/awesomplete/awesomplete.min.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
   <script src="js/customBlocks.js"></script>
   <script src="js/authentication.js"></script>
   <script src="js/save.js"></script>
+  <script src="js/index.js"></script>
 
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/application.css">
@@ -194,8 +195,8 @@
       </div>
     </div>
     <!----End Modal ---->
-      
-      
+
+
             <!-- Modal -->
             <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelExport">
                 <div class="modal-dialog" role="document">
@@ -212,7 +213,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        
+
                       </div>
                     </div>
                 </div>
@@ -242,7 +243,7 @@
                 </div>
             </div>
             <!----End Modal ---->
-      
+
   </div>
 </div>
 
@@ -544,8 +545,8 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
   };
-    
-    
+
+
             //Exporting project
          var exportToolbar = function () {
             if ($("#login").is(":visible")){
@@ -578,7 +579,7 @@ document.addEventListener('DOMContentLoaded', function(){
          var importChangesModal = function () {
               var importData = $("#importData")[0].value;
               if(importData){
-                  
+
                   //loading blocks into DOM
                   $("#importModal").modal('hide');
                   Blockly.mainWorkspace.clear();
@@ -595,7 +596,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 console.log("Please enter correct xml format");
               }
 
-              
+
         };
 
 
@@ -611,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function(){
             var i = 0;
             searchRef.once('value', function(snap){
                            var searchObj = snap.val();
-                           
+
                            for(var obj in searchObj){
                               var latestVersion;
                               for(var version in searchObj[obj].versions){
@@ -622,14 +623,14 @@ document.addEventListener('DOMContentLoaded', function(){
                               searchProjects[searchObj[obj].name] = latestVersion;
 
                            }
-                            
+
             });
             //console.log(searchProjects);
             return [{projects: projectNames, xmls: projectXML}]
-            
+
         }
-        
-        
+
+
         //getting the list
         var comboplete = new Awesomplete('input.dropdown-input', {
                list: allProjects()[0].projects,
@@ -638,7 +639,7 @@ document.addEventListener('DOMContentLoaded', function(){
                   console.log(evnt.text);
               }
             });
-        
+
         //action listener for dropdown button
         Awesomplete.$('.dropdown-btn').addEventListener("click", function() {
          if (comboplete.ul.childNodes != null && comboplete.ul.childNodes.length === 0) {
@@ -652,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function(){
           comboplete.close();
          }
         });
-        
+
         //For loading the project once you select a project from the list
         Awesomplete.$('.dropdown-input').addEventListener("awesomplete-select", function(event) {
                 $(".project-list").hide();
@@ -663,7 +664,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 console.log(xml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
             });
-       
+
   workspace.addChangeListener(blockToText);
   document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
   document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
