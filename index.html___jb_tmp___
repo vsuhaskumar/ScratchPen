@@ -12,7 +12,7 @@
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/moment/moment.js"></script>
-    <script src="bower_components/awesomplete/awesomplete.min.js"></script>
+    <script src="bower_components/select2/dist/js/select2.min.js"></script>
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
     <!-- include only the Firebase features as you need -->
@@ -31,9 +31,7 @@
     <link rel="stylesheet" href="css/application.css">
     <link rel="stylesheet" href="css/toolkit.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/select2/dist/css/select2.css">
-
-    <link rel="stylesheet" href="bower_components/awesomplete/awesomplete.css">
+    <link rel="stylesheet" href="bower_components/select2/dist/css/select2.min.css">
 </head>
 
 <body>
@@ -81,23 +79,11 @@
 
         <form class="navbar-form navbar-left">
 <!--            <input type = "text" class="form-control" placeholder="Search for project">-->
-<!--
-            <span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 360px;">
-              <span class="selection">
-                <span class="select2-selection select2-selection--single" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" aria-owns="select2-afsp-results" aria-labelledby="select2-afsp-container">
-                  <span class="select2-selection__rendered" id="select2-afsp-container">
-                    <span class="select2-selection__placeholder">Select a project</span>
-                  </span>
-                  <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
-                </span>
-              </span>
-
-              <span class="dropdown-wrapper" aria-hidden="true"></span>
-            </span>
--->
-            <input class="dropdown-input" placeholder= "Search for a project.."/>
-            <button class="dropdown-btn" type="button"><span class="caret"></span></button>
-
+            <select id="leadadd_mode_of_enq" name="leadadd_mode_of_enq" class="select2 req_place" data-select-search="true" placeholder="Mode of enquiry">
+  <option></option>
+  <option value="1">Opt1</option>
+  <option value="2">Opt2</option>
+</select>
         </form>
 
       <label id = "userLabel"> </label>
@@ -135,7 +121,7 @@
                 <li><a id = "save" href="#">Save Project</a></li>
                 <li><a id = "saveVersion" href="#">Save Version</a></li>
                 <li><a id = "uploadVersion" href="#">Upload from Version</a></li>
-                <li><a id = "import" href="#">Import</a></li>
+                <li><a href="#">Import</a></li>
                 <li><a id = "export" href="#">Export</a></li>
               </ul>
               <ul class="nav nav-sidebar">
@@ -214,56 +200,6 @@
                 </div>
             </div>
             <!----End Modal ---->
-
-
-      <!-- Modal -->
-            <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelExport">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalLabel">Exporting project</h4>
-                      </div>
-                      <div class="modal-body">
-                          <div class="form-group">
-                              <p>Copy the xml code below and share it with your friends!</p>
-                              <input type="text" id = "exportName" class="form-control"  aria-describedby="sizing-addon1">
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <!----End Modal ---->
-
-
-      <!-- Modal -->
-            <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelExport">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalLabel">Import project</h4>
-                      </div>
-                      <div class="modal-body">
-                          <div class="form-group">
-                              <p>Paste the blockly xml code</p>
-                              <input type="text" id = "importData" class="form-control"  aria-describedby="sizing-addon1">
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="importProject" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <!----End Modal ---->
-
-
         </div>
     </div>
 
@@ -419,7 +355,7 @@
                 var usersRef = ref.child('Users/' + user.uid + '/projects');
                 usersRef.once('value', function (snap) {
                     var projects = snap.val(); // Keep the local user object synced with the Firebase userRef
-                    //console.log(projects);
+                    console.log(projects);
                     for(var p in projects) {
                         var projectListDOM = '<div class="col-sm-6 col-md-4">'+
                                                 '<div class="thumbnail">' +
@@ -546,125 +482,8 @@
         };
 
 
-        //Exporting project
-         var exportToolbar = function () {
-            if ($("#login").is(":visible")){
-                $(".notification").html("Please login to save").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-            }
-            else {
-                $("#exportModal").modal();
-                var exportObj = saveObj.blockToXml(true);
-                $("#exportName").attr("value", exportObj);
-            }
-        };
-
-        //Importing project
-        var importToolbar = function () {
-            if ($("#login").is(":visible")){
-                $(".notification").html("Please login to save").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-            }
-            else {
-                $("#importModal").modal();
-            }
-        };
-
-        //Importing the project
-         var importChangesModal = function () {
-              var importData = $("#importData")[0].value;
-              if(importData){
-                  
-                  //loading blocks into DOM
-                  $("#importModal").modal('hide');
-                  Blockly.mainWorkspace.clear();
-                  $("#scratch").show();
-                  console.log(importData);
-                  //Blockly.mainWorkspace.clear();
-                  var xml = Blockly.Xml.textToDom(importData);
-                  console.log(xml);
-                  Blockly.Xml.domToWorkspace(xml, workspace);
-                  console.log("hello");
-
-              }
-              else{
-                console.log("Please enter correct xml format");
-              }
-
-              
-        };
-
-
-       //for autocomplete
-
-        var searchProjects ;
-        function allProjects(){
-            searchProjects = {};
-            var projectNames = [];
-            var projectXML = [];
-            var ref = firebase.app().database().ref();
-            var searchRef = ref.child('Projects');
-            var i = 0;
-            searchRef.once('value', function(snap){
-                           var searchObj = snap.val();
-                           
-                           for(var obj in searchObj){
-                              var latestVersion;
-                              for(var version in searchObj[obj].versions){
-                                  latestVersion =  searchObj[obj].versions[version];
-                              }
-                              projectNames.push(searchObj[obj].name);
-                              projectXML.push(latestVersion);
-                              searchProjects[searchObj[obj].name] = latestVersion;
-
-                           }
-                            
-            });
-            //console.log(searchProjects);
-            return [{projects: projectNames, xmls: projectXML}]
-            
-        }
         
-        
-        //getting the list
-        var comboplete = new Awesomplete('input.dropdown-input', {
-               list: allProjects()[0].projects,
-	           minChars: 1,
-              "awesomplete-selectcomplete": function(evnt){
-                  console.log(evnt.text);
-              }
-            });
-        
-        //action listener for dropdown button
-        Awesomplete.$('.dropdown-btn').addEventListener("click", function() {
-	       if (comboplete.ul.childNodes != null && comboplete.ul.childNodes.length === 0) {
-		      comboplete.minChars = 0;
-		      comboplete.evaluate();
-	           }
-	       else if (comboplete.ul.hasAttribute('hidden')) {
-		      comboplete.open();
-            }
-	       else {
-		      comboplete.close();
-	       }
-        });
-        
-        //For loading the project once you select a project from the list
-        Awesomplete.$('.dropdown-input').addEventListener("awesomplete-select", function(event) {
-                $(".project-list").hide();
-                Blockly.mainWorkspace.clear();
-                $("#scratch").show();
-                //loading blocks into DOM
-                var xml =  Blockly.Xml.textToDom(searchProjects[event.text.label]);
-                console.log(xml);
-                Blockly.Xml.domToWorkspace(xml, workspace);
-            });
-       
-        
+
         
 
         workspace.addChangeListener(blockToText);
@@ -677,11 +496,6 @@
         document.getElementById("saveVersion").addEventListener("click", saveVersion);
         document.getElementById("newProject").addEventListener("click", openNewProject);
         document.getElementById("uploadVersion").addEventListener("click", openFromVersion);
-        document.getElementById("export").addEventListener("click", exportToolbar);
-        document.getElementById("import").addEventListener("click", importToolbar);
-        document.getElementById("importProject").addEventListener('click', importChangesModal, false);
-
-
 });
 </script>
 </body>
