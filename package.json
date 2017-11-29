@@ -4,7 +4,9 @@
   "description": "This project is to create scratch block and should let children learn coding using simple scratch blocks",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "postinstall": "bash ./post_install.sh"
   },
   "repository": {
     "type": "git",
@@ -22,4 +24,6 @@
     "firebase-tools": "^3.13.1",
     "spin.js": "^3.0.0"
   }
+
+
 }
