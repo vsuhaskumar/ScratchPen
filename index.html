@@ -659,6 +659,10 @@ document.addEventListener('DOMContentLoaded', function(){
                 $(".project-list").hide();
                 Blockly.mainWorkspace.clear();
                 $("#scratch").show();
+                $("#signin").hide();
+                $("#create").hide();
+                $("#importModal").modal('hide');
+                $("#importModal").modal('hide');
                 //loading blocks into DOM
                 var xml =  Blockly.Xml.textToDom(searchProjects[event.text.label]);
                 console.log(xml);
