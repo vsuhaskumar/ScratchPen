@@ -4,7 +4,7 @@
   "description": "This project is to create scratch block and should let children learn coding using simple scratch blocks",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
