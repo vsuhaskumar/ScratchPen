@@ -12,6 +12,9 @@
   <script src="bower_components/firebase/firebase.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/js-signals/dist/signals.min.js"></script>
+  <script src="bower_components/crossroads/dist/crossroads.min.js"></script>
+  <script src="bower_components/hasher/dist/js/hasher.min.js"></script>
   <!-- update the version number as needed -->
   <script defer src="/__/firebase/4.6.0/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
@@ -413,6 +416,12 @@ document.addEventListener('DOMContentLoaded', function(){
   };
   //Firebase session details
   firebase.auth().onAuthStateChanged(function(user) {
+    crossroads.addRoute("main", function () {
+        console.log("I am in the routes");
+    });
+    hasher.init();
+    hasher.setHash("main");
+
     if (user) {
       $(".project-list").show();
       $("#login").hide();
@@ -664,6 +673,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 console.log(xml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
             });
+
 
   workspace.addChangeListener(blockToText);
   document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);

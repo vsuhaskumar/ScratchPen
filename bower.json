@@ -29,6 +29,8 @@
     "spin": "^1.1.6",
     "moment": "^2.19.2",
     "awesomplete": "*",
-    "crossroads": "^0.12.2"
+    "crossroads": "^0.12.2",
+    "js-signals": "^1.0.0",
+    "hasher": "^1.2.0"
   }
 }
