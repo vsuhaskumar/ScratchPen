@@ -302,9 +302,9 @@
 </div>
 </div>
 
+<!--<!--
 
-
-<!-- Like and Comment Section ********* Start **********-->
+<!-- Like and Comment Section ********* Start **********
 &nbsp;
 &nbsp;
 
@@ -334,10 +334,39 @@
     </div>
 
 
-  </div> <!-- //commentSectionDiv -->
+  </div> <!-- //commentSectionDiv 
 
 </div> <!--//commentandLike-->
 <!-- Like and Comment Section ********* End **********-->
+
+<div class="comments">
+  
+ <div class="container">
+    <div class="comment-box">
+      <div class="comment-form">
+        <div class="header">Add Your Comment</div>
+        <form>
+          <div> 
+            <input type="text" id="yourName" placeholder="Name"/>
+          </div>
+          <div>
+            <textarea id="comment" rows="3" cols="30" placeholder="Comment"></textarea>
+          </div>
+          <div class="alert alert-danger notification" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span class="sr-only">Error:</span>
+    </div>
+          <button type="button" class="scratch-options" id="commentButton">COMMENT</button>
+        </form>  
+      </div>
+      <div>
+        <h4 class="header">Comments</h4>
+        <div id="commentsList"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
 
 <!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
 <script>
@@ -417,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function(){
   //Firebase session details
   firebase.auth().onAuthStateChanged(function(user) {
     crossroads.addRoute("main", function () {
-        console.log("I am in the routes");
+        //console.log("I am in the routes");
     });
     hasher.init();
     hasher.setHash("main");
@@ -439,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var usersRef = ref.child('Users/' + user.uid + '/projects');
       usersRef.once('value', function (snap) {
         var projects = snap.val(); // Keep the local user object synced with the Firebase userRef
-        console.log(projects);
+        //console.log(projects);
         for(var p in projects) {
           var projectListDOM = '<div class="col-sm-6 col-md-4">'+
           '<div class="thumbnail">' +
@@ -489,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function(){
       };
       return firebase.database().ref().update(updates);
     }).catch(function (error) {
-      console.log("error saving project" ,error);
+      //console.log("error saving project" ,error);
     });
   };
   var saveToolbar = function(){
@@ -506,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function(){
   var blockToText = function (event) {
     var code = Blockly.JavaScript.workspaceToCode(workspace);
     document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
-    console.log(code);
+    //console.log(code);
   };
   var saveVersion = function () {
     var newVersion = Date.now();
@@ -518,12 +547,15 @@ document.addEventListener('DOMContentLoaded', function(){
   };
   var openProject = function(event){
     var projectID = event.currentTarget.id.split("_")[0];
+    commonOpenProject(projectID);
+  };
+  function commonOpenProject(projectID){
     globalVar.currentProjectId = projectID;
-    console.log(projectID);
+    //console.log(projectID);
     var ref = firebase.app().database().ref();
     var projRef = ref.child('Projects/' + projectID + '/versions');
     projRef.once('value', function (snap) {
-      console.log(snap);
+      //console.log(snap);
       //loading most recent from version//
       var versions = Object.keys(snap.val());
       var versionsLen = Object.keys(snap.val()).length;
@@ -533,8 +565,15 @@ document.addEventListener('DOMContentLoaded', function(){
       //loading blocks into DOM
       var xml = Blockly.Xml.textToDom(snap.val()[mostRecent]);
       Blockly.Xml.domToWorkspace(xml, workspace);
+      
     });
-  };
+    
+    var commentRef = ref.child('Projects/' + projectID  + '/comments');
+     commentRef.on("child_added", function(snapshot) {
+                    let comment = snapshot.val();
+                    addComment(comment.name, comment.comment, comment.time);
+                   });
+  }
   var openNewProject = function () {
     //Resetting blocks
     $("#scratch").show();
@@ -547,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var ref = firebase.app().database().ref();
     var projRef = ref.child('Projects/' + projectID + '/versions');
     projRef.once('value', function (snap) {
-      console.log(snap.val());
+      //console.log(snap.val());
       var versionObj = snap.val();
       for (var obj in versionObj) {
         $(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
@@ -593,16 +632,16 @@ document.addEventListener('DOMContentLoaded', function(){
                   $("#importModal").modal('hide');
                   Blockly.mainWorkspace.clear();
                   $("#scratch").show();
-                  console.log(importData);
+                  //console.log(importData);
                   //Blockly.mainWorkspace.clear();
                   var xml = Blockly.Xml.textToDom(importData);
-                  console.log(xml);
+                  //console.log(xml);
                   Blockly.Xml.domToWorkspace(xml, workspace);
-                  console.log("hello");
+                  //console.log("hello");
 
               }
               else{
-                console.log("Please enter correct xml format");
+                //console.log("Please enter correct xml format");
               }
 
 
@@ -612,6 +651,7 @@ document.addEventListener('DOMContentLoaded', function(){
        //for autocomplete
 
         var searchProjects ;
+        //var searchProjectsID;
         function allProjects(){
             searchProjects = {};
             var projectNames = [];
@@ -629,8 +669,10 @@ document.addEventListener('DOMContentLoaded', function(){
                               }
                               projectNames.push(searchObj[obj].name);
                               projectXML.push(latestVersion);
-                              searchProjects[searchObj[obj].name] = latestVersion;
-
+                              //searchProjects[searchObj[obj].name] = latestVersion;
+                              //searchProjectsID[searchObj[obj].name] = Object.keys(searchObj)[i];
+                              searchProjects[searchObj[obj].name] = Object.keys(searchObj)[i];
+                              
                            }
 
             });
@@ -645,7 +687,7 @@ document.addEventListener('DOMContentLoaded', function(){
                list: allProjects()[0].projects,
              minChars: 1,
               "awesomplete-selectcomplete": function(evnt){
-                  console.log(evnt.text);
+                  //console.log(evnt.text);
               }
             });
 
@@ -672,13 +714,69 @@ document.addEventListener('DOMContentLoaded', function(){
                 $("#create").hide();
                 $("#importModal").modal('hide');
                 $("#importModal").modal('hide');
-                //loading blocks into DOM
-                var xml =  Blockly.Xml.textToDom(searchProjects[event.text.label]);
-                console.log(xml);
-                Blockly.Xml.domToWorkspace(xml, workspace);
+                commonOpenProject((searchProjects[event.text.label]));
             });
+            
+        
+        //comment part            
+        const timeStamp = () => {
+               let options = {
+                  month: '2-digit',
+                  day: '2-digit',
+                  year: '2-digit',
+                  hour: '2-digit',
+                  minute:'2-digit'
+                  };
+               let now = new Date().toLocaleString('en-US', options);
+              return now;
+          };
+          
+          
+          function postComment(e) {
+            if ($("#login").is(":visible")){
+                $(".notification").html("Please login to comment").show();
+                setTimeout(function () {
+                    $(".notification").fadeOut("slow");
+                }, 1000);
+            }
+            else {if(globalVar.currentProjectId==null){
+              $(".notification").html("Please save the project to comment").show();
+                setTimeout(function () {
+                    $(".notification").fadeOut("slow");
+                }, 1000);
+             }
+            else{
+               var ref = firebase.app().database().ref();
+              var commentRef = ref.child('Projects/' + globalVar.currentProjectId+"/comments");
+               e.preventDefault();
+              let name = document.getElementById("yourName").value;
+              let comment = document.getElementById("comment").value;
+
+             if (name && comment) {
+                commentRef.push({
+                   name: name,
+                   comment: comment,
+                   time: timeStamp()
+                  });
+              }
+              
+               commentRef.on("child_added", function(snapshot) {
+                    let comment = snapshot.val();
+                    addComment(comment.name, comment.comment, comment.time);
+                   });
 
 
+              document.getElementById("yourName").value = '';
+              document.getElementById("comment").value = '';
+            }}
+             };
+
+          const addComment = (name, comment, timeStamp) => {
+                let comments = document.getElementById("commentsList");
+               comments.innerHTML = `<hr><h4>${name} says<span>${timeStamp}</span></h4><p>${comment}</p>${comments.innerHTML}`;
+               }
+
+  
   workspace.addChangeListener(blockToText);
   document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
   document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
@@ -692,55 +790,11 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById("export").addEventListener("click", exportToolbar);
   document.getElementById("import").addEventListener("click", importToolbar);
   document.getElementById("importProject").addEventListener('click', importChangesModal, false);
+  document.getElementById("commentButton").addEventListener('click', postComment);
+  //document.querySelector(".comments form").addEventListener("click", postComment);
 });
-//function calculating number of likes
-function increaseLike(){
-  var count = 0;
-  count = +count + 1;
-  document.getElementById("count").innerHTML = count ;
-};
-//function calculating adding comments
-(function(){
-  // querySelector, jQuery style
-  var $ = function (selector) {
-    return document.querySelector(selector);
-  };
-  // Create function outside loop
-  function dynamicEvent() {
-    // this.innerHTML = 'Dynamic event success.';
-    this.className += ' dynamic-success';
-  }
-  // Iterate over #links <li>
-  // Use querySelector to target #links and then get tag names <li>
-  var links = $('#links').getElementsByTagName('li');
-  // For each <li> inside #links
-  for (var i = 0; i < links.length; i++) {
-    var link = links[i];
-    // <li> onclick, runAlert function
-    link.onclick = dynamicEvent;
-  }
-  // Onsubmit
-  $('.generate').onsubmit = function() {
-    // Grab the input value
-    var dynamicValue = $('.generate-input').value;
-    // If empty value
-    if(!dynamicValue) {
-      alert('Please enter something.');
-    } else {
-      // Change the submit value
-      $('.generate-submit').value = 'Post';
-      // Create the links with the input value as innerHTML
-      var li = document.createElement('li');
-      li.className = 'dynamic-link';
-      li.innerHTML = dynamicValue;
-      // Append it and attach the event (via onclick)
-      $('#links').appendChild(li);
-      li.onclick = dynamicEvent;
-    }
-    // Prevent the form submitting
-    return false;
-  }
-})();
+
+
 </script>
 </body>
 </html>
