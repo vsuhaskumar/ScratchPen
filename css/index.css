@@ -215,3 +215,7 @@
   font-weight: lighter;
 }
 
+.catalog-content {
+    background-color: #ddd;
+    padding: 10px 10px 10px 10px;
+}
