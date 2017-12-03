@@ -568,31 +568,30 @@ document.addEventListener('DOMContentLoaded', function(){
     commonOpenProject(projectID);
   };
 
-  function commonOpenProject(projectID){
-    globalVar.currentProjectId = projectID;
-    var ref = firebase.app().database().ref();
-    var projRef = ref.child('Projects/' + projectID + '/versions');
-    projRef.once('value', function (snap) {
-      //console.log(snap);
-      //loading most recent from version//
-      var versions = Object.keys(snap.val());
-      var versionsLen = Object.keys(snap.val()).length;
-      var mostRecent = versions[versionsLen - 1];
-      $(".project-list").hide();
-      $("#scratch").show();
-      //loading blocks into DOM
-      var xml = Blockly.Xml.textToDom(snap.val()[mostRecent]);
-      Blockly.Xml.domToWorkspace(xml, workspace);
-      
-    });
-    
-    var commentRef = ref.child('Projects/' + projectID  + '/comments');
-     commentRef.on("child_added", function(snapshot) {
+  var commonOpenProject = function() {
+      globalVar.currentProjectId = projectID;
+      var ref = firebase.app().database().ref();
+      var projRef = ref.child('Projects/' + projectID + '/versions');
+      projRef.once('value', function (snap) {
+          //console.log(snap);
+          //loading most recent from version//
+          var versions = Object.keys(snap.val());
+          var versionsLen = Object.keys(snap.val()).length;
+          var mostRecent = versions[versionsLen - 1];
+          $(".project-list").hide();
+          $("#scratch").show();
+          //loading blocks into DOM
+          var xml = Blockly.Xml.textToDom(snap.val()[mostRecent]);
+          Blockly.Xml.domToWorkspace(xml, workspace);
+      });
+
+      var commentRef = ref.child('Projects/' + projectID  + '/comments');
+      commentRef.on("child_added", function(snapshot) {
                     let comment = snapshot.val();
                     addComment(comment.name, comment.comment, comment.time);
                    });
-              $(".comments").show();
-  }
+      $(".comments").show();
+  };
 
   var openNewProject = function () {
             //Resetting blocks
@@ -602,152 +601,148 @@ document.addEventListener('DOMContentLoaded', function(){
             $(".comments").show();
   };
 
-    var openFromVersion = function () {
-        $("#openVersionModal").modal();
-        var projectID = globalVar.currentProjectId;
-        var ref = firebase.app().database().ref();
-        var projRef = ref.child('Projects/' + projectID + '/versions');
-        projRef.once('value', function (snap) {
-            //console.log(snap.val());
-            var versionObj = snap.val();
-            for (var obj in versionObj) {$(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
-            }
-        });
-    };
+  var openFromVersion = function () {
+      $("#openVersionModal").modal();
+      var projectID = globalVar.currentProjectId;
+      var ref = firebase.app().database().ref();
+      var projRef = ref.child('Projects/' + projectID + '/versions');
+      projRef.once('value', function (snap) {
+          var versionObj = snap.val();
+          for (var obj in versionObj) {
+              $(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
+          }
+      });
+  };
 
+  //Exporting project
+  var exportToolbar = function () {
+      if ($("#login").is(":visible")){
+          $(".notification").html("Please login to save").show();
+          setTimeout(function () {
+              $(".notification").fadeOut("slow");
+          }, 1000);
+      }
+      else {
+          $("#exportModal").modal();
+          var exportObj = saveObj.blockToXml(true);
+          $("#exportName").attr("value", exportObj);
+      }
+  };
 
-            //Exporting project
-    var exportToolbar = function () {
-        if ($("#login").is(":visible")){
-            $(".notification").html("Please login to save").show();
-            setTimeout(function () {
-                $(".notification").fadeOut("slow");
-            }, 1000);
-        }
-        else {
-            $("#exportModal").modal();
-            var exportObj = saveObj.blockToXml(true);
-            $("#exportName").attr("value", exportObj);
-        }
-    };
-
-        //Importing project
-    var importToolbar = function () {
-        if ($("#login").is(":visible")){
-            $(".notification").html("Please login to save").show();
-            setTimeout(function () {
-                $(".notification").fadeOut("slow");
-            }, 1000);
-        }
-        else {
-            $("#importModal").modal();
-        }
-    };
+  //Importing project
+  var importToolbar = function () {
+      if ($("#login").is(":visible")){
+          $(".notification").html("Please login to save").show();
+          setTimeout(function () {
+              $(".notification").fadeOut("slow");
+          }, 1000);
+      }
+      else {
+          $("#importModal").modal();
+      }
+  };
 
         //Importing the project
-        var importChangesModal = function () {
-              var importData = $("#importData")[0].value;
-              if(importData){
+  var importChangesModal = function () {
+      var importData = $("#importData")[0].value;
+      if(importData){
+          //loading blocks into DOM
+          $("#importModal").modal('hide');
+          Blockly.mainWorkspace.clear();
+          $("#scratch").show();
+          //console.log(importData);
+          //Blockly.mainWorkspace.clear();
+          var xml = Blockly.Xml.textToDom(importData);
+          //console.log(xml);
+          Blockly.Xml.domToWorkspace(xml, workspace);
+          //console.log("hello");
+      }
+      else{
+          //console.log("Please enter correct xml format");
+      }
 
-                  //loading blocks into DOM
-                  $("#importModal").modal('hide');
-                  Blockly.mainWorkspace.clear();
-                  $("#scratch").show();
-                  //console.log(importData);
-                  //Blockly.mainWorkspace.clear();
-                  var xml = Blockly.Xml.textToDom(importData);
-                  //console.log(xml);
-                  Blockly.Xml.domToWorkspace(xml, workspace);
-                  //console.log("hello");
 
+  };
+
+
+  //Autocomplete
+  var searchProjects ;
+  var allProjects = function () {
+      searchProjects = {};
+      var projectNames = [];
+      var projectXML = [];
+      var ref = firebase.app().database().ref();
+      var searchRef = ref.child('Projects');
+      var i = 0;
+      searchRef.once('value', function(snap){
+          var searchObj = snap.val();
+
+          for(var obj in searchObj){
+              var latestVersion;
+              for(var version in searchObj[obj].versions){
+                  latestVersion =  searchObj[obj].versions[version];
               }
-              else{
-                //console.log("Please enter correct xml format");
-              }
+              projectNames.push(searchObj[obj].name);
+              projectXML.push(latestVersion);
+              searchProjects[searchObj[obj].name] = Object.keys(searchObj)[i];
+              i++;
 
+          }
 
-        };
-
-
-       //for autocomplete
-
-      var searchProjects ;
-        function allProjects(){
-            searchProjects = {};
-            var projectNames = [];
-            var projectXML = [];
-            var ref = firebase.app().database().ref();
-            var searchRef = ref.child('Projects');
-            var i = 0;
-            searchRef.once('value', function(snap){
-                           var searchObj = snap.val();
-
-                           for(var obj in searchObj){
-                              var latestVersion;
-                              for(var version in searchObj[obj].versions){
-                                  latestVersion =  searchObj[obj].versions[version];
-                              }
-                              projectNames.push(searchObj[obj].name);
-                              projectXML.push(latestVersion);
-                              searchProjects[searchObj[obj].name] = Object.keys(searchObj)[i];
-                              i++;
-
-                           }
-
-            });
+      });
             //console.log(searchProjects);
-            return [{projects: projectNames, xmls: projectXML}]
+      return [{projects: projectNames, xmls: projectXML}]
 
-        }
+  };
 
          //getting the list
-        var comboplete = new Awesomplete('input.dropdown-input', {
-               list: allProjects()[0].projects,
-             minChars: 1,
-              "awesomplete-selectcomplete": function(evnt){
-                  console.log(evnt.text);
-              }
-            });
+  var comboplete = new Awesomplete('input.dropdown-input', {
+      list: allProjects()[0].projects,
+      minChars: 1,
+      "awesomplete-selectcomplete": function(evnt){
+          console.log(evnt.text);
+      }
+  });
 
         //action listener for dropdown button
-        Awesomplete.$('.dropdown-btn').addEventListener("click", function() {
-         if (comboplete.ul.childNodes != null && comboplete.ul.childNodes.length === 0) {
+  Awesomplete.$('.dropdown-btn').addEventListener("click", function() {
+      if (comboplete.ul.childNodes != null && comboplete.ul.childNodes.length === 0) {
           comboplete.minChars = 0;
           comboplete.evaluate();
-             }
-         else if (comboplete.ul.hasAttribute('hidden')) {
+      }
+      else if (comboplete.ul.hasAttribute('hidden')) {
           comboplete.open();
-            }
-         else {
+      }
+      else {
           comboplete.close();
-         }
-        });
+      }
+  });
 
         //For loading the project once you select a project from the list
-        Awesomplete.$('.dropdown-input').addEventListener("awesomplete-select", function(event) {
-                $(".project-list").hide();
-                Blockly.mainWorkspace.clear();
-                $("#scratch").show();
-                $("#signin").hide();
-                $("#create").hide();
-                $("#importModal").modal('hide');
-                //loading blocks into DOM
-                commonOpenProject(searchProjects[event.text.label]);
-            });
+  Awesomplete.$('.dropdown-input').addEventListener("awesomplete-select", function(event) {
+      $(".project-list").hide();
+      Blockly.mainWorkspace.clear();
+      $("#scratch").show();
+      $("#signin").hide();
+      $("#create").hide();
+      $("#importModal").modal('hide');
+      //loading blocks into DOM
+      commonOpenProject(searchProjects[event.text.label]);
+  });
 
 
         //comment part            
-        const timeStamp = () => {
-               let options = {
-                  month: '2-digit',
-                  day: '2-digit',
-                  year: '2-digit',
-                  hour: '2-digit',
-                  minute:'2-digit'
-                  };
-               let now = new Date().toLocaleString('en-US', options);
-              return now;
-          };
+  const timeStamp = () => {
+        let options = {
+            month: '2-digit',
+            day: '2-digit',
+            year: '2-digit',
+            hour: '2-digit',
+            minute:'2-digit'
+        };
+        let now = new Date().toLocaleString('en-US', options);
+        return now;
+  };
           
           
           function postComment(e) {
