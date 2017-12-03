@@ -8,6 +8,7 @@ var authentication = {
     $('#join').show();
     $('#scratch').show();
     $(".project-list").hide();
+    $('.comments').hide();
   },
   addClickListner: function(){
     $("#join").on("click", function(){
@@ -15,6 +16,8 @@ var authentication = {
       $("#scratch").hide();
       $("#create").show();
       $('#logout').hide();
+      $('.comments').hide();
+      
     });
 
     $("#login").on("click", function(){
@@ -22,12 +25,14 @@ var authentication = {
       $("#scratch").hide();
       $("#create").hide();
       $('#logout').hide();
+      $('.comments').hide();
     });
 
     $("#signupButton").on("click", function(){
       $("#signin").hide();
       $("#create").show();
       $('#logout').hide();
+      
     });
 
     $("#cancel1").on("click", function(){
@@ -52,6 +57,7 @@ var authentication = {
       $('#logout').show();
       $("#signin").hide();
       $("#create").hide();
+      $('.comments').show();
     });
 
     $("#signupButton").on("click", function(){

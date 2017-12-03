@@ -139,7 +139,7 @@
       </ul>
       <ul class="nav nav-sidebar">
         <li><a href="">Play</a></li>
-        <li><a href="">More Options</a></li>
+        <li><a id = "codeReuse" href="#">Code reuse</a></li>
         <li><a href="">One more nav</a></li>
         <li><a href="">Another nav item</a></li>
         <li><a href="">More navigation</a></li>
@@ -261,6 +261,34 @@
                 </div>
             </div>
             <!----End Modal ---->
+            
+                <!-- Modal -->
+    <div class="modal fade" id="reuseModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelVersion">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modalLabelVersion">Reuse Projects</h4>
+          </div>
+          <div class="modal-body">
+            <!-- Large button group -->
+            <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
+    <span id="reuseSelected">Select project for reuse</span><span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+      
+
+    </ul>
+  </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" id="reuseBlocks" class="btn btn-primary">Reuse Blocks</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!----End Modal ---->
 
   </div>
 </div>
@@ -438,6 +466,7 @@ document.addEventListener('DOMContentLoaded', function(){
       $('#logout').show();
       $("#signin").hide();
       $("#create").hide();
+      $(".comments").hide();
       $("#userLabel").text("Logged in as " + user.email);
       globalVar.user = user;
       if(!globalVar.getStorageValue("email")){
@@ -532,7 +561,6 @@ document.addEventListener('DOMContentLoaded', function(){
   };
   function commonOpenProject(projectID){
     globalVar.currentProjectId = projectID;
-    //console.log(projectID);
     var ref = firebase.app().database().ref();
     var projRef = ref.child('Projects/' + projectID + '/versions');
     projRef.once('value', function (snap) {
@@ -554,12 +582,14 @@ document.addEventListener('DOMContentLoaded', function(){
                     let comment = snapshot.val();
                     addComment(comment.name, comment.comment, comment.time);
                    });
+              $(".comments").show();
   }
   var openNewProject = function () {
             //Resetting blocks
             $("#scratch").show();
             $(".project-list").hide();
             Blockly.mainWorkspace.clear();
+             $(".comments").show();
   };
 
     var openFromVersion = function () {
@@ -631,8 +661,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
        //for autocomplete
 
-        var searchProjects ;
-        //var searchProjectsID;
+      var searchProjects ;
         function allProjects(){
             searchProjects = {};
             var projectNames = [];
@@ -650,10 +679,9 @@ document.addEventListener('DOMContentLoaded', function(){
                               }
                               projectNames.push(searchObj[obj].name);
                               projectXML.push(latestVersion);
-                              //searchProjects[searchObj[obj].name] = latestVersion;
-                              //searchProjectsID[searchObj[obj].name] = Object.keys(searchObj)[i];
                               searchProjects[searchObj[obj].name] = Object.keys(searchObj)[i];
-                              
+                              i++;
+
                            }
 
             });
@@ -661,14 +689,13 @@ document.addEventListener('DOMContentLoaded', function(){
             return [{projects: projectNames, xmls: projectXML}]
 
         }
-
-
-        //getting the list
+        
+         //getting the list
         var comboplete = new Awesomplete('input.dropdown-input', {
                list: allProjects()[0].projects,
              minChars: 1,
               "awesomplete-selectcomplete": function(evnt){
-                  //console.log(evnt.text);
+                  console.log(evnt.text);
               }
             });
 
@@ -694,11 +721,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 $("#signin").hide();
                 $("#create").hide();
                 $("#importModal").modal('hide');
-                $("#importModal").modal('hide');
-                commonOpenProject((searchProjects[event.text.label]));
+                //loading blocks into DOM
+                commonOpenProject(searchProjects[event.text.label]);
             });
-            
-        
+
+
         //comment part            
         const timeStamp = () => {
                let options = {
@@ -757,6 +784,65 @@ document.addEventListener('DOMContentLoaded', function(){
                comments.innerHTML = `<hr><h4>${name} says<span>${timeStamp}</span></h4><p>${comment}</p>${comments.innerHTML}`;
                }
 
+
+  //Code Reuse
+        var reuseToolbar = function () {
+
+          var blockList = [];
+          projectMapper = {};
+          var ref = firebase.app().database().ref();
+          var projRef = ref.child('Projects/');
+          projRef.once('value', function (snap) {
+                var projectObj = snap.val();
+                for(var obj in projectObj){
+                  blockList.push(projectObj[obj].name);
+                  var latestVersion;
+                  for(var version in projectObj[obj].versions){
+                          latestVersion =  projectObj[obj].versions[version];
+                  }
+                  projectMapper[projectObj[obj].name] = latestVersion;
+                }
+                var list =  $(".dropdown-menu");
+                for (var obj in blockList) {
+                    list.append("<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">"+blockList[obj]+"</a></li>");
+                 }
+                 }).then(function(){
+                    $("#reuseModal").modal();
+           $('.dropdown-menu a').click(function(){
+    $('#reuseSelected').text($(this).text());
+                   
+                 })
+                          
+  });
+
+         };
+         
+         
+          //Reusing  int the project
+         var reuseChangesModal = function () {
+              var blockID = document.getElementById("reuseSelected").innerHTML
+              if(blockID){
+
+                  //loading blocks into DOM
+                  $("#reuseModal").modal('hide');
+                  $("#scratch").show();
+                  //Blockly.mainWorkspace.clear();
+                  var xml = Blockly.Xml.textToDom(projectMapper[blockID]);
+                  //console.log(xml);
+                  Blockly.Xml.domToWorkspace(xml, workspace);
+                  //console.log("hello");
+
+              }
+              else{
+                //console.log("Please enter correct xml format");
+              }
+
+
+        };
+         
+         
+
+
         var initDashBoard = function(){
 
         };
@@ -775,7 +861,12 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById("import").addEventListener("click", importToolbar);
   document.getElementById("importProject").addEventListener('click', importChangesModal, false);
   document.getElementById("commentButton").addEventListener('click', postComment);
+  document.getElementById("codeReuse").addEventListener("click", reuseToolbar);
+  document.getElementById("reuseBlocks").addEventListener("click", reuseChangesModal,false);
+  
   //document.querySelector(".comments form").addEventListener("click", postComment);
+  
+  
 });
 
 
