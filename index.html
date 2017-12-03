@@ -41,7 +41,6 @@
 
 <body>
     <div class="main-container">
-
         <!--This is the top toolbar-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="toolbar-container">
@@ -331,9 +330,7 @@
                 </form>
             </div>
         </div>
-    </div>
-
-    <div class="comments">
+        <div class="comments">
         <div class="container">
             <div class="comment-box">
                 <div class="comment-form">
@@ -359,6 +356,34 @@
             </div>
         </div>
     </div>
+    </div>
+
+    <!--<div class="comments">-->
+        <!--<div class="container">-->
+            <!--<div class="comment-box">-->
+                <!--<div class="comment-form">-->
+                    <!--<div class="header">Add Your Comment</div>-->
+                    <!--<form>-->
+                        <!--<div>-->
+                            <!--<input type="text" id="yourName" placeholder="Name" />-->
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<textarea id="comment" rows="3" cols="30" placeholder="Comment"></textarea>-->
+                        <!--</div>-->
+                        <!--<div class="alert alert-danger notification" role="alert">-->
+                            <!--<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>-->
+                            <!--<span class="sr-only">Error:</span>-->
+                        <!--</div>-->
+                        <!--<button type="button" class="scratch-options" id="commentButton">COMMENT</button>-->
+                    <!--</form>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<h4 class="header">Comments</h4>-->
+                    <!--<div id="commentsList"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
     <script>
@@ -378,9 +403,12 @@
             strageBucket: "scratchpen-de051.appspot.com",
             messagingSenderId: "355301139728"
         };
+
         firebase.initializeApp(config);
         // Get a reference to the storage service, which is used to create references in your storage bucket
         var storage = firebase.storage();
+
+
         //Entry point into the application
         document.addEventListener('DOMContentLoaded', function() {
             var $ = jQuery;
@@ -431,6 +459,7 @@
                     this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
                 }
             };
+
             Blockly.Blocks['turn_clockwise'] = {
                 init: function() {
                     this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
@@ -488,7 +517,6 @@
                         }
                     });
                 } else {
-
                     authentication.init();
                     dash.init();
                     console.log("not logged in");
@@ -534,11 +562,13 @@
                     $("#saveModal").modal();
                 }
             };
+
             var blockToText = function(event) {
                 var code = Blockly.JavaScript.workspaceToCode(workspace);
                 document.getElementById('textGenerator').innerText = code; //puts block code into text editor
                 //console.log(code);
             };
+
             var saveVersion = function() {
                 var newVersion = Date.now();
                 // Write the new post's data simultaneously in the posts list and the user's post list.
@@ -547,6 +577,7 @@
                 updates['/Projects/' + globalVar.currentProjectId + '/versions/' + newVersion] = saveObj.blockToXml(true);
                 return firebase.database().ref().update(updates);
             };
+
             var openProject = function(event) {
                 var projectID = event.currentTarget.id.split("_")[0];
                 commonOpenProject(projectID);
@@ -697,7 +728,6 @@
                 var i = 0;
                 searchRef.once('value', function(snap) {
                     var searchObj = snap.val();
-
                     for (var obj in searchObj) {
                         var latestVersion;
                         for (var version in searchObj[obj].versions) {
@@ -707,9 +737,7 @@
                         projectXML.push(latestVersion);
                         searchProjects[searchObj[obj].name] = Object.keys(searchObj)[i];
                         i++;
-
                     }
-
                 });
                 //console.log(searchProjects);
                 return [{
@@ -834,9 +862,7 @@
                     $("#reuseModal").modal();
                     $('.dropdown-menu a').click(function() {
                         $('#reuseSelected').text($(this).text());
-
                     })
-
                 });
 
             };
@@ -845,25 +871,20 @@
             var reuseChangesModal = function() {
                 var blockID = document.getElementById("reuseSelected").innerHTML
                 if (blockID) {
-
                     //loading blocks into DOM
                     $("#reuseModal").modal('hide');
                     $("#scratch").show();
                     //Blockly.mainWorkspace.clear();
                     var xml = Blockly.Xml.textToDom(projectMapper[blockID]);
-                    //console.log(xml);
                     Blockly.Xml.domToWorkspace(xml, workspace);
-                    //console.log("hello");
                     $(".blockList").empty();
-
                 } else {
                     //console.log("Please enter correct xml format");
                 }
             };
 
-            var initDashBoard = function() {
-
-            };
+            //Adding new functions defined to global variable
+            globalVar['openProject'] = commonOpenProject;
 
             workspace.addChangeListener(blockToText);
             document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
@@ -882,9 +903,7 @@
             document.getElementById("codeReuse").addEventListener("click", reuseToolbar);
             document.getElementById("reuseBlocks").addEventListener("click", reuseChangesModal, false);
             document.getElementById("openVersion").addEventListener("click", versionOpenModal, false);
-
             //document.querySelector(".comments form").addEventListener("click", postComment);
-
         });
     </script>
 </body>

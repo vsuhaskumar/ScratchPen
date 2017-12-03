@@ -70,7 +70,6 @@
 
 .main-container {
     width: 100%;
-
     background-color: cadetblue
 }
 
@@ -206,6 +205,10 @@
   height: 100%;
   margin-bottom: 50px;
   background: cadetblue;
+  position: absolute;
+  margin-top: 760px;
+  right: 0;
+  left: 0;
 }
 .comments h4{
   margin: 5px 20px;
@@ -232,7 +235,6 @@
   flex-direction: column;
 }
  .comments p{
-    margin: 0 30px 15px;
     font-weight: 300;
     color: #333;
     word-wrap: break-word;
@@ -313,4 +315,8 @@
 .dashboard-item-desc{
     height: 42px;
     overflow: hidden;
+}
+
+#scratch {
+    background-color: cadetblue;
 }

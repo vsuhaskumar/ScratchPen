@@ -6,12 +6,11 @@
 var dash = {};
 var domCount = 0;
 var rowId = "";
-dash['createDOM'] = function(project, id, element, user){
 
+dash['createDOM'] = function(project, id, element, user){
     var name = project['name'];
     var desc = project['desc'];
     var time = project['timestamp'];
-
     // dash['tmplRow'] = '<div class="row" id="row_"' + id + '>' +
     //                   '</div><br>';
     dash['tmpl'] =
@@ -31,8 +30,6 @@ dash['createDOM'] = function(project, id, element, user){
           '</div>'+
         '</div>';
 
-    $(id).click(dash['openProject']);
-
     if(domCount === 0) {
         rowId = "#row_" + id;
         element.append('<div class="row" id="row_' + id + '">' + dash['tmpl'] + '</div><br>');
@@ -41,14 +38,13 @@ dash['createDOM'] = function(project, id, element, user){
         $(rowId).append(dash['tmpl'])
     }
 
+    $("#" + id).click(dash['openProject']);
     domCount++;
     if(domCount === 3) {
         domCount = 0;
     }
 
 };
-
-
 
 
 dash['init'] = function () {
@@ -68,9 +64,10 @@ dash['init'] = function () {
     });
     $("#scratch").hide();
     $(".comments").hide();
-
 };
 
-dash['openProject'] = function () {
-    dash.globalVar.openProject
+dash['openProject'] = function (event) {
+    var projId = event.currentTarget.id
+    dash.globalVar.openProject(projId);
+    $(".jumbotron, .dashboard-container").hide();
 };
