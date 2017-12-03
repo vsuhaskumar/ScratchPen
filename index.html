@@ -452,6 +452,7 @@ document.addEventListener('DOMContentLoaded', function(){
       this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
     }
   };
+
   //Firebase session details
   firebase.auth().onAuthStateChanged(function(user) {
     crossroads.addRoute("main", function () {
@@ -642,7 +643,7 @@ document.addEventListener('DOMContentLoaded', function(){
       }
   };
 
-        //Importing the project
+  //Importing the project
   var importChangesModal = function () {
       var importData = $("#importData")[0].value;
       if(importData){
@@ -744,109 +745,96 @@ document.addEventListener('DOMContentLoaded', function(){
         return now;
   };
           
-          
-          function postComment(e) {
-            if ($("#login").is(":visible")){
-                $(".notification").html("Please login to comment").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-            }
-            else {if(globalVar.currentProjectId==null){
-              $(".notification").html("Please save the project to comment").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-             }
-            else{
-               var ref = firebase.app().database().ref();
-              var commentRef = ref.child('Projects/' + globalVar.currentProjectId+"/comments");
-               e.preventDefault();
-              let name = document.getElementById("yourName").value;
-              let comment = document.getElementById("comment").value;
+  var postComment = function () {
+      if ($("#login").is(":visible")){
+          $(".notification").html("Please login to comment").show();
+          setTimeout(function () {
+              $(".notification").fadeOut("slow");
+          }, 1000);
+      }
+      else {if(globalVar.currentProjectId==null){
+          $(".notification").html("Please save the project to comment").show();
+          setTimeout(function () {
+              $(".notification").fadeOut("slow");
+          }, 1000);
+      }
+      else{
+          var ref = firebase.app().database().ref();
+          var commentRef = ref.child('Projects/' + globalVar.currentProjectId+"/comments");
+          e.preventDefault();
+          let name = document.getElementById("yourName").value;
+          let comment = document.getElementById("comment").value;
 
-             if (name && comment) {
-                commentRef.push({
-                   name: name,
-                   comment: comment,
-                   time: timeStamp()
-                  });
-              }
-              
-               commentRef.on("child_added", function(snapshot) {
-                    let comment = snapshot.val();
-                    addComment(comment.name, comment.comment, comment.time);
-                   });
+          if (name && comment) {
+              commentRef.push({
+                  name: name,
+                  comment: comment,
+                  time: timeStamp()
+              });
+          }
+
+          commentRef.on("child_added", function(snapshot) {
+              let comment = snapshot.val();
+              addComment(comment.name, comment.comment, comment.time);
+          });
 
 
-              document.getElementById("yourName").value = '';
-              document.getElementById("comment").value = '';
-            }}
-             };
+          document.getElementById("yourName").value = '';
+          document.getElementById("comment").value = '';
+      }}
 
-          const addComment = (name, comment, timeStamp) => {
-                let comments = document.getElementById("commentsList");
-               comments.innerHTML = `<hr><h4>${name} says<span>${timeStamp}</span></h4><p>${comment}</p>${comments.innerHTML}`;
-               }
+  };
 
+  const addComment = (name, comment, timeStamp) => {
+        let comments = document.getElementById("commentsList");
+        comments.innerHTML = `<hr><h4>${name} says<span>${timeStamp}</span></h4><p>${comment}</p>${comments.innerHTML}`;
+  }
 
   //Code Reuse
-        var reuseToolbar = function () {
-
-          var blockList = [];
-          projectMapper = {};
-          var ref = firebase.app().database().ref();
-          var projRef = ref.child('Projects/');
-          projRef.once('value', function (snap) {
-                var projectObj = snap.val();
-                for(var obj in projectObj){
-                  blockList.push(projectObj[obj].name);
-                  var latestVersion;
-                  for(var version in projectObj[obj].versions){
-                          latestVersion =  projectObj[obj].versions[version];
-                  }
-                  projectMapper[projectObj[obj].name] = latestVersion;
-                }
-                var list =  $(".dropdown-menu");
-                for (var obj in blockList) {
-                    list.append("<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">"+blockList[obj]+"</a></li>");
-                 }
-                 }).then(function(){
-                    $("#reuseModal").modal();
-           $('.dropdown-menu a').click(function(){
-    $('#reuseSelected').text($(this).text());
-
-                 })
-
-  });
-
-         };
-
-
-          //Reusing  int the project
-         var reuseChangesModal = function () {
-              var blockID = document.getElementById("reuseSelected").innerHTML
-              if(blockID){
-
-                  //loading blocks into DOM
-                  $("#reuseModal").modal('hide');
-                  $("#scratch").show();
-                  //Blockly.mainWorkspace.clear();
-                  var xml = Blockly.Xml.textToDom(projectMapper[blockID]);
-                  //console.log(xml);
-                  Blockly.Xml.domToWorkspace(xml, workspace);
-                  //console.log("hello");
-
+  var reuseToolbar = function () {
+      var blockList = [];
+      projectMapper = {};
+      var ref = firebase.app().database().ref();
+      var projRef = ref.child('Projects/');
+      projRef.once('value', function (snap) {
+          var projectObj = snap.val();
+          for(var obj in projectObj){
+              blockList.push(projectObj[obj].name);
+              var latestVersion;
+              for(var version in projectObj[obj].versions){
+                  latestVersion =  projectObj[obj].versions[version];
               }
-              else{
-                //console.log("Please enter correct xml format");
-              }
+              projectMapper[projectObj[obj].name] = latestVersion;
+          }
+          var list =  $(".dropdown-menu");
+          for (var obj in blockList) {
+              list.append("<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">"+blockList[obj]+"</a></li>");
+          }
+      }).then(function(){
+          $("#reuseModal").modal();
+          $('.dropdown-menu a').click(function(){
+              $('#reuseSelected').text($(this).text());
+          })
+      });
+  };
 
-
-        };
-
-
-
+  //Reusing  int the project
+  var reuseChangesModal = function () {
+  var blockID = document.getElementById("reuseSelected").innerHTML
+      if(blockID){
+          //loading blocks into DOM
+          $("#reuseModal").modal('hide');
+          $("#scratch").show();
+          //Blockly.mainWorkspace.clear();
+          var xml = Blockly.Xml.textToDom(projectMapper[blockID]);
+          //console.log(xml);
+          Blockly.Xml.domToWorkspace(xml, workspace);
+          //console.log("hello");
+      }
+      else{
+          //console.log("Please enter correct xml format");
+      }
+  };
 
   workspace.addChangeListener(blockToText);
   document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
