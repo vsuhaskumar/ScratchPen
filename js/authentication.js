@@ -17,6 +17,7 @@ var authentication = {
       $("#create").show();
       $('#logout').hide();
       $('.comments').hide();
+      $(".jumbotron, .dashboard-container").hide();
       
     });
 
@@ -26,27 +27,31 @@ var authentication = {
       $("#create").hide();
       $('#logout').hide();
       $('.comments').hide();
+      $(".jumbotron").hide();
+      $(".dashboard-container").hide();
     });
 
     $("#signupButton").on("click", function(){
       $("#signin").hide();
       $("#create").show();
       $('#logout').hide();
-      
     });
 
     $("#cancel1").on("click", function(){
       $("#signin").hide();
       $("#create").hide();
-      $("#scratch").show();
+      $("#scratch").hide();
       $('#logout').hide();
+      $(".jumbotron, .dashboard-container").show();
+
     });
 
     $("#cancel2").on("click", function(){
       $("#signin").hide();
       $("#create").hide();
-      $("#scratch").show();
+      $("#scratch").hide();
       $('#logout').hide();
+      $(".jumbotron, .dashboard-container").show();
     });
 
     //To display Logout when user has signed-in
@@ -58,6 +63,8 @@ var authentication = {
       $("#signin").hide();
       $("#create").hide();
       $('.comments').show();
+
+
     });
 
     $("#signupButton").on("click", function(){
