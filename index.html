@@ -30,6 +30,7 @@
   <script src="js/customBlocks.js"></script>
   <script src="js/authentication.js"></script>
   <script src="js/save.js"></script>
+  <script src="js/dashboardTemplate.js"></script>
 
 
   <link rel="stylesheet" href="css/index.css">
@@ -102,35 +103,8 @@
             <p>Mission, Vission & Values</p>
         </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-              <div class="panel-body">
-                  <div class="catalog-content">
-                      <h3>This is project 1</h3>
-                      <div>This is going to be project Description</div>
-                  </div>
-              </div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="panel panel-primary">
-            <div class="panel-heading">BLACK FRIDAY DEAL</div>
-            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
-          </div>
-        </div>
-      </div>
+    <div class="container dashboard-container">
+
     </div><br>
     <!--End of dashboard-->
 
@@ -454,6 +428,7 @@ document.addEventListener('DOMContentLoaded', function(){
   authentication.globalVar = globalVar;
   saveObj.globarVar = globalVar;
   authentication.addClickListner();
+
   Blockly.Blocks['move'] = {
     init: function() {
       this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
@@ -522,6 +497,8 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     }
     else {
+
+
       authentication.init();
       console.log("not logged in");
     }
@@ -607,57 +584,56 @@ document.addEventListener('DOMContentLoaded', function(){
                    });
   }
   var openNewProject = function () {
-    //Resetting blocks
-    $("#scratch").show();
-    $(".project-list").hide();
-    Blockly.mainWorkspace.clear();
-    $(".comments").show();
+            //Resetting blocks
+            $("#scratch").show();
+            $(".project-list").hide();
+            Blockly.mainWorkspace.clear();
   };
-  var openFromVersion = function () {
-    $("#openVersionModal").modal();
-    var projectID = globalVar.currentProjectId;
-    var ref = firebase.app().database().ref();
-    var projRef = ref.child('Projects/' + projectID + '/versions');
-    projRef.once('value', function (snap) {
-      //console.log(snap.val());
-      var versionObj = snap.val();
-      for (var obj in versionObj) {
-        $(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
-      }
-    });
-  };
+
+    var openFromVersion = function () {
+        $("#openVersionModal").modal();
+        var projectID = globalVar.currentProjectId;
+        var ref = firebase.app().database().ref();
+        var projRef = ref.child('Projects/' + projectID + '/versions');
+        projRef.once('value', function (snap) {
+            //console.log(snap.val());
+            var versionObj = snap.val();
+            for (var obj in versionObj) {$(".version-list").append("<li>"+ moment(Number(obj)).format("DD/MM/YYYY h:mm:ss") + "   -   "+obj + "</li>")
+            }
+        });
+    };
 
 
             //Exporting project
-         var exportToolbar = function () {
-            if ($("#login").is(":visible")){
-                $(".notification").html("Please login to save").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-            }
-            else {
-                $("#exportModal").modal();
-                var exportObj = saveObj.blockToXml(true);
-                $("#exportName").attr("value", exportObj);
-            }
-        };
+    var exportToolbar = function () {
+        if ($("#login").is(":visible")){
+            $(".notification").html("Please login to save").show();
+            setTimeout(function () {
+                $(".notification").fadeOut("slow");
+            }, 1000);
+        }
+        else {
+            $("#exportModal").modal();
+            var exportObj = saveObj.blockToXml(true);
+            $("#exportName").attr("value", exportObj);
+        }
+    };
 
         //Importing project
-        var importToolbar = function () {
-            if ($("#login").is(":visible")){
-                $(".notification").html("Please login to save").show();
-                setTimeout(function () {
-                    $(".notification").fadeOut("slow");
-                }, 1000);
-            }
-            else {
-                $("#importModal").modal();
-            }
-        };
+    var importToolbar = function () {
+        if ($("#login").is(":visible")){
+            $(".notification").html("Please login to save").show();
+            setTimeout(function () {
+                $(".notification").fadeOut("slow");
+            }, 1000);
+        }
+        else {
+            $("#importModal").modal();
+        }
+    };
 
         //Importing the project
-         var importChangesModal = function () {
+        var importChangesModal = function () {
               var importData = $("#importData")[0].value;
               if(importData){
 
@@ -807,7 +783,6 @@ document.addEventListener('DOMContentLoaded', function(){
                }
 
 
-
   //Code Reuse
         var reuseToolbar = function () {
 
@@ -865,7 +840,11 @@ document.addEventListener('DOMContentLoaded', function(){
          
          
 
-      
+
+        var initDashBoard = function(){
+
+        };
+
   workspace.addChangeListener(blockToText);
   document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
   document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
