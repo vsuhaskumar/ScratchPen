@@ -265,7 +265,7 @@
         </div>
 
         <div class="container-fluid container-fill-height create-container" id="create">
-            <div class="container-content-middle">
+            <div style="margin-top: 20%">
                 <form role="form" class="m-x-auto text-center app-login-form create-login-form">
                     <a href="../index.html" class="app-brand m-b-lg">
                         <img src="/images/lock.svg" alt="lock">
@@ -281,13 +281,12 @@
                         <button type="button" class="btn btn-danger" id="cancel1">Cancel</button>
                     </div>
                 </form>
-
             </div>
         </div>
         <div class="container-fluid container-fill-height signin-contatiner" id="signin">
-            <div class="container-content-middle">
+            <div style="margin-top: 20%">
                 <form role="form" class="m-x-auto text-center app-login-form signin-login-form">
-                    <a href="../index.html" class="app-brand m-b-lg">
+                    <a href="#" class="app-brand m-b-lg">
                         <img src="/images/lock.svg" alt="brand">
                     </a>
                     <div class="form-group">
@@ -410,7 +409,7 @@
                 init: function() {
                     this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
                         'FIELDNAME');
-                    this.setPreviousStatement(true);
+                    this.setPrevWiousStatement(true);
                     this.setNextStatement(true);
                     this.setColour(160);
                     this.setTooltip('Returns number of letters in the provided text.');
@@ -568,11 +567,13 @@
                     addComment(comment.name, comment.comment, comment.time);
                 });
                 $(".comments").show();
+                $(".jumbotron").hide();
             }
             var openNewProject = function() {
                 //Resetting blocks
                 $("#scratch").show();
                 $(".project-list").hide();
+                $(".jumbotron").hide();
                 Blockly.mainWorkspace.clear();
                 $(".comments").show();
             };
@@ -738,7 +739,7 @@
                 $("#create").hide();
                 $("#importModal").modal('hide');
                 //loading blocks into DOM
-                commonOpenProject(searchProjects[event.text.label]);
+                commonOpenProject(searchProjects[event.text.label],event.text.label);
             });
 
             //comment part            
@@ -843,6 +844,15 @@
                     //console.log("Please enter correct xml format");
                 }
             };
+            
+            
+            //logout functionality
+            var logoutChanges= function(){
+                $(".jumbotron").show();
+                 $(".dashboard-container").show();
+                 document.getElementById('sign-in').disabled = false;
+                 $(".project-list").empty();
+            }
 
             //Adding new functions defined to global variable
             globalVar['openProject'] = commonOpenProject;
@@ -864,6 +874,7 @@
             document.getElementById("codeReuse").addEventListener("click", reuseToolbar);
             document.getElementById("reuseBlocks").addEventListener("click", reuseChangesModal, false);
             document.getElementById("openVersion").addEventListener("click", versionOpenModal, false);
+            document.getElementById("logout").addEventListener("click", logoutChanges);
             //document.querySelector(".comments form").addEventListener("click", postComment);
         });
     </script>
