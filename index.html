@@ -505,6 +505,8 @@ document.addEventListener('DOMContentLoaded', function(){
       console.log("not logged in");
     }
   });
+
+
   var saveChangesModal = function () {
     var projectName = $("#projectName")[0].value;
     var projectDesc = $("#projectDesc")[0].value;
@@ -533,6 +535,7 @@ document.addEventListener('DOMContentLoaded', function(){
       //console.log("error saving project" ,error);
     });
   };
+
   var saveToolbar = function(){
     if ($("#login").is(":visible")){
       $(".notification").html("Please login to save").show();
@@ -544,11 +547,13 @@ document.addEventListener('DOMContentLoaded', function(){
       $("#saveModal").modal();
     }
   };
+
   var blockToText = function (event) {
     var code = Blockly.JavaScript.workspaceToCode(workspace);
     document.getElementById('textGenerator').innerText = code;  //puts block code into text editor
     //console.log(code);
   };
+
   var saveVersion = function () {
     var newVersion = Date.now();
     // Write the new post's data simultaneously in the posts list and the user's post list.
@@ -557,10 +562,12 @@ document.addEventListener('DOMContentLoaded', function(){
     updates['/Projects/' + globalVar.currentProjectId + '/versions/' + newVersion] = saveObj.blockToXml(true);
     return firebase.database().ref().update(updates);
   };
+
   var openProject = function(event){
     var projectID = event.currentTarget.id.split("_")[0];
     commonOpenProject(projectID);
   };
+
   function commonOpenProject(projectID){
     globalVar.currentProjectId = projectID;
     var ref = firebase.app().database().ref();
@@ -586,12 +593,13 @@ document.addEventListener('DOMContentLoaded', function(){
                    });
               $(".comments").show();
   }
+
   var openNewProject = function () {
             //Resetting blocks
             $("#scratch").show();
             $(".project-list").hide();
             Blockly.mainWorkspace.clear();
-             $(".comments").show();
+            $(".comments").show();
   };
 
     var openFromVersion = function () {
