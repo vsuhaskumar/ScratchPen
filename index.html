@@ -584,10 +584,13 @@
 
             var openProject = function(event) {
                 var projectID = event.currentTarget.id.split("_")[0];
-                commonOpenProject(projectID);
+                var name = event.currentTarget.parentElement.parentElement.children[0].innerText
+                commonOpenProject(projectID, name, globalVar.user.email);
             };
 
-            function commonOpenProject(projectID) {
+            function commonOpenProject(projectID, name, userName) {
+                $(".project-info-name").text(name);
+                $(".project-info-user").text("Created By - " + userName);
                 globalVar.currentProjectId = projectID;
                 var ref = firebase.app().database().ref();
                 var projRef = ref.child('Projects/' + projectID + '/versions');

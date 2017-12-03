@@ -327,4 +327,10 @@
 .project-info{
     margin-left: 15px;
     margin-top: 60px;
+    background-color: #ddd;
+}
+
+.project-info div {
+    margin-left: 15px;
+    margin-right: 15px;
 }

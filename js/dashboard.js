@@ -24,8 +24,8 @@ dash['createDOM'] = function(project, id, element, user){
                   '</div>'+
               '</div>'+
             '<div class="panel-footer">'+
-                '<div><h4>Created By - '+ user + '</h4></div>'+
-                '<div><h5>Time Created - '+ moment(Number(time)).format("DD/MM/YYYY h:mm") +'</h5> </div>'+
+                '<div><h4 class="dashboard-item-createdBy">Created By - '+ user + '</h4></div>'+
+                '<div><h5 class="dashboard-item-time">Time Created - '+ moment(Number(time)).format("DD/MM/YYYY h:mm") +'</h5> </div>'+
             '</div>'+
           '</div>'+
         '</div>';
@@ -67,7 +67,9 @@ dash['init'] = function () {
 };
 
 dash['openProject'] = function (event) {
-    var projId = event.currentTarget.id
-    dash.globalVar.openProject(projId);
+    var projId = event.currentTarget.id;
+    var projName = $("#" + projId).find(".dashboard-item-name")[0].children[0].innerHTML;
+    var creator = $("#" + projId).find(".dashboard-item-createdBy")[0].innerHTML.split(" - ")[1];
+    dash.globalVar.openProject(projId, projName, creator);
     $(".jumbotron, .dashboard-container").hide();
 };
