@@ -26,11 +26,12 @@ dash['createDOM'] = function(project, id, element, user){
               '</div>'+
             '<div class="panel-footer">'+
                 '<div><h4>Created By - '+ user + '</h4></div>'+
-                '<div><h5>Time Created - '+ moment(Number(time)).format("DD/MM/YYYY") +'</h5> </div>'+
+                '<div><h5>Time Created - '+ moment(Number(time)).format("DD/MM/YYYY h:mm") +'</h5> </div>'+
             '</div>'+
           '</div>'+
         '</div>';
 
+    $(id).click(dash['openProject']);
 
     if(domCount === 0) {
         rowId = "#row_" + id;
@@ -49,7 +50,7 @@ dash['createDOM'] = function(project, id, element, user){
 
 
 
- 
+
 dash['init'] = function () {
     var el = $(".dashboard-container").empty();
     var ref = firebase.app().database().ref();
@@ -68,4 +69,8 @@ dash['init'] = function () {
     $("#scratch").hide();
     $(".comments").hide();
 
+};
+
+dash['openProject'] = function () {
+    dash.globalVar.openProject
 };

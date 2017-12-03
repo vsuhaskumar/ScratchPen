@@ -359,6 +359,7 @@
             </div>
         </div>
     </div>
+
     <!--This is the main script tap.Add to new functions at the end  in function document.addEventListner-->
     <script>
         // execute/clear BS loaders for docs
@@ -417,6 +418,7 @@
             authentication.globalVar = globalVar;
             saveObj.globarVar = globalVar;
             authentication.addClickListner();
+            dash.globalVar = globalVar;
 
             Blockly.Blocks['move'] = {
                 init: function() {
@@ -439,6 +441,7 @@
                     this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
                 }
             };
+
             //Firebase session details
             firebase.auth().onAuthStateChanged(function(user) {
                 crossroads.addRoute("main", function() {
@@ -491,6 +494,7 @@
                     console.log("not logged in");
                 }
             });
+
             var saveChangesModal = function() {
                 var projectName = $("#projectName")[0].value;
                 var projectDesc = $("#projectDesc")[0].value;
@@ -519,6 +523,7 @@
                     //console.log("error saving project" ,error);
                 });
             };
+
             var saveToolbar = function() {
                 if ($("#login").is(":visible")) {
                     $(".notification").html("Please login to save").show();
@@ -665,7 +670,6 @@
             var importChangesModal = function() {
                 var importData = $("#importData")[0].value;
                 if (importData) {
-
                     //loading blocks into DOM
                     $("#importModal").modal('hide');
                     Blockly.mainWorkspace.clear();
@@ -676,18 +680,15 @@
                     //console.log(xml);
                     Blockly.Xml.domToWorkspace(xml, workspace);
                     //console.log("hello");
-
                 } else {
                     //console.log("Please enter correct xml format");
                 }
 
             };
 
-            //for autocomplete
-
+            //Autocomplete
             var searchProjects;
-
-            function allProjects() {
+            var allProjects = function() {
                 searchProjects = {};
                 var projectNames = [];
                 var projectXML = [];
@@ -716,7 +717,7 @@
                     xmls: projectXML
                 }]
 
-            }
+            };
 
             //getting the list
             var comboplete = new Awesomplete('input.dropdown-input', {
@@ -732,7 +733,6 @@
                 if (comboplete.ul.childNodes != null && comboplete.ul.childNodes.length === 0) {
                     comboplete.minChars = 0;
                     comboplete.evaluate();
-
                 } else if (comboplete.ul.hasAttribute('hidden')) {
                     comboplete.open();
                 } else {
@@ -765,7 +765,7 @@
                 return now;
             };
 
-            function postComment(e) {
+            var postComment = function() {
                 if ($("#login").is(":visible")) {
                     $(".notification").html("Please login to comment").show();
                     setTimeout(function() {
@@ -801,6 +801,7 @@
                         document.getElementById("comment").value = '';
                     }
                 }
+
             };
 
             const addComment = (name, comment, timeStamp) => {
@@ -858,7 +859,6 @@
                 } else {
                     //console.log("Please enter correct xml format");
                 }
-
             };
 
             var initDashBoard = function() {
