@@ -582,12 +582,14 @@ document.addEventListener('DOMContentLoaded', function(){
                     let comment = snapshot.val();
                     addComment(comment.name, comment.comment, comment.time);
                    });
+              $(".comments").show();
   }
   var openNewProject = function () {
             //Resetting blocks
             $("#scratch").show();
             $(".project-list").hide();
             Blockly.mainWorkspace.clear();
+             $(".comments").show();
   };
 
     var openFromVersion = function () {
