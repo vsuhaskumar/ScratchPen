@@ -30,7 +30,7 @@
   <script src="js/customBlocks.js"></script>
   <script src="js/authentication.js"></script>
   <script src="js/save.js"></script>
-  <script src="js/dashboardTemplate.js"></script>
+  <script src="js/dashboard.js"></script>
 
 
   <link rel="stylesheet" href="css/index.css">
@@ -261,7 +261,7 @@
                 </div>
             </div>
             <!----End Modal ---->
-            
+
                 <!-- Modal -->
     <div class="modal fade" id="reuseModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelVersion">
       <div class="modal-dialog" role="document">
@@ -276,7 +276,7 @@
     <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
     <span id="reuseSelected">Select project for reuse</span><span class="caret"></span></button>
     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-      
+
 
     </ul>
   </div>
@@ -428,6 +428,8 @@ document.addEventListener('DOMContentLoaded', function(){
   authentication.globalVar = globalVar;
   saveObj.globarVar = globalVar;
   authentication.addClickListner();
+  dash.globalVar = globalVar;
+
 
   Blockly.Blocks['move'] = {
     init: function() {
@@ -498,8 +500,8 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     else {
 
-
       authentication.init();
+      dash.init();
       console.log("not logged in");
     }
   });
@@ -689,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function(){
             return [{projects: projectNames, xmls: projectXML}]
 
         }
-        
+
          //getting the list
         var comboplete = new Awesomplete('input.dropdown-input', {
                list: allProjects()[0].projects,
@@ -810,14 +812,14 @@ document.addEventListener('DOMContentLoaded', function(){
                     $("#reuseModal").modal();
            $('.dropdown-menu a').click(function(){
     $('#reuseSelected').text($(this).text());
-                   
+
                  })
-                          
+
   });
 
          };
-         
-         
+
+
           //Reusing  int the project
          var reuseChangesModal = function () {
               var blockID = document.getElementById("reuseSelected").innerHTML
@@ -839,13 +841,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
         };
-         
-         
 
 
-        var initDashBoard = function(){
 
-        };
 
   workspace.addChangeListener(blockToText);
   document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
@@ -863,10 +861,10 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById("commentButton").addEventListener('click', postComment);
   document.getElementById("codeReuse").addEventListener("click", reuseToolbar);
   document.getElementById("reuseBlocks").addEventListener("click", reuseChangesModal,false);
-  
+
   //document.querySelector(".comments form").addEventListener("click", postComment);
-  
-  
+
+
 });
 
 
