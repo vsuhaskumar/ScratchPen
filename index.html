@@ -561,12 +561,6 @@
                 var projectID = event.currentTarget.id.split("_")[0];
                 var name = event.currentTarget.parentElement.parentElement.children[0].innerText;
                 var type = event.currentTarget.parentElement.parentElement.children[1].innerText;
-                if (type === 'animation') {
-                    aniWorkspace();
-                }
-                else {
-                    defaultWorkspace();
-                }
                 commonOpenProject(projectID, name, globalVar.user.email, type);
             };
 
@@ -587,9 +581,13 @@
                     //loading blocks into DOM
                     var xml = Blockly.Xml.textToDom(snap.val()[mostRecent]);
                     if(projectType === 'animation') {
+                        aniWorkspace();
+                        Blockly.mainWorkspace.clear();
                         Blockly.Xml.domToWorkspace(xml, animWorkSpace);
                     }
                     else{
+                        defaultWorkspace();
+                        Blockly.mainWorkspace.clear();
                         Blockly.Xml.domToWorkspace(xml, workspace);
                     }
 
