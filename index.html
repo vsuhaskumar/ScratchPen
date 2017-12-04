@@ -8,6 +8,7 @@
     <script src="bower_components/blockly/blocks_compressed.js"></script>
     <script src="bower_components/blockly/msg/js/en.js"></script>
     <script src="bower_components/blockly/javascript_compressed.js"></script>
+    <script src="bower_components/blockly/python_compressed.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -56,7 +57,8 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li class="active"><a id = "allProjects" href="#">Dashboard</a></li>
+                        <li><a id = "myProjects" href="#">My Projects</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
 
@@ -90,7 +92,7 @@
 
         <!--Thumbnail start-->
         <div class="row project-list">
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-3 fixed-create-block">
                 <div class="thumbnail">
                     <img id="newProject" class="newProjectThumbnail" src="images/add_circle_grey.png" alt="...">
                     <div class="caption">
@@ -125,7 +127,7 @@
                     <ul class="nav nav-sidebar">
                         <li><a id="animateCode">Play</a></li>
                         <li><a id="codeReuse" href="#">Code reuse</a></li>
-                        <li><a id="switchLang" href="#">Switch language</a></li>
+                        <li><a id="switchLang">Switch language</a></li>
                         <li><a id="animMode" href="#">Switch to animation</a></li>
                         <li><a id="defaultMode" href="#">Switch to default</a></li>
                         <!--<li><a href="">One more nav</a></li>-->
@@ -450,45 +452,11 @@
                 hasher.setHash("main");
 
                 if (user) {
-                    $(".project-list").show();
-                    $("#login").hide();
-                    $("#join").hide();
-                    $("#scratch").hide();
-                    $('#logout').show();
-                    $("#signin").hide();
-                    $("#create").hide();
-                    $(".comments").hide();
-                    $("#userLabel").text("Logged in as " + user.email);
                     globalVar.user = user;
                     if (!globalVar.getStorageValue("email")) {
                         globalVar.setStorageValue("email", user.email)
                     }
-                    var ref = firebase.app().database().ref();
-                    var usersRef = ref.child('Users/' + user.uid + '/projects');
-                    usersRef.once('value', function(snap) {
-                        var projects = snap.val(); // Keep the local user object synced with the Firebase userRef
-                        //console.log(projects);
-                        for (var p in projects) {
-                            var pType = projects[p]["projectType"] || "default";
-                            var projectListDOM = '<div class="col-sm-6 col-md-4">' +
-                                '<div class="thumbnail">' +
-                                //'<img src="..." alt="...">'+
-                                '<div class="caption">' +
-                                '<h3>' + projects[p]["name"] + '</h3>' +
-                                '<h6>' + pType + '</h6>' +
-                                '<p>' + projects[p]["desc"] + '</p>' +
-                                '<p>' +
-                                '<a href="#" id = ' + p + '_open ' + 'class="btn btn-primary" role="button">Open</a>' + '\r\r' +
-                                '<a href="#" id = ' + p + '_delete ' + 'class="btn btn-default" role="button">Delete</a>' +
-                                '</p>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>';
-                            $(".project-list").append(projectListDOM);
-                            $("#" + p + "_open").click(openProject);
-                            $("#" + p + "_delete").click(deleteProject);
-                        }
-                    });
+                    showMyProjects();
                 } else {
                     authentication.init();
                     dash.init();
@@ -539,7 +507,7 @@
                 }
             };
 
-            var blockToText = function(event) {
+            var blockToText = function(lang) {
                 var code = Blockly.JavaScript.workspaceToCode(workspace);
                 document.getElementById('textGenerator').innerText = code; //puts block code into text editor
                 //console.log(code);
@@ -947,6 +915,64 @@
                 });
             };
 
+            var showAllProjects = function () {
+                dash.init();
+                $(".jumbotron, .dashboard-container").show();
+                $(".project-list").hide();
+            };
+
+            var showMyProjects = function () {
+
+                $(".project-list").show();
+                $("#login").hide();
+                $("#join").hide();
+                $("#scratch").hide();
+                $('#logout').show();
+                $("#signin").hide();
+                $("#create").hide();
+                $(".comments").hide();
+                $(".jumbotron, .dashboard-container").hide();
+                $("#userLabel").text("Logged in as " + globalVar.user.email);
+                /*globalVar.user = user;
+                if (!globalVar.getStorageValue("email")) {
+                    globalVar.setStorageValue("email", user.email)
+                }*/
+                var ref = firebase.app().database().ref();
+                var usersRef = ref.child('Users/' + globalVar.user.uid + '/projects');
+                usersRef.once('value', function(snap) {
+                    var projects = snap.val(); // Keep the local user object synced with the Firebase userRef
+                        //console.log(projects);
+                    var el = $(".project-list");
+                    var fixedEl = $(".fixed-create-block");
+                    el.empty();
+                    el.append(fixedEl);
+                    for (var p in projects) {
+                        var pType = projects[p]["projectType"] || "default";
+                        var projectListDOM = '<div class="col-sm-6 col-md-4">' +
+                            '<div class="thumbnail">' +
+                            //'<img src="..." alt="...">'+
+                            '<div class="caption">' +
+                            '<h3>' + projects[p]["name"] + '</h3>' +
+                            '<h6>' + pType + '</h6>' +
+                            '<p>' + projects[p]["desc"] + '</p>' +
+                            '<p>' +
+                            '<a href="#" id = ' + p + '_open ' + 'class="btn btn-primary" role="button">Open</a>' + '\r\r' +
+                            '<a href="#" id = ' + p + '_delete ' + 'class="btn btn-default" role="button">Delete</a>' +
+                            '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                        el.append(projectListDOM);
+                        $("#" + p + "_open").click(openProject);
+                        $("#" + p + "_delete").click(deleteProject);
+                    }
+                });
+            };
+
+            var switchLang = function () {
+                blockToText("python");
+            };
+
             //Adding new functions defined to global variable
             globalVar['openProject'] = commonOpenProject;
 
@@ -972,6 +998,9 @@
             document.getElementById("animMode").addEventListener("click", aniWorkspace);
             document.getElementById("defaultMode").addEventListener("click", defaultWorkspace);
             document.getElementById("animateCode").addEventListener("click", animateCode);
+            document.getElementById("allProjects").addEventListener("click", showAllProjects);
+            document.getElementById("myProjects").addEventListener("click", showMyProjects);
+            document.getElementById("switchLang").addEventListener("click", switchLang);
             //document.querySelector(".comments form").addEventListener("click", postComment);
         });
     </script>
