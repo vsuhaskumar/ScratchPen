@@ -56,7 +56,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li class="active"><a id = "allProjects" href="#">Dashboard</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
 
@@ -944,6 +944,10 @@
                 });
             };
 
+            var showAllProjects = function () {
+                dash.init();
+                $(".jumbotron, .dashboard-container").show();
+            };
             //Adding new functions defined to global variable
             globalVar['openProject'] = commonOpenProject;
 
@@ -969,6 +973,7 @@
             document.getElementById("animMode").addEventListener("click", aniWorkspace);
             document.getElementById("defaultMode").addEventListener("click", defaultWorkspace);
             document.getElementById("animateCode").addEventListener("click", animateCode);
+            document.getElementById("allProjects").addEventListener("click", showAllProjects);
             //document.querySelector(".comments form").addEventListener("click", postComment);
         });
     </script>
