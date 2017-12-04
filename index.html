@@ -486,6 +486,7 @@
                                 '</div>';
                             $(".project-list").append(projectListDOM);
                             $("#" + p + "_open").click(openProject);
+                            $("#" + p + "_delete").click(deleteProject);
                         }
                     });
                 } else {
@@ -927,6 +928,22 @@
                 $(el).animate(animObj, 800);
 
             };
+            
+            
+             var deleteProject = function(event) {
+                var projectID = event.currentTarget.id.split("_")[0];
+                var thumbnailElement = event.currentTarget.parentElement.parentElement.parentElement;
+                var ref = firebase.app().database().ref();
+                var projRef = ref.child('Projects/'+projectID);
+                var userRef = ref.child('Users/'+globalVar.user.uid+'/projects/'+projectID);
+                projRef.remove().then(function(){
+                    userRef.remove().then(function(){
+                        console.log("delete successful");
+                        thumbnailElement.remove();
+                    })
+                });
+            };
+
             //Adding new functions defined to global variable
             globalVar['openProject'] = commonOpenProject;
 
