@@ -127,7 +127,7 @@
                     <ul class="nav nav-sidebar">
                         <li><a id="animateCode">Play</a></li>
                         <li><a id="codeReuse" href="#">Code reuse</a></li>
-                        <li><a id="switchLang">Switch language</a></li>
+                        <li><a id="switchLang">Switch code (to Python)</a></li>
                         <li><a id="animMode" href="#">Switch to animation</a></li>
                         <li><a id="defaultMode" href="#">Switch to default</a></li>
                         <!--<li><a href="">One more nav</a></li>-->
@@ -413,7 +413,8 @@
                 },
                 user: null, //Storing logged in user
                 projectsInDOM: [],
-                projectType: "default"
+                projectType: "default",
+                lang: "js"
             };
             authentication.globalVar = globalVar;
             saveObj.globarVar = globalVar;
@@ -509,8 +510,11 @@
                 }
             };
 
-            var blockToText = function(lang) {
+            var blockToText = function() {
                 var code = Blockly.JavaScript.workspaceToCode(workspace);
+                if (globalVar.lang === "py") {
+                    code = Blockly.Python.workspaceToCode(workspace);
+                }
                 document.getElementById('textGenerator').innerText = code; //puts block code into text editor
                 //console.log(code);
             };
@@ -536,6 +540,7 @@
             };
 
             function commonOpenProject(projectID, name, userName, projectType) {
+                globalVar.lang = "js";
                 $(".project-info-name").text(name);
                 $(".project-info-user").text("Created By - " + userName);
                 globalVar.currentProjectId = projectID;
@@ -972,7 +977,17 @@
             };
 
             var switchLang = function () {
-                blockToText("python");
+                if (globalVar.lang === 'js') {
+                    globalVar.lang = "py";
+                    $("#switchLang").text("Switch code (to JS)");
+                    blockToText("python");
+                }
+                else {
+                    globalVar.lang = "js";
+                    $("#switchLang").text("Switch code (to Python)");
+                    blockToText("js");
+                }
+
             };
 
             //Adding new functions defined to global variable
