@@ -27,6 +27,7 @@
     <script src="bower_components/awesomplete/awesomplete.min.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
+    <script src="js/customTextGenerator.js"></script>
     <script src="js/customBlocks.js"></script>
     <script src="js/authentication.js"></script>
     <script src="js/save.js"></script>
@@ -122,7 +123,7 @@
                         <li><a id="export" href="#">Export</a></li>
                     </ul>
                     <ul class="nav nav-sidebar">
-                        <li><a href="">Play</a></li>
+                        <li><a id="animateCode">Play</a></li>
                         <li><a id="codeReuse" href="#">Code reuse</a></li>
                         <li><a id="switchLang" href="#">Switch language</a></li>
                         <li><a id="animMode" href="#">Switch to animation</a></li>
@@ -145,7 +146,7 @@
                     <!--<div class="save-code"></div>-->
                     <!--<div class="load-code"></div>-->
                     <div class="playground-container">
-                        <div class="playground"></div>
+                        <div class="playground" id="playgroundObj"></div>
                     </div>
                 </div>
                 <!-- Modal -->
@@ -416,7 +417,7 @@
             authentication.addClickListner();
             dash.globalVar = globalVar;
 
-            Blockly.Blocks['move'] = {
+            Blockly.Blocks['move_to_right'] = {
                 init: function() {
                     this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
                         'FIELDNAME');
@@ -537,6 +538,10 @@
                 //console.log(code);
             };
 
+            var blockToTextAnim = function(){
+                document.getElementById('textGeneratorAnim').innerText = Blockly.JavaScript.workspaceToCode(animWorkSpace);
+            };
+
             var saveVersion = function() {
                 var newVersion = Date.now();
                 // Write the new post's data simultaneously in the posts list and the user's post list.
@@ -549,7 +554,7 @@
             var openProject = function(event) {
                 var projectID = event.currentTarget.id.split("_")[0];
                 var name = event.currentTarget.parentElement.parentElement.children[0].innerText;
-                $("#blocklyDivAnim").hide();
+                defaultWorkspace();
                 commonOpenProject(projectID, name, globalVar.user.email);
             };
 
@@ -590,6 +595,7 @@
                 Blockly.mainWorkspace.clear();
                 $(".comments").show();
                 $(".version-list").empty();
+                defaultWorkspace();
             };
 
             var openFromVersion = function() {
@@ -882,10 +888,32 @@
                 globalVar.mode = "default";
             };
 
+            var animateCode = function() {
+                var code = $("#textGeneratorAnim").text();
+                var animObj = {};
+                var codeFragments = code.split("\n");
+                var el = $("#playgroundObj")[0];
+                for (var i = 0; i < codeFragments.length; i++) {
+                    if (codeFragments[i].indexOf("move object to right") !== -1) {
+                        if(animObj['marginLeft']) {
+                            animObj['marginLeft'] = animObj['marginLeft'] +
+                            Number($(el).css('margin-left').match(/\d+/)[0]) +
+                            Number(codeFragments[i].match(/\d+/)[0]);
+                        } else {
+                            animObj['marginLeft'] = Number($(el).css('margin-left').match(/\d+/)[0]) +
+                            Number(codeFragments[i].match(/\d+/)[0]);
+                        }
+
+                    }
+                }
+                $(el).animate(animObj, 800);
+
+            };
             //Adding new functions defined to global variable
             globalVar['openProject'] = commonOpenProject;
 
             workspace.addChangeListener(blockToText);
+            animWorkSpace.addChangeListener(blockToTextAnim);
             document.getElementById('sign-in').addEventListener('click', authentication.toggleSignIn, false);
             document.getElementById('facebook-login').addEventListener('click', authentication.facebookSignIn, false);
             document.getElementById('google-login').addEventListener('click', authentication.googleSignIn, false);
@@ -905,6 +933,7 @@
             document.getElementById("logout").addEventListener("click", logoutChanges);
             document.getElementById("animMode").addEventListener("click", aniWorkspace);
             document.getElementById("defaultMode").addEventListener("click", defaultWorkspace);
+            document.getElementById("animateCode").addEventListener("click", animateCode);
             //document.querySelector(".comments form").addEventListener("click", postComment);
         });
     </script>

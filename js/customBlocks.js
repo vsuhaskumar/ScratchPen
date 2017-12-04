@@ -67,10 +67,7 @@ toolbox += '    <block type="lists_length"></block>';
 toolbox += '  </category>';
 toolbox += '  <category name="Variables" colour="330" custom="VARIABLE"></category>';
 toolbox += '  <category name="Functions" colour="290" custom="PROCEDURE"></category>';
-toolbox += '  <category name="Motion" colour="360">';
-toolbox += '    <block type="move"></block>';
-toolbox += '    <block type="turn_clockwise"></block>';
-toolbox += '  </category>';
+;
 /*toolbox += '  <block type="controls_if"></block>';
        toolbox += '  <block type="controls_whileUntil"></block>';*/
 toolbox += '</xml>';
@@ -78,7 +75,7 @@ toolbox += '</xml>';
 
 var animTools = '<xml>';
 animTools += '<category name="Motion" colour="360">';
-animTools += '  <block type="move"></block>';
+animTools += '  <block type="move_to_right"></block>';
 animTools += '  <block type="turn_clockwise"></block>';
 animTools += '</category>';
 animTools += '</xml>';
