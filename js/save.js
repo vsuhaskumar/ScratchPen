@@ -2,8 +2,12 @@
  * Created by kaustubhmungale on 20/11/17.
  */
 var saveObj = {};
-saveObj["blockToXml"] = function blockToXml(XMLFormat) {
-            var xml = Blockly.Xml.workspaceToDom(saveObj.globarVar.workspace);
+saveObj["blockToXml"] = function blockToXml(XMLFormat, projectType) {
+            var workSpace = saveObj.globarVar.workspace;
+	        if (projectType === 'animation') {
+                workSpace = saveObj.globarVar.animWorkSpace;
+            }
+            var xml = Blockly.Xml.workspaceToDom(workSpace);
             var xml_text = Blockly.Xml.domToText(xml);
             console.log(xml_text);
             if (XMLFormat) {

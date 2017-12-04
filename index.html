@@ -405,12 +405,13 @@
                     return this.currentProjectName
                 },
                 workspace: workspace,
+                animWorkSpace: animWorkSpace,
                 getTimeStamp: function() {
                     return Date.now();
                 },
                 user: null, //Storing logged in user
                 projectsInDOM: [],
-                mode: "default"
+                projectType: "default"
             };
             authentication.globalVar = globalVar;
             saveObj.globarVar = globalVar;
@@ -468,11 +469,13 @@
                         var projects = snap.val(); // Keep the local user object synced with the Firebase userRef
                         //console.log(projects);
                         for (var p in projects) {
+                            var pType = projects[p]["projectType"] || "default";
                             var projectListDOM = '<div class="col-sm-6 col-md-4">' +
                                 '<div class="thumbnail">' +
                                 //'<img src="..." alt="...">'+
                                 '<div class="caption">' +
                                 '<h3>' + projects[p]["name"] + '</h3>' +
+                                '<h6>' + pType + '</h6>' +
                                 '<p>' + projects[p]["desc"] + '</p>' +
                                 '<p>' +
                                 '<a href="#" id = ' + p + '_open ' + 'class="btn btn-primary" role="button">Open</a>' + '\r\r' +
@@ -495,16 +498,18 @@
             var saveChangesModal = function() {
                 var projectName = $("#projectName")[0].value;
                 var projectDesc = $("#projectDesc")[0].value;
+                var projectType = globalVar.projectType;
                 var uid = globalVar.generateUniqueID(); //Unique Id for Project
                 var versionData = {};
                 var timeStamp = globalVar.getTimeStamp();
-                versionData[timeStamp] = saveObj.blockToXml(true); //Timestamp is unique ID for version
+                versionData[timeStamp] = saveObj.blockToXml(true, globalVar.projectType); //Timestamp is unique ID for version
                 globalVar.fbDatabase.ref("/Projects/" + uid).set({
                     "name": projectName,
                     "desc": projectDesc,
                     "timeStamp": timeStamp,
                     "author": globalVar.getStorageValue("email"),
-                    "versions": versionData
+                    "versions": versionData,
+                    "projectType": projectType
                 }).then(function() {
                     $("#saveModal").modal('hide');
                     globalVar.currentProject = projectName;
@@ -513,7 +518,8 @@
                     updates['/Users/' + globalVar.user.uid + '/projects/' + uid] = {
                         "name": projectName,
                         "desc": projectDesc,
-                        "timestamp": timeStamp
+                        "timestamp": timeStamp,
+                        "projectType": globalVar.projectType
                     };
                     return firebase.database().ref().update(updates);
                 }).catch(function(error) {
@@ -554,11 +560,17 @@
             var openProject = function(event) {
                 var projectID = event.currentTarget.id.split("_")[0];
                 var name = event.currentTarget.parentElement.parentElement.children[0].innerText;
-                defaultWorkspace();
-                commonOpenProject(projectID, name, globalVar.user.email);
+                var type = event.currentTarget.parentElement.parentElement.children[1].innerText;
+                if (type === 'animation') {
+                    aniWorkspace();
+                }
+                else {
+                    defaultWorkspace();
+                }
+                commonOpenProject(projectID, name, globalVar.user.email, type);
             };
 
-            function commonOpenProject(projectID, name, userName) {
+            function commonOpenProject(projectID, name, userName, projectType) {
                 $(".project-info-name").text(name);
                 $(".project-info-user").text("Created By - " + userName);
                 globalVar.currentProjectId = projectID;
@@ -574,7 +586,13 @@
                     $("#scratch").show();
                     //loading blocks into DOM
                     var xml = Blockly.Xml.textToDom(snap.val()[mostRecent]);
-                    Blockly.Xml.domToWorkspace(xml, workspace);
+                    if(projectType === 'animation') {
+                        Blockly.Xml.domToWorkspace(xml, animWorkSpace);
+                    }
+                    else{
+                        Blockly.Xml.domToWorkspace(xml, workspace);
+                    }
+
 
                 });
 
@@ -879,13 +897,13 @@
                 //Blockly.mainWorkspace.clear();
                 $("#blocklyDiv, #animMode, #textGenerator").hide();
                 $("#blocklyDivAnim, #defaultMode, #textGeneratorAnim").show();
-                globalVar.mode = "animation";
+                globalVar.projectType = "animation";
             };
 
             var defaultWorkspace = function () {
                 $("#blocklyDiv, #animMode, #textGenerator").show();
                 $("#blocklyDivAnim, #defaultMode, #textGeneratorAnim").hide();
-                globalVar.mode = "default";
+                globalVar.projectType = "default";
             };
 
             var animateCode = function() {
