@@ -755,7 +755,7 @@
                 return now;
             };
 
-            var postComment = function() {
+            var postComment = function(e) {
                 if ($("#login").is(":visible")) {
                     $(".notification").html("Please login to comment").show();
                     setTimeout(function() {
