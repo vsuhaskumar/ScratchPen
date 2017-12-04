@@ -8,6 +8,7 @@
     <script src="bower_components/blockly/blocks_compressed.js"></script>
     <script src="bower_components/blockly/msg/js/en.js"></script>
     <script src="bower_components/blockly/javascript_compressed.js"></script>
+    <script src="bower_components/blockly/python_compressed.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -126,7 +127,7 @@
                     <ul class="nav nav-sidebar">
                         <li><a id="animateCode">Play</a></li>
                         <li><a id="codeReuse" href="#">Code reuse</a></li>
-                        <li><a id="switchLang" href="#">Switch language</a></li>
+                        <li><a id="switchLang">Switch language</a></li>
                         <li><a id="animMode" href="#">Switch to animation</a></li>
                         <li><a id="defaultMode" href="#">Switch to default</a></li>
                         <!--<li><a href="">One more nav</a></li>-->
@@ -506,7 +507,7 @@
                 }
             };
 
-            var blockToText = function(event) {
+            var blockToText = function(lang) {
                 var code = Blockly.JavaScript.workspaceToCode(workspace);
                 document.getElementById('textGenerator').innerText = code; //puts block code into text editor
                 //console.log(code);
@@ -965,6 +966,10 @@
                 });
             };
 
+            var switchLang = function () {
+                blockToText("python");
+            };
+
             //Adding new functions defined to global variable
             globalVar['openProject'] = commonOpenProject;
 
@@ -992,6 +997,7 @@
             document.getElementById("animateCode").addEventListener("click", animateCode);
             document.getElementById("allProjects").addEventListener("click", showAllProjects);
             document.getElementById("myProjects").addEventListener("click", showMyProjects);
+            document.getElementById("switchLang").addEventListener("click", switchLang);
             //document.querySelector(".comments form").addEventListener("click", postComment);
         });
     </script>
