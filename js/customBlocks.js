@@ -1,6 +1,9 @@
 /**
  * Created by kaustubhmungale on 28/10/17.
  */
+
+var tools = {};
+
 var toolbox = '<xml>';
 toolbox += '  <category name="Logic" colour="210">';
 toolbox += '    <block type="controls_if"></block>';
@@ -71,3 +74,16 @@ toolbox += '  </category>';
 /*toolbox += '  <block type="controls_if"></block>';
        toolbox += '  <block type="controls_whileUntil"></block>';*/
 toolbox += '</xml>';
+
+
+var animTools = '<xml>';
+animTools += '<category name="Motion" colour="360">';
+animTools += '  <block type="move"></block>';
+animTools += '  <block type="turn_clockwise"></block>';
+animTools += '</category>';
+animTools += '</xml>';
+
+
+tools['toolbox'] = toolbox;
+tools['animTools'] = animTools;
+

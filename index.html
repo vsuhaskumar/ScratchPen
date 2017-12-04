@@ -111,6 +111,7 @@
                     <span class="sr-only">Error:</span>
                 </div>
                 <div id="blocklyDiv"></div>
+                <div id="blocklyDivAnim"></div>
                 <div class="col-sm-3 col-md-2 sidebar scratch-options">
                     <ul class="nav nav-sidebar">
                         <li class="active"><a href="#">New Project <span class="sr-only">(current)</span></a></li>
@@ -123,7 +124,9 @@
                     <ul class="nav nav-sidebar">
                         <li><a href="">Play</a></li>
                         <li><a id="codeReuse" href="#">Code reuse</a></li>
-                        <li><a id="animMode" href="#">Switch to Animation</a></li>
+                        <li><a id="switchLang" href="#">Switch language</a></li>
+                        <li><a id="animMode" href="#">Switch to animation</a></li>
+                        <li><a id="defaultMode" href="#">Switch to default</a></li>
                         <!--<li><a href="">One more nav</a></li>-->
                         <!--<li><a href="">Another nav item</a></li>-->
                         <!--<li><a href="">More navigation</a></li>-->
@@ -136,6 +139,7 @@
                 </div>
                 <div class="text-container">
                     <pre id="textGenerator" class="prettyprint lang-js"></pre>
+                    <pre id="textGeneratorAnim" class="prettyprint lang-js"></pre>
                     <!--<textarea id="textGenerator"></textarea>-->
                     <!--<div class="play-code"></div>-->
                     <!--<div class="save-code"></div>-->
@@ -373,8 +377,13 @@
             //authentication.init();
             var database = firebase.database();
             var workspace = Blockly.inject('blocklyDiv', {
-                toolbox: toolbox
+                toolbox: tools.toolbox
             });
+
+            var animWorkSpace = Blockly.inject('blocklyDivAnim', {
+                toolbox: tools.animTools
+            });
+
             var globalVar = {
                 setStorageValue: function(key, value) {
                     sessionStorage.setItem(key, value);
@@ -399,7 +408,8 @@
                     return Date.now();
                 },
                 user: null, //Storing logged in user
-                projectsInDOM: []
+                projectsInDOM: [],
+                mode: "default"
             };
             authentication.globalVar = globalVar;
             saveObj.globarVar = globalVar;
@@ -410,7 +420,7 @@
                 init: function() {
                     this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
                         'FIELDNAME');
-                    this.setPrevWiousStatement(true);
+                    this.setPreviousStatement(true);
                     this.setNextStatement(true);
                     this.setColour(160);
                     this.setTooltip('Returns number of letters in the provided text.');
@@ -538,7 +548,8 @@
 
             var openProject = function(event) {
                 var projectID = event.currentTarget.id.split("_")[0];
-                var name = event.currentTarget.parentElement.parentElement.children[0].innerText
+                var name = event.currentTarget.parentElement.parentElement.children[0].innerText;
+                $("#blocklyDivAnim").hide();
                 commonOpenProject(projectID, name, globalVar.user.email);
             };
 
@@ -856,7 +867,20 @@
                  document.getElementById('sign-in').disabled = false;
                  $(".project-list").empty();
                  $(".version-list").empty();
-            }
+            };
+
+            var aniWorkspace = function(){
+                //Blockly.mainWorkspace.clear();
+                $("#blocklyDiv, #animMode, #textGenerator").hide();
+                $("#blocklyDivAnim, #defaultMode, #textGeneratorAnim").show();
+                globalVar.mode = "animation";
+            };
+
+            var defaultWorkspace = function () {
+                $("#blocklyDiv, #animMode, #textGenerator").show();
+                $("#blocklyDivAnim, #defaultMode, #textGeneratorAnim").hide();
+                globalVar.mode = "default";
+            };
 
             //Adding new functions defined to global variable
             globalVar['openProject'] = commonOpenProject;
@@ -879,6 +903,8 @@
             document.getElementById("reuseBlocks").addEventListener("click", reuseChangesModal, false);
             document.getElementById("openVersion").addEventListener("click", versionOpenModal, false);
             document.getElementById("logout").addEventListener("click", logoutChanges);
+            document.getElementById("animMode").addEventListener("click", aniWorkspace);
+            document.getElementById("defaultMode").addEventListener("click", defaultWorkspace);
             //document.querySelector(".comments form").addEventListener("click", postComment);
         });
     </script>
