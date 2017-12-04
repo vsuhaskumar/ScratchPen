@@ -775,8 +775,11 @@
                 $("#signin").hide();
                 $("#create").hide();
                 $("#importModal").modal('hide');
+                 $(".jumbotron").hide();
+                 $(".dashboard-container").hide();
                 //loading blocks into DOM
                 commonOpenProject(searchProjects[event.text.label],event.text.label);
+                
             });
 
             //comment part            
