@@ -568,6 +568,7 @@
                 });
                 $(".comments").show();
                 $(".jumbotron").hide();
+                $(".version-list").empty();
             }
             var openNewProject = function() {
                 //Resetting blocks
@@ -576,6 +577,7 @@
                 $(".jumbotron").hide();
                 Blockly.mainWorkspace.clear();
                 $(".comments").show();
+                $(".version-list").empty();
             };
 
             var openFromVersion = function() {
@@ -852,6 +854,7 @@
                  $(".dashboard-container").show();
                  document.getElementById('sign-in').disabled = false;
                  $(".project-list").empty();
+                 $(".version-list").empty();
             }
 
             //Adding new functions defined to global variable
