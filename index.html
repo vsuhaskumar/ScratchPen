@@ -58,7 +58,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a id = "allProjects" href="#">Dashboard</a></li>
-                        <li><a id = "myProjects" href="#">My Projects</a></li>
+                        <li class="myProjectsBoard"><a id = "myProjects" href="#" >My Projects</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
 
@@ -456,11 +456,13 @@
                     if (!globalVar.getStorageValue("email")) {
                         globalVar.setStorageValue("email", user.email)
                     }
+                    $(".myProjectsBoard").show();
                     showMyProjects();
                 } else {
                     authentication.init();
                     dash.init();
                     console.log("not logged in");
+                    $(".myProjectsBoard").hide();
                 }
             });
 
