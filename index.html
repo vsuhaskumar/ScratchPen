@@ -33,6 +33,8 @@
     <script src="js/authentication.js"></script>
     <script src="js/save.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/jquery-css-transform.js"></script>
+    <script src="js/jquery-animate-css-rotate-scale.js"></script>
 
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/application.css">
@@ -423,8 +425,42 @@
 
             Blockly.Blocks['move_to_right'] = {
                 init: function() {
-                    this.appendDummyInput().appendField('Move ').appendField(new Blockly.FieldNumber('10'),
+                    this.appendDummyInput().appendField('Move to right').appendField(new Blockly.FieldNumber('10'),
                         'FIELDNAME');
+                    this.setPreviousStatement(true);
+                    this.setNextStatement(true);
+                    this.setColour(160);
+                    this.setTooltip('Returns number of letters in the provided text.');
+                    this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+                }
+            };
+
+            Blockly.Blocks['move_to_left'] = {
+                init: function() {
+                    this.appendDummyInput().appendField('Move to left').appendField(new Blockly.FieldNumber('10'),
+                        'FIELDNAME');
+                    this.setPreviousStatement(true);
+                    this.setNextStatement(true);
+                    this.setColour(160);
+                    this.setTooltip('Returns number of letters in the provided text.');
+                    this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+                }
+            };
+
+            Blockly.Blocks['move_up'] = {
+                init: function() {
+                    this.appendDummyInput().appendField('Move up ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME');
+                    this.setPreviousStatement(true);
+                    this.setNextStatement(true);
+                    this.setColour(160);
+                    this.setTooltip('Returns number of letters in the provided text.');
+                    this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+                }
+            };
+
+            Blockly.Blocks['move_down'] = {
+                init: function() {
+                    this.appendDummyInput().appendField('Move down ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME');
                     this.setPreviousStatement(true);
                     this.setNextStatement(true);
                     this.setColour(160);
@@ -435,7 +471,19 @@
 
             Blockly.Blocks['turn_clockwise'] = {
                 init: function() {
-                    this.appendDummyInput().appendField('turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
+                    this.appendDummyInput().appendField('Turn clockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
+                    this.setPreviousStatement(true);
+                    this.setNextStatement(true);
+                    this.setColour(160);
+                    this.setTooltip('Returns number of letters in the provided text.');
+                    this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+                }
+            };
+
+
+            Blockly.Blocks['turn_anticlockwise'] = {
+                init: function() {
+                    this.appendDummyInput().appendField('Turn anticlockwise ').appendField(new Blockly.FieldNumber('10'), 'FIELDNAME').appendField(' deg');
                     this.setPreviousStatement(true);
                     this.setNextStatement(true);
                     this.setColour(160);
@@ -886,25 +934,134 @@
             };
 
             var animateCode = function() {
-                var code = $("#textGeneratorAnim").text();
+                var code = $("#textGenerator").text();
                 var animObj = {};
+                var loopRef = {};
+                var blockRef = {};
+
+                var blocksInLoop = {};
                 var codeFragments = code.split("\n");
                 var el = $("#playgroundObj")[0];
                 for (var i = 0; i < codeFragments.length; i++) {
-                    if (codeFragments[i].indexOf("move object to right") !== -1) {
-                        if(animObj['marginLeft']) {
-                            animObj['marginLeft'] = animObj['marginLeft'] +
-                            Number($(el).css('margin-left').match(/\d+/)[0]) +
-                            Number(codeFragments[i].match(/\d+/)[0]);
-                        } else {
-                            animObj['marginLeft'] = Number($(el).css('margin-left').match(/\d+/)[0]) +
-                            Number(codeFragments[i].match(/\d+/)[0]);
+                    if(codeFragments[i].indexOf("for (var") !== -1) {
+                        loopRef[i] = i;
+                        //loopRef[i] = codeFragments[i].match(/(<\s\d+)/)[0].split(" ")[1];
+                        blocksInLoop[i] = [codeFragments[i].match(/(<\s\d+)/)[0].split(" ")[1]];
+                    }
+                    if (codeFragments[i].indexOf("!move object to right") !== -1) {
+                        if(loopRef[i-1] !== undefined){
+                            loopRef[i] = loopRef[i-1];
+                            blocksInLoop[loopRef[i-1]].push("MR " + Number(codeFragments[i].match(/\d+/)[0]));
+                        }
+                        else {
+                            $(el).animate({
+                                "marginLeft": "+=" + Number(codeFragments[i].match(/\d+/)[0])
+                            }, 800);
                         }
 
                     }
-                }
-                $(el).animate(animObj, 800);
+                    if (codeFragments[i].indexOf("!move object to left") !== -1) {
+                        if(loopRef[i-1] !== undefined ){
+                            loopRef[i] = loopRef[i-1];
+                            blocksInLoop[loopRef[i-1]].push("ML " + Number(codeFragments[i].match(/\d+/)[0]));
+                        }
+                        else {
+                            $(el).animate({
+                                "marginLeft": "-=" + Number(codeFragments[i].match(/\d+/)[0])
+                            }, 800);
+                        }
 
+                    }
+                    if (codeFragments[i].indexOf("!move object up") !== -1) {
+                        if(loopRef[i-1] !== undefined ){
+                            loopRef[i] = loopRef[i-1];
+                            blocksInLoop[loopRef[i-1]].push("MU " + Number(codeFragments[i].match(/\d+/)[0]));
+                        }
+                        else {
+                            $(el).animate({
+                                "marginTop": "-=" + Number(codeFragments[i].match(/\d+/)[0])
+                            }, 800);
+                        }
+
+                    }
+                    if (codeFragments[i].indexOf("!move object down") !== -1) {
+                        if(loopRef[i-1] !== undefined ){
+                            loopRef[i] = loopRef[i-1];
+                            blocksInLoop[loopRef[i-1]].push("MD " + Number(codeFragments[i].match(/\d+/)[0]));
+                        }
+                        else {
+                            $(el).animate({
+                                "marginTop": "+=" + Number(codeFragments[i].match(/\d+/)[0])
+                            }, 800);
+                        }
+
+                    }
+                    if(codeFragments[i].indexOf("!rotate object clockwise") !== -1 ) {
+                        if(loopRef[i-1] !== undefined ){
+                            loopRef[i] = loopRef[i-1];
+                            blocksInLoop[loopRef[i-1]].push("RC " + Number(codeFragments[i].match(/\d+/)[0]));
+                        }
+                        else {
+                            var angle = codeFragments[i].match(/\d+/)[0];
+                            $(el).animate({"rotate": "+=" + angle + "deg"}, 800)
+                        }
+                    }
+                    if(codeFragments[i].indexOf("!rotate object anti-clockwise") !== -1 ) {
+                        if(loopRef[i-1] !== undefined ){
+                            loopRef[i] = loopRef[i-1];
+                            blocksInLoop[loopRef[i-1]].push("RAC " + Number(codeFragments[i].match(/\d+/)[0]));
+                        }
+                        else {
+                            var deg = codeFragments[i].match(/\d+/)[0];
+                            $(el).animate({"rotate": "-=" + angle + "deg"}, 800)
+                        }
+                    }
+                }
+                console.log(blocksInLoop);
+
+                if (!$.isEmptyObject(blocksInLoop)) {
+                    var loopData;
+                    var k, l, newMargin, newAngle;
+                    for (var loop in blocksInLoop) {
+                        loopData = blocksInLoop[loop].slice(1,blocksInLoop[0].length);
+                        for (k = 0; k < Number(blocksInLoop[loop][0]) ; k ++) {
+                            for (l = 0; l < loopData.length; l++){
+                                if(loopData[l].indexOf("MR") !== -1) {
+                                    $(el).animate({
+                                        "marginLeft": "+=" + Number(loopData[l].split(" ")[1])
+                                    }, 800);
+                                }
+                                if(loopData[l].indexOf("ML") !== -1) {
+                                    $(el).animate({
+                                        "marginLeft": "-=" + Number(loopData[l].split(" ")[1])
+                                    }, 800);
+                                }
+                                if(loopData[l].indexOf("MU") !== -1) {
+                                    $(el).animate({
+                                        "marginTop": "-=" + Number(loopData[l].split(" ")[1])
+                                    }, 800);
+                                }
+                                if(loopData[l].indexOf("MD") !== -1) {
+                                    $(el).animate({
+                                        "marginTop": "+=" + Number(loopData[l].split(" ")[1])
+                                    }, 800);
+                                }
+                                if(loopData[l].indexOf("RC") !== -1) {
+                                    newAngle = Number(loopData[l].split(" ")[1]);
+                                    $(el).animate({
+                                        "rotate": "+=" + newAngle + 'deg'
+                                    }, 800);
+                                }
+                                if(loopData[l].indexOf("ML") !== -1) {
+                                    newAngle = Number(loopData[l].split(" ")[1]);
+                                    $(el).animate({
+                                        "marginLeft": "-=" + newAngle + 'deg'
+                                    }, 800);
+                                }
+                            }
+                        }
+                    }
+                }
             };
             
             

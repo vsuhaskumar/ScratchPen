@@ -67,7 +67,14 @@ toolbox += '    <block type="lists_length"></block>';
 toolbox += '  </category>';
 toolbox += '  <category name="Variables" colour="330" custom="VARIABLE"></category>';
 toolbox += '  <category name="Functions" colour="290" custom="PROCEDURE"></category>';
-;
+toolbox += '<category name="Motion" colour="360">';
+toolbox += '  <block type="move_to_right"></block>';
+toolbox += '  <block type="move_to_left"></block>';
+toolbox += '  <block type="move_up"></block>';
+toolbox += '  <block type="move_down"></block>';
+toolbox += '  <block type="turn_clockwise"></block>';
+toolbox += '  <block type="turn_anticlockwise"></block>';
+toolbox += '</category>';
 /*toolbox += '  <block type="controls_if"></block>';
        toolbox += '  <block type="controls_whileUntil"></block>';*/
 toolbox += '</xml>';
